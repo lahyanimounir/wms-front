@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap&family=Quicksand:wght@400;500;600;700&display=swap');
+@import '~vuetify/src/styles/main.sass';
+
+$body-font-family:  'roboto',sans-serif;
+$heading-font-family:  'roboto',sans-serif;
+.v-application,button,body {
+  [class*='text-'] {
+    font-family: $body-font-family, sans-serif !important;
+  }
+  font-family: $body-font-family, sans-serif !important;
+ 
+}

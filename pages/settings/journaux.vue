@@ -49,6 +49,9 @@
                                     <v-col cols="12" class="py-0">
                                         <label for="">compte de contrepartie *</label>
                               
+
+
+                                        
                                         <v-autocomplete   v-model="editedItem.id_compte_contrepartie" :rules="obligationRule" :items="items2" outlined dense 
                                             placeholder="compte de contrepartie" item-text="intitulee" item-value="id">
                                             <template slot="selection" slot-scope="{ item }">

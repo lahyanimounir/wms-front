@@ -32,7 +32,7 @@
                     </v-list-item-icon>
 
                     <v-list-item-title class="pl-3">
-                        Dossiers
+                        Dossier
                     </v-list-item-title>
                 </v-list-item>
 

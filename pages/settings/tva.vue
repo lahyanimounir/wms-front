@@ -38,17 +38,20 @@
                                         <v-text-field  counter data-maxlength="3"  :rules="obligationRule" v-model="editedItem.code"  outlined dense
                                             placeholder="Numero de compte" type="number" oninput="this.value=this.value.slice(0,this.dataset.maxlength)"></v-text-field>
                                     </v-col>
-                                    <v-col cols="12" class="py-0">
-                                        <label for="">Intitulée *</label>
-                                        <v-text-field counter maxlength="10" :rules="obligationRule" v-model="editedItem.intitulee" outlined dense
-                                            placeholder="Intitulée"></v-text-field>
-                                    </v-col>
 
                                     <v-col cols="12" class="py-0">
                                         <label for="">Libellée *</label>
                                         <v-text-field counter maxlength="20" :rules="obligationRule" v-model="editedItem.libellee" outlined dense
                                             placeholder="Libellée"></v-text-field>
                                     </v-col>
+
+                                    <v-col cols="12" class="py-0">
+                                        <label for="">Intitulée *</label>
+                                        <v-text-field counter maxlength="40" :rules="obligationRule" v-model="editedItem.intitulee" outlined dense
+                                            placeholder="Intitulée"></v-text-field>
+                                    </v-col>
+
+                                    
                                     
 
                                     <v-col cols="12" class="py-0">
@@ -59,7 +62,14 @@
                                     <v-col cols="12" class="py-0">
                                         <label for="">Compte *</label>
                                         <v-autocomplete   v-model="editedItem.compte" :rules="obligationRule" :items="items2" outlined dense 
-                                            placeholder="compte de contrepartie" item-text="intitulee" item-value="id"></v-autocomplete>
+                                            placeholder="compte de contrepartie" item-text="intitulee" item-value="id">
+                                            <template slot="selection" slot-scope="{ item }">
+                                                {{  item.numero_compte}} -  {{ item.intitulee }} 
+                                        </template>
+                                        <template slot="item" slot-scope="{ item }">
+                                            {{  item.numero_compte}} -  {{ item.intitulee }} 
+                                            </template>
+                                        </v-autocomplete>
                                     </v-col>
                              
                                 </v-row>

@@ -26,12 +26,12 @@
                         </v-list-item>
                         <v-list-item link>
                             <v-list-item-title>
-                                <a style="color: inherit;text-decoration: none;" href="https://127.0.0.1:8000/api/planComptables/file"> Télecharger canvas</a>
+                                <a style="color: inherit;text-decoration: none;" :href="Name_api+'/planComptables/file'"> Télecharger canvas</a>
                             </v-list-item-title>
                         </v-list-item>
                         <v-list-item link>
                             <v-list-item-title>
-                                <a style="color: inherit;text-decoration: none;" href="https://127.0.0.1:8000/api/planComptables/exportData" class="mr-2"> Exporter données</a>
+                                <a style="color: inherit;text-decoration: none;" :href="Name_api+'/planComptables/exportData'" class="mr-2"> Exporter données</a>
                             </v-list-item-title>
                         </v-list-item>
                     </v-list>
@@ -130,6 +130,7 @@
 <script>
 export default {
     data: () => ({
+        Name_api: process.env.Name_api ,
         file: null,
         dialog: false,
         dialogDelete: false,

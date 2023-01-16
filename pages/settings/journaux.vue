@@ -50,7 +50,14 @@
                                         <label for="">compte de contrepartie *</label>
                               
                                         <v-autocomplete   v-model="editedItem.id_compte_contrepartie" :rules="obligationRule" :items="items2" outlined dense 
-                                            placeholder="compte de contrepartie" item-text="intitulee" item-value="id"></v-autocomplete>
+                                            placeholder="compte de contrepartie" item-text="intitulee" item-value="id">
+                                            <template slot="selection" slot-scope="{ item }">
+                                                {{  item.numero_compte}} -  {{ item.intitulee }} 
+                                        </template>
+                                        <template slot="item" slot-scope="{ item }">
+                                            {{  item.numero_compte}} -  {{ item.intitulee }} 
+                                            </template>
+                                        </v-autocomplete>
                                     </v-col>
                                     
                                 </v-row>
@@ -99,7 +106,7 @@ export default {
     data: () => ({
         dialog: false,
         dialogDelete: false,
-        items:[{id:'Achat',valeur:'Achat'},{id:'Vente',valeur:'vente'},{id:'Tresorerie',valeur:'Tresorerie'},{id:'OPERATIONS DIVERS',valeur:'OPERATIONS DIVERS'},{id:'A NOUVEAU',valeur:'A NOUVEAU'},{id:'RESULTAT',valeur:'RESULTAT'}],
+        items:[{id:'Achat',valeur:'ACHAT'},{id:'Vente',valeur:'VENTE'},{id:'Tresorerie',valeur:'TRESORERIE'},{id:'OPERATIONS DIVERS',valeur:'OPERATIONS DIVERS'},{id:'A NOUVEAU',valeur:'A NOUVEAU'},{id:'RESULTAT',valeur:'RESULTAT'}],
         items2:[],
         obligationRule: [
             v => !!v || 'Ce champs est obligatoire.',

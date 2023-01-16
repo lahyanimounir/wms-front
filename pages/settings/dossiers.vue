@@ -14,13 +14,13 @@
                      
                         <v-list-item link>
                             <v-list-item-title>
-                                <a style="text-decoration: none;color: inherit;" href="https://127.0.0.1:8000/api/dossiers/export-pdf">imprimer dossiers pdf</a>
+                                <a style="text-decoration: none;color: inherit;" :href="Name_api+'/dossiers/export-pdf'">imprimer dossiers pdf</a>
 
                             </v-list-item-title>
                         </v-list-item>
                         <v-list-item link>
                             <v-list-item-title>
-                <a style="color: inherit;text-decoration: none;" href="https://127.0.0.1:8000/api/dossiers/exportData">imprimer dossiers excel</a>
+                <a style="color: inherit;text-decoration: none;" :href="Name_api+'/dossiers/exportData'">imprimer dossiers excel</a>
 
                             </v-list-item-title>
                         </v-list-item>
@@ -292,7 +292,7 @@
                                                 </v-col>
 
                                                 <v-col lg="6" cols="12" class="py-0">
-                                                    <label for="">Timbre *</label>
+                                                    <label for="">Droit de timbre *</label>
                                                     <v-autocomplete v-model="editedItem.timbre" :rules="obligationRule"
                                                         :items="timbre" outlined dense placeholder="Timbre"
                                                         item-text="valeur" item-value="id"></v-autocomplete>
@@ -347,10 +347,10 @@
 
 
                                                 <v-col lg="6" cols="12" class="py-0">
-                                                    <label for="">Logo en pdf *</label>
+                                                    <label for="">Logo *</label>
 
                                                     <template>
-                                                        <v-file-input dense :rules="obligationRule" outlined label="Logo en pdf" @change="getfile"></v-file-input>
+                                                        <v-file-input dense :rules="obligationRule" outlined label="Logo" @change="getfile"></v-file-input>
                                                     </template>
                                                 </v-col>
 
@@ -364,7 +364,7 @@
                                                 <v-col lg="6" cols="12" class="py-0">
                                                     <label for="">Periodicite honoraire *</label>
                                                     <v-autocomplete v-model="editedItem.periodicite_honoraire"
-                                                        :rules="obligationRule" :items="timbre" outlined dense
+                                                        :rules="obligationRule" :items="periodicite_honoraire" outlined dense
                                                         placeholder="Periodicite honoraire" item-text="valeur"
                                                         item-value="id"></v-autocomplete>
                                                 </v-col>
@@ -566,17 +566,18 @@
 <script>
 export default {
     data: () => ({
+        Name_api: process.env.Name_api ,
         dialog: false,
         dialogDelete: false,
         dialogGerant:false,
         gerants: [{ id: 'oui', valeur: 'Oui' }, { id: 'non', valeur: 'Non' }],
         items: [{ id: 'pp', valeur: ' personne physique' }, { id: 'pm', valeur: 'personne morale' }],
         items2: [{ id: 'general', valeur: 'général' }, { id: 'collectif', valeur: 'Collectif' }],
-        regimes: [{ id: 'EXONEREE', valeur: 'éxonorée' }, { id: 'MENSUELLE', valeur: 'Mensuels' }, { id: 'TRIMESTRIELLE', valeur: 'Trimestriel' }],
+        regimes: [{ id: 'EXONEREE', valeur: 'Exoneré' }, { id: 'MENSUELLE', valeur: 'Mensuel' }, { id: 'TRIMESTRIELLE', valeur: 'Trimestriel' }],
         tva: [{ id: 'DEBIT', valeur: 'Débit' }, { id: 'ENCAISSMENT', valeur: 'Encaissement' }],
-        imposition: [{ id: 'IS', valeur: 'Is' }, { id: 'IR', valeur: 'Ir' }],
-        timbre: [{ id: 'ASSUJETI', valeur: 'Assujeti' }, { id: 'NON', valeur: 'Non' }],
-        periodicite_honoraire: [{ id: 'ANNUELLE', valeur: 'Annuelle' }, { id: 'MENSUELLE', valeur: 'Mensuelle' }, { id: 'TRIMESTRE', valeur: 'Trimestre' }, { id: 'SEMESTRELLE', valeur: 'Semestrelle' }],
+        imposition: [{ id: 'IS', valeur: 'IMPOT SUR LES SOCIETES' }, { id: 'IR', valeur: 'IMPOTS SUR LES REVENUS' }],
+        timbre: [{ id: 'ASSUJETI', valeur: 'Assujeti' }, { id: 'NON', valeur: 'NON ASSUJETTI' }],
+        periodicite_honoraire: [{ id: 'ANNUELLE', valeur: 'Annuelle' }, { id: 'MENSUELLE', valeur: 'Mensuelle' }, { id: 'TRIMESTRE', valeur: 'Trimestrielle ' }, { id: 'SEMESTRELLE', valeur: 'Semestrelle' }],
         e1: 1,
         menu2: false,
         logo:'',
@@ -761,18 +762,18 @@ export default {
             let res = await this.$myService.get(url)
             let doc = new DOMParser().parseFromString(res, "text/html")
             let card = doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0')
-            this.editedItem.denomination = doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 a') ? doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 a').outerText.trimStart() : '';
-            this.editedItem.activitee = doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 .card-body') ? doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 .card-body').outerText.trimStart() : '';
+            this.editedItem.denomination = doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 a') ? doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 a').outerText.trim() : '';
+            this.editedItem.activitee = doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 .card-body') ? doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 .card-body').outerText.trim() : '';
 
             if (card) {
                 let lis = card.querySelectorAll('ul li')
 
-                this.editedItem.ice = lis[0].querySelector('.ml-auto').outerText.replaceAll(" ", "").replace(/\D/g, "");
-                this.editedItem.rc = lis[1].querySelector('.ml-auto').outerText.replaceAll(" ", "").replace(/\D/g, "");
+                this.editedItem.ice = lis[0].querySelector('.ml-auto').outerText.replaceAll(" ", "").replace(/\D/g, "").trim();
+                this.editedItem.rc = lis[1].querySelector('.ml-auto').outerText.replaceAll(" ", "").replace(/\D/g, "").trim();
                 // this.editedItem.ville= lis[1].querySelector('.ml-auto a').outerText.replaceAll(" ","");
                 // this.editedItem.date_creation = lis[2].querySelector('.ml-auto').outerText.replaceAll(" ", "");
                 console.log(lis)
-                this.editedItem.adresse = lis[5].outerText.trimStart();
+                this.editedItem.adresse = lis[5].outerText.trim();
                 this.$forceUpdate()
             } else {
                 this.editedItem = Object.assign({}, this.defaultItem)

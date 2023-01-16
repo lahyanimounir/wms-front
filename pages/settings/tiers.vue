@@ -113,9 +113,12 @@
 
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">RIB *</label>
-                                        <v-text-field  :rules="obligationRule" 
+                                        <v-text-field 
+                                        counter data-maxlength="24"
+                                        oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
+                                        :rules="obligationRule" 
                                         v-model="editedItem.rib"  outlined dense
-                                            placeholder="RIB" type="text"></v-text-field>
+                                            placeholder="RIB" type="number"></v-text-field>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
@@ -147,7 +150,14 @@
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">COMPTE DE CONTREPARTIE *</label>
                                         <v-autocomplete   v-model="editedItem.compte_contrepartie" :rules="obligationRule" :items="items2" outlined dense 
-                                            placeholder="COMPTE DE CONTREPARTIE" item-text="intitulee" item-value="id"></v-autocomplete>
+                                            placeholder="COMPTE DE CONTREPARTIE" item-text="intitulee" item-value="id">
+                                            <template slot="selection" slot-scope="{ item }">
+                                                {{  item.numero_compte}} -  {{ item.intitulee }} 
+                                        </template>
+                                        <template slot="item" slot-scope="{ item }">
+                                            {{  item.numero_compte}} -  {{ item.intitulee }} 
+                                            </template>
+                                        </v-autocomplete>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
@@ -159,7 +169,7 @@
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">logo *</label>
                                         <template>
-                                            <v-file-input dense :rules="obligationRule" outlined label="Logo en pdf" @change="getfile"></v-file-input>
+                                            <v-file-input dense :rules="obligationRule" outlined label="Logo " @change="getfile"></v-file-input>
                                         </template>
                                     </v-col>
                                 </v-row>
@@ -206,9 +216,10 @@
 <script>
 export default {
     data: () => ({
+        Name_api: process.env.Name_api ,
         dialog: false,
         dialogDelete: false,
-        type_echeances:[{id:'date_facturation',valeur:'CHOIX DATE FACTURATION'},{id:'fin_du_moi',valeur:'FIN DU MOIS'}],
+        type_echeances:[{id:'date_facturation',valeur:'DATE FACTURATION'},{id:'fin_du_moi',valeur:'FIN DU MOIS'}],
        
         obligationRule: [
             v => !!v || 'Ce domaine est obligatoire.',
@@ -314,18 +325,18 @@ export default {
             let res = await this.$myService.get(url)
             let doc = new DOMParser().parseFromString(res, "text/html")
             let card = doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0')
-            this.editedItem.denomination = doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 a') ? doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 a').outerText.trimStart() : '';
-            this.editedItem.activitee = doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 .card-body') ? doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 .card-body').outerText.trimStart() : '';
+            this.editedItem.denomination = doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 a') ? doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 a').outerText.trim() : '';
+            this.editedItem.activitee = doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 .card-body') ? doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 .card-body').outerText.trim() : '';
 
             if (card) {
                 let lis = card.querySelectorAll('ul li')
 
-                this.editedItem.ice = lis[0].querySelector('.ml-auto').outerText.replaceAll(" ", "").replace(/\D/g, "");
-                this.editedItem.rc = lis[1].querySelector('.ml-auto').outerText.replaceAll(" ", "").replace(/\D/g, "");
+                this.editedItem.ice = lis[0].querySelector('.ml-auto').outerText.replaceAll(" ", "").replace(/\D/g, "").trim();
+                this.editedItem.rc = lis[1].querySelector('.ml-auto').outerText.replaceAll(" ", "").replace(/\D/g, "").trim();
                 // this.editedItem.ville= lis[1].querySelector('.ml-auto a').outerText.replaceAll(" ","");
                 // this.editedItem.date_creation = lis[2].querySelector('.ml-auto').outerText.replaceAll(" ", "");
                 console.log(lis)
-                this.editedItem.adresse = lis[5].outerText.trimStart();
+                this.editedItem.adresse = lis[5].outerText.trim();
                 this.$forceUpdate()
             } else {
                 this.editedItem = Object.assign({}, this.defaultItem)
@@ -356,11 +367,12 @@ export default {
             url = process.env.Name_api + "/echeances";
             this.echeances = await this.$myService.get(url)
 
+            url = process.env.Name_api + "/tva";
+            this.tvas = await this.$myService.get(url)
+            
             url = process.env.Name_api + "/tiers";
             this.rows = await this.$myService.get(url)
 
-            url = process.env.Name_api + "/tva";
-            this.tvas = await this.$myService.get(url)
         },
 
         editItem(item) {
@@ -413,7 +425,10 @@ export default {
         async add() {
             try {
                 let url = process.env.Name_api + "/tiers";
-                const aaaa = await this.$myService.post(url, this.editedItem)
+                var formData = new FormData();
+                  
+                  Object.keys(this.editedItem).forEach(key => formData.append(key, this.editedItem[key]));
+                const aaaa = await this.$myService.post(url, formData, true)
                 this.rows.push(aaaa.data)
                 this.close()
             } catch (errors) {
@@ -426,7 +441,7 @@ export default {
         },
         async update() {
             try {
-                let url = process.env.Name_api + "/tva/" + this.editedItem.id;
+                let url = process.env.Name_api + "/tiers/" + this.editedItem.id;
                 const aaaa = await this.$myService.update(url, this.editedItem)
                 // const skil =this.rows.find(item=> item.id == this.editedItem.id)
                 // Object.assign(skil, this.editedItem);
@@ -442,7 +457,7 @@ export default {
         async delete(val) {
             console.log(val)
             try {
-                let url = process.env.Name_api + "/tva/" + val.id;
+                let url = process.env.Name_api + "/tiers/" + val.id;
                 const aaaa = await this.$myService.delete(url, this.editItem)
                 this.rows.splice(this.editedIndex, 1)
                 this.closeDelete()

@@ -2,6 +2,29 @@
     <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5">
         <template v-slot:top>
             <v-toolbar flat>
+                <v-file-input style="display: none;" id="fileUpload" outlined hide-details="auto" class="pr-4"
+                    v-model="file" placeholder="Choisir Image" prepend-icon="" @change="getfile"></v-file-input>
+
+                <v-menu offset-y>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn color="primary" outlined dark v-bind="attrs" v-on="on">
+                            Gérer vos données
+                        </v-btn>
+                    </template>
+                    <v-list link>
+                        <v-list-item link>
+                            <v-list-item-title @click="uploadFile()">
+                                Importer les données
+                            </v-list-item-title>
+                        </v-list-item>
+                        <v-list-item link>
+                            <v-list-item-title>
+                                <a style="color: inherit;text-decoration: none;" :href="Name_api+'/tva/file'"> Télecharger canvas</a>
+                            </v-list-item-title>
+                        </v-list-item>
+                       
+                    </v-list>
+                </v-menu>
                 <!-- <v-toolbar-title>My CRUD</v-toolbar-title> -->
                 <!-- <v-divider
             class="mx-4"
@@ -113,6 +136,7 @@
 <script>
 export default {
     data: () => ({
+        Name_api: process.env.Name_api ,
         dialog: false,
         dialogDelete: false,
         items:[{id:'credit',valeur:'Crédit'},{id:'debit',valeur:'Debit'}],
@@ -180,6 +204,9 @@ export default {
     fetch() {
     },
     methods: {
+        uploadFile() {
+            document.getElementById('fileUpload').click();
+        },
         async initialize() {
             url = process.env.Name_api + "/planComptables";
             this.items2 = await this.$myService.get(url)
@@ -277,6 +304,16 @@ export default {
                 this.closeDelete()
             }
         },
+        async getfile($event) {
+            const file = $event
+            if (!file) return;
+            this.file = file;
+
+            let fData = new FormData();
+            fData.append("file", file);
+            let url = process.env.Name_api + "/tva/upload-excel";
+            const aaaa = await this.$myService.post(url, fData, true)
+        }
     },
 }
 </script>

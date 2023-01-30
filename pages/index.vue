@@ -13,14 +13,19 @@
               Paramétrage
             </v-card>
           </NuxtLink>
-          <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
-            <div>
-              <v-icon size="large" color="blue">
-                mdi-numeric
-              </v-icon>
-            </div>
-            Comptabilité
-          </v-card>
+          
+          <NuxtLink to="/comptabilitee">
+
+
+            <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
+              <div>
+                <v-icon size="large" color="blue">
+                  mdi-numeric
+                </v-icon>
+              </div>
+              Comptabilité
+            </v-card>
+          </NuxtLink>
           <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
             <div>
               <v-icon size="large" color="blue">

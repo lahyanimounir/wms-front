@@ -369,7 +369,7 @@ export default {
 
             url = process.env.Name_api + "/tva";
             this.tvas = await this.$myService.get(url)
-            
+
             url = process.env.Name_api + "/tiers";
             this.rows = await this.$myService.get(url)
 
@@ -442,7 +442,35 @@ export default {
         async update() {
             try {
                 let url = process.env.Name_api + "/tiers/" + this.editedItem.id;
-                const aaaa = await this.$myService.update(url, this.editedItem)
+        
+                if(typeof this.editedItem.ville === 'object' && this.editedItem.ville !== null){
+                    this.editedItem.ville = this.editedItem.ville.id
+                }
+                if(typeof this.editedItem.tva === 'object' && this.editedItem.tva !== null){
+                    this.editedItem.tva = this.editedItem.tva.id
+                }
+                if(typeof this.editedItem.echeance === 'object' && this.editedItem.echeance !== null){
+                    this.editedItem.echeance = this.editedItem.echeance.id
+                }
+                if(typeof this.editedItem.devise === 'object' && this.editedItem.devise !== null){
+                    this.editedItem.devise = this.editedItem.devise.id
+                }
+                if(typeof this.editedItem.compte_tiers === 'object' && this.editedItem.compte_tiers !== null){
+                    this.editedItem.compte_tiers = this.editedItem.compte_tiers.id
+                }
+                if(typeof this.editedItem.compte_contrepartie === 'object' && this.editedItem.compte_contrepartie !== null){
+                    this.editedItem.compte_contrepartie = this.editedItem.compte_contrepartie.id
+                }
+                if(typeof this.editedItem.banque === 'object' && this.editedItem.banque !== null){
+                    this.editedItem.banque = this.editedItem.banque.id
+                }
+                
+                
+                var formData = new FormData();
+                  
+                  Object.keys(this.editedItem).forEach(key => formData.append(key, this.editedItem[key]));
+
+                const aaaa = await this.$myService.post(url,formData,true)
                 // const skil =this.rows.find(item=> item.id == this.editedItem.id)
                 // Object.assign(skil, this.editedItem);
                 Object.assign(this.rows[this.editedIndex], this.editedItem)

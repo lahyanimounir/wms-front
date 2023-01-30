@@ -137,6 +137,7 @@
 export default {
     data: () => ({
         Name_api: process.env.Name_api ,
+        file:null,
         dialog: false,
         dialogDelete: false,
         items:[{id:'credit',valeur:'Crédit'},{id:'debit',valeur:'Debit'}],

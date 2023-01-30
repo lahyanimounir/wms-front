@@ -932,9 +932,9 @@ export default {
               
                 let url = process.env.Name_api + "/associes/"+this.associeItem.id;
                 console.log(this.associeItem)
-                if(typeof this.associeItem.id_ville === 'object' && this.associeItem.id_ville !== null){
-                    this.associeItem.id_ville = this.associeItem.id_ville.id
-                }
+                    if(typeof this.associeItem.id_ville === 'object' && this.associeItem.id_ville !== null){
+                        this.associeItem.id_ville = this.associeItem.id_ville.id
+                    }
 
                 if(typeof this.associeItem.id_dossier === 'object' && this.associeItem.id_dossier !== null){
                     this.associeItem.id_dossier = this.associeItem.id_dossier.id
@@ -960,8 +960,27 @@ export default {
         },
         async update() {
             try {
+                if(typeof this.editedItem.banque === 'object' && this.editedItem.banque !== null){
+                    this.editedItem.banque = this.editedItem.banque.id
+                }
+
+                if(typeof this.editedItem.type_comptabilitee === 'object' && this.editedItem.type_comptabilitee !== null){
+                    this.editedItem.type_comptabilitee = this.editedItem.type_comptabilitee.id
+                }
+
+                if(typeof this.editedItem.ville === 'object' && this.editedItem.ville !== null){
+                    this.editedItem.ville = this.editedItem.ville.id
+                }
+
+                
+                
+
+                var formData = new FormData();
+                  
+                  Object.keys(this.editedItem).forEach(key => formData.append(key, this.editedItem[key]));
+
                 let url = process.env.Name_api + "/dossiers/" + this.editedItem.id;
-                const aaaa = await this.$myService.update(url, this.editedItem)
+                const aaaa = await this.$myService.post(url, formData,true)
                 // const skil =this.rows.find(item=> item.id == this.editedItem.id)
                 // Object.assign(skil, this.editedItem);
                 Object.assign(this.rows[this.editedIndex], this.editedItem)
@@ -1008,7 +1027,7 @@ export default {
         async getfile($event) {
             const file = $event
             if (!file) return;
-            this.logo = file;
+            this.editedItem.logo = file;
 
         }
     },

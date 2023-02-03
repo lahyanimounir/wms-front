@@ -2,16 +2,11 @@
     <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5 pl-comptable">
         <template v-slot:top>
             <v-toolbar flat>
-                <!-- <v-toolbar-title>My CRUD</v-toolbar-title> -->
-                <!-- <v-divider
-            class="mx-4"
-            inset
-            vertical
-          ></v-divider> -->
+              
                 <v-file-input style="display: none;" id="fileUpload" outlined hide-details="auto" class="pr-4"
                     v-model="file" placeholder="Choisir Image" prepend-icon="" @change="getfile"></v-file-input>
-            
-                
+
+
                 <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn color="primary" outlined dark v-bind="attrs" v-on="on">
@@ -26,18 +21,20 @@
                         </v-list-item>
                         <v-list-item link>
                             <v-list-item-title>
-                                <a style="color: inherit;text-decoration: none;" :href="Name_api+'/planComptables/file'"> Télecharger canvas</a>
+                                <a style="color: inherit;text-decoration: none;"
+                                    :href="Name_api + '/planComptables/file'"> Télecharger canvas</a>
                             </v-list-item-title>
                         </v-list-item>
                         <v-list-item link>
                             <v-list-item-title>
-                                <a style="color: inherit;text-decoration: none;" :href="Name_api+'/planComptables/exportData'" class="mr-2"> Exporter données</a>
+                                <a style="color: inherit;text-decoration: none;"
+                                    :href="Name_api + '/planComptables/exportData'" class="mr-2"> Exporter données</a>
                             </v-list-item-title>
                         </v-list-item>
                     </v-list>
                 </v-menu>
                 <v-spacer></v-spacer>
-                
+
 
 
                 <v-dialog v-model="dialog" max-width="600px">
@@ -130,7 +127,7 @@
 <script>
 export default {
     data: () => ({
-        Name_api: process.env.Name_api ,
+        Name_api: process.env.Name_api,
         file: null,
         dialog: false,
         dialogDelete: false,
@@ -312,7 +309,7 @@ export default {
 
 
 <style >
-.pl-comptable .v-toolbar__content{
+.pl-comptable .v-toolbar__content {
     flex-direction: row-reverse;
 }
 </style>

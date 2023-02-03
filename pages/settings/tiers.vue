@@ -56,100 +56,126 @@
                                     </v-col>
                            
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">COMPTE TIERS *</label>
-                                        <v-autocomplete   v-model="editedItem.compte_tiers" :rules="obligationRule" :items="items2" outlined dense 
-                                            placeholder="compte de contrepartie" item-text="intitulee" item-value="id"></v-autocomplete>
+                                        <label for="">COMPTE TIERS</label>
+                                        <v-autocomplete   v-model="editedItem.compte_tiers" :items="items2" outlined dense 
+                                            placeholder="compte de contrepartie" item-text="intitulee" item-value="id">
+                                          
+                                        <template slot="item" slot-scope="{ item }">
+                                            {{  item.numero_compte}} -  {{ item.intitulee }} 
+                                            </template>
+                                        </v-autocomplete>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">DEVISE *</label>
-                                        <v-autocomplete   v-model="editedItem.devise" :rules="obligationRule" :items="devises" outlined dense 
+                                        <label for="">DEVISE</label>
+                                        <v-autocomplete   v-model="editedItem.devise" :items="devises" outlined dense 
                                             placeholder="DEVISE" item-text="nom" item-value="id"></v-autocomplete>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">Activitée *</label>
-                                        <v-text-field counter maxlength="30" :rules="obligationRule" 
+                                        <label for="">Activitée</label>
+                                        <v-text-field counter maxlength="30" 
                                         v-model="editedItem.activitee"  outlined dense
                                             placeholder="Activitée" type="text"></v-text-field>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">ICE *</label>
+                                        <label for="">ICE</label>
                                         <v-text-field counter data-maxlength="15" class="mr-2"
-                                                type="number" :rules="obligationRule"
+                                                type="number" :rules="iceRule"
                                                 v-model="editedItem.ice" outlined dense
                                                 oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
                                                 placeholder="ICE"></v-text-field>
                                     </v-col>
                              
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">REGISTRE DE COMMERCE *</label>
+                                        <label for="">REGISTRE DE COMMERCE</label>
                                         <v-text-field counter data-maxlength="8" class="mr-2"
-                                                type="number" :rules="obligationRule"
+                                                type="number"
                                                 v-model="editedItem.rc" outlined dense
                                                 oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
                                                 placeholder="REGISTRE DE COMMERCE"></v-text-field>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">Adresse *</label>
-                                        <v-text-field  counter maxlength="60" :rules="obligationRule" 
+                                        <label for="">Adresse</label>
+                                        <v-text-field  counter maxlength="60"
                                         v-model="editedItem.adresse"  outlined dense
                                             placeholder="Adresse" type="text"></v-text-field>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">Villes *</label>
-                                        <v-autocomplete   v-model="editedItem.ville" :rules="obligationRule" :items="villes" outlined dense 
-                                            placeholder="Villes" item-text="intitulee" item-value="id"></v-autocomplete>
+                                        <label for="">Ville</label>
+                                            <div class="d-flex">
+                                                <v-autocomplete v-model="editedItem.ville"
+                                                    :items="villes" outlined dense
+                                                    placeholder="Ville" item-text="intitulee"
+                                                    item-value="id" class="mr-2"></v-autocomplete>
+                                                    <v-btn color="primary"  @click="">
+                                                        <i class="fas fa-plus"></i>
+                                                    </v-btn>
+
+                                            </div>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">Banques *</label>
-                                        <v-autocomplete   v-model="editedItem.banque" :rules="obligationRule" :items="banques" outlined dense 
-                                            placeholder="Banques" item-text="nom" item-value="id"></v-autocomplete>
+                                        <label for="">Banques</label>
+                                        <div class="d-flex">
+                                            <v-autocomplete v-model="editedItem.banque"
+                                                :items="banques" outlined dense
+                                                placeholder="Banques" item-text="nom"
+                                                item-value="id" class="mr-2"></v-autocomplete>
+                                                <v-btn color="primary"  @click="">
+                                                    <i class="fas fa-plus"></i>
+                                                </v-btn>
+
+                                        </div>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">RIB *</label>
+                                        <label for="">RIB</label>
                                         <v-text-field 
                                         counter data-maxlength="24"
                                         oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
-                                        :rules="obligationRule" 
+                                        :rules="ribRules" 
                                         v-model="editedItem.rib"  outlined dense
                                             placeholder="RIB" type="number"></v-text-field>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">Telephone *</label>
-                                        <v-text-field  :rules="obligationRule" 
+                                        <label for="">Telephone</label>
+                                        <v-text-field  
                                         v-model="editedItem.telephone"  outlined dense
                                             placeholder="Telephone" type="text"></v-text-field>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">Email *</label>
-                                        <v-text-field  :rules="obligationRule" 
+                                        <label for="">Email</label>
+                                        <v-text-field  
                                         v-model="editedItem.email"  outlined dense
                                             placeholder="Email" type="text"></v-text-field>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">ECHEANCE *</label>
-                                        <v-autocomplete   v-model="editedItem.echeance" :rules="obligationRule" :items="echeances" outlined dense 
-                                            placeholder="ECHEANCE" item-text="code" item-value="id"></v-autocomplete>
+                                        <label for="">ECHEANCE</label>
+                                        <div class="d-flex">
+                                            <v-autocomplete   v-model="editedItem.echeance" :items="echeances" outlined dense 
+                                                placeholder="ECHEANCE" item-text="code" item-value="id" class="mr-2"></v-autocomplete>
+                                                <v-btn color="primary"  @click="">
+                                                    <i class="fas fa-plus"></i>
+                                                </v-btn>
+                                        </div>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">TYPE ECHEANCE *</label>
-                                        <v-autocomplete   v-model="editedItem.type_echeance" :rules="obligationRule" :items="type_echeances" outlined dense 
+                                        <label for="">TYPE ECHEANCE</label>
+                                        <v-autocomplete   v-model="editedItem.type_echeance" :items="type_echeances" outlined dense 
                                             placeholder="TYPE ECHEANCE" item-text="valeur" item-value="id"></v-autocomplete>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">COMPTE DE CONTREPARTIE *</label>
-                                        <v-autocomplete   v-model="editedItem.compte_contrepartie" :rules="obligationRule" :items="items2" outlined dense 
+                                        <label for="">COMPTE DE CONTREPARTIE</label>
+                                        <v-autocomplete   v-model="editedItem.compte_contrepartie" :items="items2" outlined dense 
                                             placeholder="COMPTE DE CONTREPARTIE" item-text="intitulee" item-value="id">
                                             <template slot="selection" slot-scope="{ item }">
                                                 {{  item.numero_compte}} -  {{ item.intitulee }} 
@@ -161,15 +187,15 @@
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">CODE TVA *</label>
-                                        <v-autocomplete   v-model="editedItem.tva" :rules="obligationRule" :items="tvas" outlined dense 
+                                        <label for="">CODE TVA</label>
+                                        <v-autocomplete   v-model="editedItem.tva" :items="tvas" outlined dense 
                                             placeholder="CODE TVA" item-text="intitulee" item-value="id"></v-autocomplete>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">logo *</label>
+                                        <label for="">logo</label>
                                         <template>
-                                            <v-file-input dense :rules="obligationRule" outlined label="Logo " @change="getfile"></v-file-input>
+                                            <v-file-input dense outlined label="Logo " @change="getfile"></v-file-input>
                                         </template>
                                     </v-col>
                                 </v-row>
@@ -227,6 +253,12 @@ export default {
         numeroCompteRule: [
             v => !!v || 'Ce domaine est obligatoire.',
             v => v.length == 8 || 'Le nombre de caractères doit être égal à 8.',
+        ],
+        iceRule : [
+            v => !v || v.length === 15 || "L'ICE doit être égal à 15",
+        ],
+        ribRules: [
+            v => !v || v.length == 24 || 'Le nombre de caractères doit être égal à 24.',
         ],
         headers: [
             // {
@@ -352,6 +384,7 @@ export default {
         async initialize() {
             let url = process.env.Name_api + "/planComptables";
             this.items2 = await this.$myService.get(url)
+            console.log(this.items2)
         
 
              url = process.env.Name_api + "/Devises";

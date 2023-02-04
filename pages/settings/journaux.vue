@@ -12,7 +12,7 @@
                 <v-dialog v-model="dialog" max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-                            Ajouter journeaux
+                            Ajouter journaux
                         </v-btn>
                     </template>
 
@@ -24,7 +24,7 @@
                         <v-btn icon dark @click="close()">
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
-                        <v-toolbar-title> Ajouter journeaux</v-toolbar-title>
+                        <v-toolbar-title> Ajouter journaux</v-toolbar-title>
 
                     </v-toolbar>
                     <v-card>
@@ -41,9 +41,9 @@
                                     </v-col>
 
                                     <v-col cols="12" class="py-0">
-                                        <label for="">Type Journeaux *</label>
+                                        <label for="">Type Journaux *</label>
                                         <v-autocomplete   v-model="editedItem.type" :rules="obligationRule" :items="items" outlined dense 
-                                            placeholder="Type Journeaux" item-text="valeur" item-value="id"></v-autocomplete>
+                                            placeholder="Type Journaux" item-text="valeur" item-value="id"></v-autocomplete>
                                     </v-col>
 
                                     <v-col cols="12" class="py-0">
@@ -149,7 +149,7 @@ export default {
 
     computed: {
         formTitle() {
-            return this.editedIndex === -1 ? 'Ajouter Journeaux' : 'Modifier Journeaux'
+            return this.editedIndex === -1 ? 'Ajouter Journaux' : 'Modifier Journaux'
         },
     },
 

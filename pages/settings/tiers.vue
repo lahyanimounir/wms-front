@@ -57,7 +57,7 @@
                            
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">COMPTE TIERS</label>
-                                        <v-autocomplete   v-model="editedItem.compte_tiers" :items="items2" outlined dense 
+                                        <v-autocomplete   v-model="editedItem.compte_tiers" :items="collectifs" outlined dense 
                                             placeholder="compte de contrepartie" item-text="intitulee" item-value="id">
                                           
                                         <template slot="item" slot-scope="{ item }">
@@ -68,8 +68,14 @@
 
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">DEVISE</label>
-                                        <v-autocomplete   v-model="editedItem.devise" :items="devises" outlined dense 
-                                            placeholder="DEVISE" item-text="nom" item-value="id"></v-autocomplete>
+                                        <div class="d-flex">
+                                            <v-autocomplete   v-model="editedItem.devise" :items="devises" outlined dense 
+                                                placeholder="DEVISE" item-text="nom" item-value="id" class="mr-2"></v-autocomplete>
+                                            <v-btn color="primary"
+                                                @click="">
+                                                <i class="fas fa-plus"></i>
+                                            </v-btn>
+                                        </div>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
@@ -118,21 +124,21 @@
                                             </div>
                                     </v-col>
 
-                                    <v-col lg="6" cols="12" class="py-0">
+                                    <v-col lg="3" cols="12" class="py-0">
                                         <label for="">Banques</label>
                                         <div class="d-flex">
                                             <v-autocomplete v-model="editedItem.banque"
                                                 :items="banques" outlined dense
                                                 placeholder="Banques" item-text="nom"
                                                 item-value="id" class="mr-2"></v-autocomplete>
-                                                <v-btn color="primary"  @click="">
+                                                <!-- <v-btn color="primary"  @click="">
                                                     <i class="fas fa-plus"></i>
-                                                </v-btn>
+                                                </v-btn> -->
 
                                         </div>
                                     </v-col>
 
-                                    <v-col lg="6" cols="12" class="py-0">
+                                    <v-col lg="3" cols="12" class="py-0">
                                         <label for="">RIB</label>
                                         <v-text-field 
                                         counter data-maxlength="24"
@@ -161,9 +167,9 @@
                                         <div class="d-flex">
                                             <v-autocomplete   v-model="editedItem.echeance" :items="echeances" outlined dense 
                                                 placeholder="ECHEANCE" item-text="code" item-value="id" class="mr-2"></v-autocomplete>
-                                                <v-btn color="primary"  @click="">
+                                                <!-- <v-btn color="primary"  @click="">
                                                     <i class="fas fa-plus"></i>
-                                                </v-btn>
+                                                </v-btn> -->
                                         </div>
                                     </v-col>
 
@@ -279,6 +285,7 @@ export default {
 
         ],
         items2:[],
+        collectifs:[],
         devices:[],
         villes:[],
         banques:[],
@@ -384,7 +391,9 @@ export default {
         async initialize() {
             let url = process.env.Name_api + "/planComptables";
             this.items2 = await this.$myService.get(url)
-            console.log(this.items2)
+            this.collectifs = this.items2.filter(item => item.c_g.toLowerCase() === 'collectif')
+            // console.log(this.collectifs)
+            // console.log(this.items2)
         
 
              url = process.env.Name_api + "/Devises";

@@ -29,7 +29,15 @@
                     </v-toolbar>
                     <v-card>
 
-
+                        <v-snackbar v-model="snackbar" :timeout="timeout">
+                            {{ text }}
+                        
+                            <template v-slot:action="{ attrs }">
+                                <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+                                    Close
+                                </v-btn>
+                            </template>
+                        </v-snackbar>
                         <v-card-text>
                             <v-container>
                                 <v-row>
@@ -37,7 +45,7 @@
                                         <label for="">Dénomination *</label>
                                         <v-text-field  :rules="obligationRule" 
                                         v-model="editedItem.denomination" counter maxlength="30" outlined dense
-                                            placeholder="Dénomination" type="text"></v-text-field>
+                                            placeholder="Dénomination" type="text" :disabled="addClicked" :filled="addClicked"></v-text-field>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
@@ -45,11 +53,13 @@
                                         <div class="d-flex">
 
                                             <v-text-field counter data-maxlength="10" class="mr-2"
-                                                type="number" :rules="obligationRule"
+                                                type="number" :rules="obligationRule" :disabled="addClicked" :filled="addClicked"
                                                 v-model="editedItem.immf" outlined dense
                                                 oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
                                                 placeholder="identifiant fiscal"></v-text-field>
-                                                <v-btn color="primary" @click="serachByIf()">
+                                                <v-btn
+                                                :disabled="addClicked" :filled="addClicked"
+                                                 color="primary" @click="serachByIf()">
                                                                 <i class="far fa-search"></i>
                                                             </v-btn>
                                         </div>
@@ -58,6 +68,7 @@
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">COMPTE TIERS</label>
                                         <v-autocomplete   v-model="editedItem.compte_tiers" :items="collectifs" outlined dense 
+                                            :disabled="addClicked" :filled="addClicked"
                                             placeholder="compte de contrepartie" item-text="intitulee" item-value="id">
                                           
                                         <template slot="item" slot-scope="{ item }">
@@ -67,20 +78,38 @@
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
-                                        <label for="">DEVISE</label>
-                                        <div class="d-flex">
+                                        <label for="">{{ deviseInput ? "Add Devise" : "DEVISE" }}</label>
+                                        <div v-if="!addClicked && !deviseInput" class="d-flex">
                                             <v-autocomplete   v-model="editedItem.devise" :items="devises" outlined dense 
                                                 placeholder="DEVISE" item-text="nom" item-value="id" class="mr-2"></v-autocomplete>
                                             <v-btn color="primary"
-                                                @click="">
+                                                @click="addDeviseBtn()">
                                                 <i class="fas fa-plus"></i>
                                             </v-btn>
+                                        </div>
+                                        <div v-if="addClicked && deviseInput">
+                                            <v-form ref="addDeviseForm" class="d-flex">
+                                                <v-text-field outlined dense placeholder="Nom *" item-text="intitulee"
+                                                    v-model="newDevise.nom" 
+                                                    :rules="obligationRule" item-value="id" class="mr-2"></v-text-field>
+                                                <v-text-field outlined dense placeholder="Taux *" item-text="intitulee"
+                                                    v-model="newDevise.taux"
+                                                    :rules="obligationRule" item-value="id" class="mr-2"></v-text-field>
+                                                <v-btn color="teal lighten-4" class="mr-2" :loading="loading" :disabled="loading" @click="handleAddDevise()">
+                                                    <i class="fas fa-plus"></i>
+                                                </v-btn>
+                                        
+                                                <v-btn color="red lighten-3" @click="closeAddDevise()">
+                                                    <i class="fas fa-times"></i>
+                                                </v-btn>
+                                            </v-form>
                                         </div>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">Activitée</label>
-                                        <v-text-field counter maxlength="30" 
+                                        <v-text-field counter maxlength="30"
+                                        :disabled="addClicked" :filled="addClicked" 
                                         v-model="editedItem.activitee"  outlined dense
                                             placeholder="Activitée" type="text"></v-text-field>
                                     </v-col>
@@ -88,6 +117,7 @@
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">ICE</label>
                                         <v-text-field counter data-maxlength="15" class="mr-2"
+                                                :disabled="addClicked" :filled="addClicked"
                                                 type="number" :rules="iceRule"
                                                 v-model="editedItem.ice" outlined dense
                                                 oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
@@ -98,6 +128,7 @@
                                         <label for="">REGISTRE DE COMMERCE</label>
                                         <v-text-field counter data-maxlength="8" class="mr-2"
                                                 type="number"
+                                                :disabled="addClicked" :filled="addClicked"
                                                 v-model="editedItem.rc" outlined dense
                                                 oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
                                                 placeholder="REGISTRE DE COMMERCE"></v-text-field>
@@ -106,6 +137,7 @@
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">Adresse</label>
                                         <v-text-field  counter maxlength="60"
+                                        :disabled="addClicked" :filled="addClicked"
                                         v-model="editedItem.adresse"  outlined dense
                                             placeholder="Adresse" type="text"></v-text-field>
                                     </v-col>
@@ -114,10 +146,11 @@
                                         <label for="">Ville</label>
                                             <div class="d-flex">
                                                 <v-autocomplete v-model="editedItem.ville"
+                                                    :disabled="addClicked" :filled="addClicked"
                                                     :items="villes" outlined dense
                                                     placeholder="Ville" item-text="intitulee"
                                                     item-value="id" class="mr-2"></v-autocomplete>
-                                                    <v-btn color="primary"  @click="">
+                                                    <v-btn :disabled="addClicked" :filled="addClicked" color="primary"  @click="">
                                                         <i class="fas fa-plus"></i>
                                                     </v-btn>
 
@@ -128,6 +161,7 @@
                                         <label for="">Banques</label>
                                         <div class="d-flex">
                                             <v-autocomplete v-model="editedItem.banque"
+                                                :disabled="addClicked" :filled="addClicked"
                                                 :items="banques" outlined dense
                                                 placeholder="Banques" item-text="nom"
                                                 item-value="id" class="mr-2"></v-autocomplete>
@@ -142,6 +176,7 @@
                                         <label for="">RIB</label>
                                         <v-text-field 
                                         counter data-maxlength="24"
+                                        :disabled="addClicked" :filled="addClicked"
                                         oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
                                         :rules="ribRules" 
                                         v-model="editedItem.rib"  outlined dense
@@ -152,6 +187,7 @@
                                         <label for="">Telephone</label>
                                         <v-text-field  
                                         v-model="editedItem.telephone"  outlined dense
+                                        :disabled="addClicked" :filled="addClicked"
                                             placeholder="Telephone" type="text"></v-text-field>
                                     </v-col>
 
@@ -159,6 +195,7 @@
                                         <label for="">Email</label>
                                         <v-text-field  
                                         v-model="editedItem.email"  outlined dense
+                                        :disabled="addClicked" :filled="addClicked"
                                             placeholder="Email" type="text"></v-text-field>
                                     </v-col>
 
@@ -166,6 +203,7 @@
                                         <label for="">ECHEANCE</label>
                                         <div class="d-flex">
                                             <v-autocomplete   v-model="editedItem.echeance" :items="echeances" outlined dense 
+                                                :disabled="addClicked" :filled="addClicked"
                                                 placeholder="ECHEANCE" item-text="code" item-value="id" class="mr-2"></v-autocomplete>
                                                 <!-- <v-btn color="primary"  @click="">
                                                     <i class="fas fa-plus"></i>
@@ -176,12 +214,14 @@
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">TYPE ECHEANCE</label>
                                         <v-autocomplete   v-model="editedItem.type_echeance" :items="type_echeances" outlined dense 
+                                            :disabled="addClicked" :filled="addClicked"
                                             placeholder="TYPE ECHEANCE" item-text="valeur" item-value="id"></v-autocomplete>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">COMPTE DE CONTREPARTIE</label>
                                         <v-autocomplete   v-model="editedItem.compte_contrepartie" :items="items2" outlined dense 
+                                        :disabled="addClicked" :filled="addClicked"
                                             placeholder="COMPTE DE CONTREPARTIE" item-text="intitulee" item-value="id">
                                             <template slot="selection" slot-scope="{ item }">
                                                 {{  item.numero_compte}} -  {{ item.intitulee }} 
@@ -195,13 +235,16 @@
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">CODE TVA</label>
                                         <v-autocomplete   v-model="editedItem.tva" :items="tvas" outlined dense 
+                                            :disabled="addClicked" :filled="addClicked"
                                             placeholder="CODE TVA" item-text="intitulee" item-value="id"></v-autocomplete>
                                     </v-col>
 
                                     <v-col lg="6" cols="12" class="py-0">
                                         <label for="">logo</label>
                                         <template>
-                                            <v-file-input dense outlined label="Logo " @change="getfile"></v-file-input>
+                                            <v-file-input
+                                            :disabled="addClicked" :filled="addClicked"
+                                             dense outlined label="Logo " @change="getfile"></v-file-input>
                                         </template>
                                     </v-col>
                                 </v-row>
@@ -213,7 +256,7 @@
                             <v-btn color="blue darken-1" text @click="close">
                                 Annuler
                             </v-btn>
-                            <v-btn color="blue darken-1" text @click="save">
+                            <v-btn :disabled="addClicked" :filled="addClicked" color="blue darken-1" text @click="save">
                                 Enregistrer
                             </v-btn>
                         </v-card-actions>
@@ -334,6 +377,21 @@ export default {
             tva : '',
             compte_tiers : '',
         },
+        timeout: 3000,
+        loader: null,
+        loading: false,
+        addClicked:false,
+        deviseInput:false,
+        snackbar:false,
+        text:'',
+        defaultDevise:{
+            nom:'',
+            taux:'',
+        },
+        newDevise:{
+            nom:'',
+            taux:'',
+        },
     }),
 
     computed: {
@@ -349,6 +407,14 @@ export default {
         dialogDelete(val) {
             val || this.closeDelete()
         },
+        loader () {
+        const l = this.loader
+        this[l] = !this[l]
+
+        setTimeout(() => (this[l] = false), 2000)
+
+        this.loader = null
+      },
     },
 
     created() {
@@ -541,6 +607,39 @@ export default {
             if (!file) return;
             this.editedItem.logo = file;
 
+        },
+        showToast(message){
+            this.text = message
+            this.snackbar = true
+            
+        },
+        addDeviseBtn(){
+            this.addClicked = true
+            this.deviseInput = true
+        },
+        closeAddDevise(){
+            this.addClicked = false
+            this.deviseInput = false
+        },
+        async handleAddDevise(){
+            let url = process.env.Name_api + "/Devises";
+            if(!this.$refs.addDeviseForm.validate()){
+                this.showToast("Veuillez remplir les champs obligatoires")
+                return
+            }
+            this.loader = 'loading'
+            const res = await this.$myService.post(url,this.newDevise)
+            if(res.data){
+                this.deviseInput = false
+                this.addClicked = false
+                this.devises.push(res.data)
+                this.newDevise = Object.assign({}, this.defaultDevise)
+                this.showToast("Devise ajoutée avec succès")
+            }
+            else{
+                this.showToast("Une erreur s'est produite")
+            }
+            
         }
     },
 }

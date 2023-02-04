@@ -208,37 +208,46 @@
                                                             item-value="id"></v-autocomplete>
 
                                                     </v-col>
-                                                    <v-col lg="3" cols=12 class="py-0">
-                                                        <label for="">Banque</label>
-                                                        <div class="d-flex">
-                                                            <v-autocomplete :disabled="addClicked" :filled="addClicked"
-                                                                v-model="editedItem.banque" :items="banques" outlined
-                                                                dense placeholder="Banques" item-text="nom"
-                                                                item-value="id" class="mr-2"></v-autocomplete>
-                                                            <!-- <v-btn :disabled="addClicked" color="primary" @click="">
-                                                                <i class="fas fa-plus"></i>
+                                                    <v-col lg="6" cols=12 class="py-0">
+                                                        <div class="d-flex" style="justify-content: space-between;align-items: center;">
+                                                            <label for="">Banque</label>
+                                                            <!-- <v-btn :disabled="addClicked" color="primary" @click="addNewBanque()">
+                                                                <i class="fal fa-plus"></i>
                                                             </v-btn> -->
+                                                           
+                                                            <div style="color: #5092f3;cursor: pointer;" @click="ajoutBanque()" class="py-2 d-inline-block"> 
+                                                                <div class="d-inline-block px-2"  style="border: 2px dotted #5092f3;border-radius: 5px;cursor: pointer;">
+                                                                <i class="fal fa-plus"></i>
+                                                              
+                                                               </div>
+                                                                Ajouter nouvelle banque
+                                                            </div>
 
                                                         </div>
-                                                    </v-col>
-                                                    <v-col lg="3" cols="12" class="py-0">
-                                                        <label for="">RIB</label>
-                                                        <v-text-field :disabled="addClicked" :filled="addClicked"
-                                                            counter data-maxlength="24"
-                                                            oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
-                                                            class="mr-2" type="number" :rules="ribRules"
-                                                            v-model="editedItem.rib" outlined dense
-                                                            placeholder="RIB"></v-text-field>
-                                                    </v-col>
+                                                       
+                                                        <div class="d-flex" v-for="(value, index) in editedItem.dossier_banques " :key="index">
+                                                            <v-autocomplete :disabled="addClicked" :filled="addClicked"
+                                                                v-model="value.banque" :items="banques" outlined
+                                                                dense placeholder="Banques" item-text="nom"
+                                                                item-value="id" class="mr-2"></v-autocomplete>
 
-                                                    <v-col lg="6" cols="12" class="py-0">
-                                                        <label for="">Capital</label>
-                                                        <v-text-field :disabled="addClicked" :filled="addClicked"
-                                                            counter data-maxlength="18"
-                                                            oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
-                                                            class="mr-2" type="number" v-model="editedItem.capital"
-                                                            outlined dense placeholder="Capital"></v-text-field>
+                                                            <v-text-field :disabled="addClicked" :filled="addClicked"
+                                                                counter data-maxlength="24"
+                                                                oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
+                                                                class="mr-2" type="number" :rules="ribRules"
+                                                                v-model="value.rib" outlined dense
+                                                                placeholder="RIB"></v-text-field>
+
+                                                            <v-btn v-if=" index != 0" outlined :disabled="addClicked" class="mr-2" color="primary" @click="deleteItemBanque(value)">
+                                                                <i class="fal fa-times"></i>
+                                                            </v-btn>
+
+                                                  
+                                                        </div>
                                                     </v-col>
+                                               
+
+                                                  
                                                     
                                                    
                                                   
@@ -291,7 +300,16 @@
                                                             placeholder="Téléphone mobile"></v-text-field>
                                                     </v-col>
 
-                                                    <v-col lg="6" cols="12" class="py-0">
+                                                    <v-col lg="3" cols="12" class="py-0">
+                                                        <label for="">Capital</label>
+                                                        <v-text-field :disabled="addClicked" :filled="addClicked"
+                                                            counter data-maxlength="18"
+                                                            oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
+                                                            class="mr-2" type="number" v-model="editedItem.capital"
+                                                            outlined dense placeholder="Capital"></v-text-field>
+                                                    </v-col>
+
+                                                    <v-col lg="3" cols="12" class="py-0">
                                                         <label for="">Code adhesion</label>
                                                         <v-text-field counter maxlength="15" class="mr-2" type="text"
                                                             v-model="editedItem.code_adhesion" outlined dense
@@ -611,6 +629,7 @@
 <script>
 export default {
     data: () => ({
+        nombre:1,
         Name_api: process.env.Name_api,
         dialog: false,
         dialogDelete: false,
@@ -702,6 +721,11 @@ export default {
             immf: '',
             ice: '',
             rc: '',
+            dossier_banques:[{
+                banque:'',
+                rib:'',
+            }
+            ],
 
             adresse: '',
             denomination: '',
@@ -735,7 +759,11 @@ export default {
             immf: '',
             ice: '',
             rc: '',
-
+            dossier_banques:[{
+                banque:'',
+                rib:'',
+            }
+            ],
             adresse: '',
             denomination: '',
             ville: '',
@@ -809,6 +837,9 @@ export default {
     fetch() {
     },
     methods: {
+        ajoutBanque(){
+            this.editedItem.dossier_banques.push({banque:'',rib:''})
+        },
         ajoutAssocie(dossier) {
             this.isUpdate = false
             this.dialogGerant = true
@@ -918,7 +949,9 @@ export default {
 
             this.dialogDelete = true
         },
-
+        deleteItemBanque(item){
+            this.editedItem.dossier_banques.splice(item, 1)
+        },
         deleteItemConfirm() {
 
             this.delete(this.editedItem)
@@ -1001,8 +1034,10 @@ export default {
                     Object.keys(this.editedItem).forEach(key => formData.append(key, this.editedItem[key]));
 
                     formData.append("logo", this.logo);
+                    formData.append('dossiers_banques',JSON.stringify(this.editedItem.dossier_banques))
                     let url = process.env.Name_api + "/dossiers";
                     const aaaa = await this.$myService.post(url, formData, true)
+                    aaaa.data.dossier_banques = JSON.parse(JSON.stringify(this.editedItem.dossier_banques)) 
                     this.rows.push(aaaa.data)
                     this.resetForms()
                     this.close()

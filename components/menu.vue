@@ -15,7 +15,7 @@
 
             <v-list class="py-0">
 
-                <v-list-item link>
+                <v-list-item link @click="$router.push({ path: '/' })">
                     <v-list-item-icon>
                       
                         <i class="fal fa-chart-pie"></i>
@@ -58,7 +58,7 @@
                     </v-list-item-title>
                 </v-list-item>
 
-                <v-list-item link  @click="$router.push({ path: 'journaux' })" >
+                <!-- <v-list-item link  @click="$router.push({ path: 'journaux' })" >
                     <v-list-item-icon>
                         <i class="fal fa-newspaper"></i>
                     </v-list-item-icon>
@@ -66,7 +66,7 @@
                     <v-list-item-title class="pl-3">
                         Journaux
                     </v-list-item-title>
-                </v-list-item>
+                </v-list-item> -->
 
                 <v-list-item link @click="$router.push({ path: 'tva' })">
                     <v-list-item-icon>
@@ -154,7 +154,7 @@
                 </v-list-item>
 
 
-                <v-list-item link @click="$router.push({ path: 'localisation' })">
+                <!-- <v-list-item link @click="$router.push({ path: 'localisation' })">
                     <v-list-item-icon>
                         <i class="fal fa-bullseye-arrow"></i>
                     </v-list-item-icon>
@@ -162,7 +162,7 @@
                     <v-list-item-title class="pl-3" >
                         localisation
                     </v-list-item-title>
-                </v-list-item>
+                </v-list-item> -->
 
                 <v-list-item link @click="$router.push({ path: 'banque' })">
                     <v-list-item-icon>

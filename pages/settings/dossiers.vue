@@ -134,7 +134,7 @@
                                                     </v-col>
 
                                                     <v-col lg="6" cols="12" class="py-0">
-                                                        <label for="">register de commerce</label>
+                                                        <label for="">REGISTRE DE COMMERCE</label>
 
                                                         <v-text-field :disabled="addClicked" :filled="addClicked"
                                                             counter data-maxlength="8"
@@ -159,7 +159,7 @@
                                                     </v-col>
 
                                                     <v-col lg="6" cols="12" class="py-0">
-                                                        <label for="">Ville</label>
+                                                        <label for="">{{ villeInput ? "Ajouter une ville" : "Ville" }}</label>
                                                         <div v-if="!addClicked && !villeInput" class="d-flex">
                                                             <v-autocomplete v-model="editedItem.ville" :items="villes"
                                                                 outlined dense placeholder="Ville" item-text="intitulee"

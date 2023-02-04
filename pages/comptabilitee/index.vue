@@ -16,11 +16,11 @@
                 <template v-slot:top>
                     <v-toolbar flat>
                         <v-dialog v-model="dialog" fullscreen>
-                            <template v-slot:activator="{ on, attrs }">
+                            <!-- <template v-slot:activator="{ on, attrs }">
                                 <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
                                     Exercices
                                 </v-btn>
-                            </template>
+                            </template> -->
 
 
 
@@ -32,8 +32,8 @@
                                 <v-toolbar-title>Exercice</v-toolbar-title>
 
                             </v-toolbar>
+                        <v-form ref="exerciceForm">
                             <v-card>
-
 
                                 <v-card-text>
                                     <v-container>
@@ -50,7 +50,7 @@
                                                     <v-menu ref="menu" v-model="menu" :close-on-content-click="false"
                                                         transition="scale-transition" offset-y min-width="auto">
                                                         <template v-slot:activator="{ on, attrs }">
-                                                            <v-text-field v-model="editedItem.du" outlined dense
+                                                            <v-text-field v-model="editedItem.du" :rules="obligationRule" outlined dense
                                                                 prepend-icon="mdi-calendar" readonly v-bind="attrs"
                                                                 v-on="on"></v-text-field>
                                                         </template>
@@ -65,7 +65,7 @@
                                                     <v-menu ref="menu" v-model="menu2" :close-on-content-click="false"
                                                         transition="scale-transition" offset-y min-width="auto">
                                                         <template v-slot:activator="{ on, attrs }">
-                                                            <v-text-field v-model="editedItem.au" outlined dense
+                                                            <v-text-field :rules="obligationRule" v-model="editedItem.au" outlined dense
                                                                 prepend-icon="mdi-calendar" readonly v-bind="attrs"
                                                                 v-on="on"></v-text-field>
                                                         </template>
@@ -76,20 +76,20 @@
                                             </v-col>
 
                                             <v-col lg="6" cols="12" class="py-0">
-                                                <label for="">Régime TVA</label>
-                                                <v-autocomplete :items="regimes" outlined dense placeholder="Régime TVA"
+                                                <label for="">Régime TVA *</label>
+                                                <v-autocomplete :items="regimes" :rules="obligationRule" outlined dense placeholder="Régime TVA"
                                                     item-text="valeur" v-model="editedItem.regimeTva" item-value="id"></v-autocomplete>
                                             </v-col>
 
                                             <v-col lg="6" cols="12" class="py-0">
-                                                <label for="">TVA</label>
-                                                <v-autocomplete :items="tva" outlined dense placeholder="TVA"
+                                                <label for="">TVA *</label>
+                                                <v-autocomplete :items="tva" :rules="obligationRule" outlined dense placeholder="TVA"
                                                     item-text="valeur" v-model="editedItem.tva" item-value="id"></v-autocomplete>
                                             </v-col>
 
                                             <v-col lg="12" cols="12" class="py-0">
-                                                <label for="">Droit de timbre</label>
-                                                <v-autocomplete v-model="editedItem.droit_timbre" :items="timbre" outlined dense placeholder="Timbre"
+                                                <label for="">Droit de timbre *</label>
+                                                <v-autocomplete v-model="editedItem.droit_timbre" :rules="obligationRule" :items="timbre" outlined dense placeholder="Timbre"
                                                     item-text="valeur" item-value="id"></v-autocomplete>
                                             </v-col>
                                             <v-col lg="12" cols="12" class="py-0">
@@ -108,6 +108,13 @@
                                                 <v-data-table :search="search" :headers="Exerciceheaders"
                                                     :items="dossier.exercices" style="border: 1px solid #ddd;"
                                                     class="px-5">
+                                                    <template v-slot:item.action="{ item }">
+                                                    
+                                                        <v-btn text color="primary" @click="actionHandle(item)">
+                                                            Démarrer l'exercice
+                                                        </v-btn>
+                                                    
+                                                    </template>
                                                 </v-data-table>
                                             </v-col>
 
@@ -118,7 +125,7 @@
 
 
                             </v-card>
-
+                        </v-form>
                         </v-dialog>
                     </v-toolbar>
                 </template>
@@ -188,7 +195,11 @@ export default {
             { text: 'Regime Tva', value: 'regimeTva' },
             { text: 'Tva', value: 'tva' },
             { text: 'Droit Timbre', value: 'droit_timbre' },
+            { text: 'Action', value: 'action' },
 
+        ],
+        obligationRule: [
+            v => !!v || 'Champ obligatoire',
         ],
     }),
     created() {
@@ -201,8 +212,9 @@ export default {
         },
         startExercice(item) {
             this.dossier = item
+            // console.log('item', item)
             this.dialog = true;
-            // this.$router.push('/comptabilitee/' + item.id)
+            
         },
         save() {
 
@@ -210,12 +222,36 @@ export default {
             this.dialog = true;
         },
         async addExercice() {
-            let url = process.env.Name_api + "/dossiers";
-            this.rows = await this.$myService.post(url)
+            let url = process.env.Name_api +`/${this.dossier.id}/exercice/new`;
+            // this.rows = await this.$myService.post(url)
+            if(this.validateForm()){
+                
+                // this.dossier.exercices.push(this.editedItem)
+                const res = await this.$myService.post(url, this.editedItem)
+                if(res.data && res.status == 200){
+                    this.dossier.exercices.push(res.data)
+                    
+                }
+                this.editedItem = Object.assign({}, this.defultItem)
+                this.resetForm()
+                // this.dialog = false;
+
+            }
         },
         close() {
             this.dialog = false;
-        }
+        },
+        validateForm() {
+            return this.$refs.exerciceForm.validate()
+        },
+        resetForm() {
+            this.$refs.exerciceForm.resetValidation()
+        },
+        actionHandle(item) {
+            console.log('item', item)
+            this.$router.push('/comptabilitee/' + item.id)
+
+        },
 
     }
 }

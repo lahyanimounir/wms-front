@@ -201,6 +201,12 @@ export default {
             ['mdi-alert-octagon', 'Spam'],
         ],
     }),
+    head() {
+    return {
+      title: "Paramétrage"
+    };
+  }
+    
 }
 </script>
 

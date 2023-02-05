@@ -111,7 +111,7 @@
 
                                         <v-col lg="6" cols="12" class="py-0">
                                             <label for="">Activitée</label>
-                                            <v-text-field counter maxlength="30" :disabled="addClicked"
+                                            <v-text-field counter maxlength="60" :disabled="addClicked"
                                                 :filled="addClicked" v-model="editedItem.activitee" outlined dense
                                                 placeholder="Activitée" type="text"></v-text-field>
                                         </v-col>
@@ -234,7 +234,8 @@
                                             <label for="">CODE TVA</label>
                                             <v-autocomplete v-model="editedItem.tva" :items="tvas" outlined dense
                                                 :disabled="addClicked" :filled="addClicked" placeholder="CODE TVA"
-                                                item-text="intitulee" item-value="id"></v-autocomplete>
+                                                item-value="id" :item-text="getTvaText">
+                                            </v-autocomplete>
                                         </v-col>
                                         <v-col lg="6" cols=12 class="py-0">
                                             <div class="d-flex" style="justify-content: space-between;align-items: center;">
@@ -753,6 +754,9 @@ export default {
             }
 
         },
+        getTvaText(item){
+            return `${item.code} - ${item.intitulee}`
+        }
     },
 }
 </script>

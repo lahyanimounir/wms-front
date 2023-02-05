@@ -179,29 +179,7 @@
                                             </div>
                                         </v-col>
 
-                                        <v-col lg="3" cols="12" class="py-0">
-                                            <label for="">Banques</label>
-                                            <div class="d-flex">
-                                                <v-autocomplete v-model="editedItem.banque" :disabled="addClicked"
-                                                    :filled="addClicked" :items="banques" outlined dense
-                                                    placeholder="Banques" item-text="nom" item-value="id"
-                                                    class="mr-2"></v-autocomplete>
-                                                <!-- <v-btn color="primary"  @click="">
-                                                    <i class="fas fa-plus"></i>
-                                                </v-btn> -->
-
-                                            </div>
-                                        </v-col>
-
-                                        <v-col lg="3" cols="12" class="py-0">
-                                            <label for="">RIB</label>
-                                            <v-text-field counter data-maxlength="24" :disabled="addClicked"
-                                                :filled="addClicked"
-                                                oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
-                                                :rules="ribRules" v-model="editedItem.rib" outlined dense
-                                                placeholder="RIB" type="number"></v-text-field>
-                                        </v-col>
-
+                                        
                                         <v-col lg="6" cols="12" class="py-0">
                                             <label for="">Telephone</label>
                                             <v-text-field v-model="editedItem.telephone" outlined dense
@@ -237,7 +215,7 @@
                                                 item-value="id"></v-autocomplete>
                                         </v-col>
 
-                                        <v-col lg="6" cols="12" class="py-0">
+                                        <v-col lg="4" cols="12" class="py-0">
                                             <label for="">COMPTE DE CONTREPARTIE</label>
                                             <v-autocomplete v-model="editedItem.compte_contrepartie" :items="items2"
                                                 outlined dense :disabled="addClicked" :filled="addClicked"
@@ -252,11 +230,48 @@
                                             </v-autocomplete>
                                         </v-col>
 
-                                        <v-col lg="6" cols="12" class="py-0">
+                                        <v-col lg="2" cols="12" class="py-0">
                                             <label for="">CODE TVA</label>
                                             <v-autocomplete v-model="editedItem.tva" :items="tvas" outlined dense
                                                 :disabled="addClicked" :filled="addClicked" placeholder="CODE TVA"
                                                 item-text="intitulee" item-value="id"></v-autocomplete>
+                                        </v-col>
+                                        <v-col lg="6" cols=12 class="py-0">
+                                            <div class="d-flex" style="justify-content: space-between;align-items: center;">
+                                                <label for="">Banque</label>
+                                                <!-- <v-btn :disabled="addClicked" color="primary" @click="addNewBanque()">
+                                                    <i class="fal fa-plus"></i>
+                                                </v-btn> -->
+                                                
+                                                <div style="color: #5092f3;cursor: pointer;" @click="ajoutBanque()" class="py-2 d-inline-block"> 
+                                                    <div class="d-inline-block px-2"  style="border: 2px dotted #5092f3;border-radius: 5px;cursor: pointer;">
+                                                    <i class="fal fa-plus"></i>
+                                                    
+                                                    </div>
+                                                    Ajouter nouvelle banque
+                                                </div>
+
+                                            </div>
+                                            
+                                            <div class="d-flex" v-for="(value, index) in editedItem.tiers_banques " :key="index">
+                                                <v-autocomplete :disabled="addClicked" :filled="addClicked"
+                                                    v-model="value.banque" :items="banques" outlined
+                                                    dense placeholder="Banques" item-text="nom"
+                                                    item-value="id" class="mr-2"></v-autocomplete>
+
+                                                <v-text-field :disabled="addClicked" :filled="addClicked"
+                                                    counter data-maxlength="24"
+                                                    oninput="this.value=this.value.slice(0,this.dataset.maxlength)"
+                                                    class="mr-2" type="number" :rules="ribRules"
+                                                    v-model="value.rib" outlined dense
+                                                    placeholder="RIB"></v-text-field>
+
+                                                <v-btn v-if=" index != 0" outlined :disabled="addClicked" class="mr-2" color="primary" @click="deleteItemBanque(value)">
+                                                    <i class="fal fa-times"></i>
+                                                </v-btn>
+
+                                        
+                                            </div>
                                         </v-col>
 
                                         <v-col lg="6" cols="12" class="py-0">
@@ -376,6 +391,11 @@ export default {
             logo: '',
             tva: '',
             compte_tiers: '',
+            tiers_banques:[{
+                banque:'',
+                rib:'',
+            }
+            ],
         },
         defaultItem: {
             denomination: '',
@@ -396,6 +416,11 @@ export default {
             logo: '',
             tva: '',
             compte_tiers: '',
+            tiers_banques:[{
+                banque:'',
+                rib:'',
+            }
+            ],
         },
         timeout: 3000,
         loader: null,
@@ -455,6 +480,12 @@ export default {
     fetch() {
     },
     methods: {
+        ajoutBanque(){
+            this.editedItem.tiers_banques.push({banque:'',rib:''})
+        },
+        deleteItemBanque(item){
+            this.editedItem.tiers_banques.splice(item, 1)
+        },
         async serachByIf() {
 
             let url = `https://maroc.welipro.com/recherche?q=${this.editedItem.immf}&type=idf&rs=&cp=1&cp_max=2035272260000&et=&v=`;
@@ -471,7 +502,7 @@ export default {
                 this.editedItem.rc = lis[1].querySelector('.ml-auto').outerText.replaceAll(" ", "").replace(/\D/g, "").trim();
                 // this.editedItem.ville= lis[1].querySelector('.ml-auto a').outerText.replaceAll(" ","");
                 // this.editedItem.date_creation = lis[2].querySelector('.ml-auto').outerText.replaceAll(" ", "");
-                console.log(lis)
+                //console.log(lis)
                 this.editedItem.adresse = lis[5].outerText.trim();
                 this.$forceUpdate()
             } else {
@@ -483,14 +514,14 @@ export default {
             // this.editedItem.rc= li[1].outerText;
             // this.editedItem.date_creation= li[3].outerText;
             // this.editedItem.etat= li[3].outerText;
-            console.log(this.editedItem)
+            //console.log(this.editedItem)
         },
         async initialize() {
             let url = process.env.Name_api + "/planComptables";
             this.items2 = await this.$myService.get(url)
             this.collectifs = this.items2.filter(item => item.c_g.toLowerCase() === 'collectif')
-            // console.log(this.collectifs)
-            // console.log(this.items2)
+            // //console.log(this.collectifs)
+            // //console.log(this.items2)
 
 
             url = process.env.Name_api + "/Devises";
@@ -517,12 +548,13 @@ export default {
         editItem(item) {
             this.editedIndex = this.rows.indexOf(item)
             this.editedItem = Object.assign({}, item)
+            //console.log(this.editedItem)
             this.dialog = true
         },
 
         deleteItem(item) {
             this.editedIndex = this.rows.indexOf(item)
-            console.log(this.editedIndex)
+            //console.log(this.editedIndex)
             this.editedItem = Object.assign({}, item)
             this.dialogDelete = true
         },
@@ -567,7 +599,10 @@ export default {
                 var formData = new FormData();
 
                 Object.keys(this.editedItem).forEach(key => formData.append(key, this.editedItem[key]));
+                formData.append('tiers_banque_arr',JSON.stringify(this.editedItem.tiers_banques))
+                //console.log(formData.get('tiers_banque_arr'))
                 const aaaa = await this.$myService.post(url, formData, true)
+                aaaa.data.tiers_banques = JSON.parse(JSON.stringify(this.editedItem.tiers_banques)) 
                 this.rows.push(aaaa.data)
                 this.close()
             } catch (errors) {
@@ -608,6 +643,7 @@ export default {
                 var formData = new FormData();
 
                 Object.keys(this.editedItem).forEach(key => formData.append(key, this.editedItem[key]));
+                formData.append('tiers_banque_arr',JSON.stringify(this.editedItem.tiers_banques))
 
                 const aaaa = await this.$myService.post(url, formData, true)
                 // const skil =this.rows.find(item=> item.id == this.editedItem.id)
@@ -622,7 +658,7 @@ export default {
             }
         },
         async delete(val) {
-            console.log(val)
+            //console.log(val)
             try {
                 let url = process.env.Name_api + "/tiers/" + val.id;
                 const aaaa = await this.$myService.delete(url, this.editItem)

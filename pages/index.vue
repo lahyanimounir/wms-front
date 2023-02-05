@@ -1,7 +1,11 @@
 <template>
-    <div>
+  <div>
+      <div class="d-flex" style="display:flex;justify-content: center;align-items: center;margin-top: 80px;flex-direction: column;">
+        <img style="" class="img-fluid" :src="iconUrl" alt="logo wms">
+        <p style="font-size:44px"><span style="color:#00897B">WE</span>B <span style="color:#00897B">MANAGE</span>MENT <span style="color:#00897B">SYSTEM</span></p>
+      </div>
       <v-app>
-        <div class="d-flex" style="justify-content: center;align-items: center;height: 100vh">
+        <div class="d-flex" style="justify-content: center;align-items: center;height: 20vh">
           <NuxtLink to="/settings/home">
             <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
               <div>
@@ -88,4 +92,12 @@
         padding-bottom: 5px ;
     }
   </style>
+
+  <script>
+  export default{
+    data: () => ({
+      iconUrl: require('../assets/images/LogoWMS.png'),
+    }),
+  }
+</script>
   

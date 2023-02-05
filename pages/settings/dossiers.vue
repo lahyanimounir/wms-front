@@ -1119,6 +1119,7 @@ export default {
                 var formData = new FormData();
 
                 Object.keys(this.editedItem).forEach(key => formData.append(key, this.editedItem[key]));
+                formData.append('dossiers_banques',JSON.stringify(this.editedItem.dossier_banques))
 
                 let url = process.env.Name_api + "/dossiers/" + this.editedItem.id;
                 const aaaa = await this.$myService.post(url, formData, true)

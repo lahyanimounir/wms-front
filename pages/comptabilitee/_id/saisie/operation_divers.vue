@@ -10,7 +10,7 @@
                 </div>
                 <div class="text--secondary">saisie operation diverses</div>
             </div>
-            <v-row class="px-3">
+            <!-- <v-row class="px-3">
 
 
 
@@ -54,7 +54,7 @@
 
 
 
-            </v-row>
+            </v-row> -->
 
             <v-row class="mx-0">
                 <v-col cols="2">
@@ -224,18 +224,19 @@ export default {
     },
     async created() {
         this.id = this.$route.params.id
-        let url = process.env.Name_api + "/dossiers/" + this.id;
-        this.dossier = await this.$myService.get(url)
-        this.rows = this.dossier.ecritures
+        let url = process.env.Name_api + "/exercice/" + this.id;
+        let exercice = await this.$myService.get(url)
+        this.dossier = exercice.dossier
+        // this.rows = ecritures
 
-        url = process.env.Name_api + "/planComptables";
-        this.items = await this.$myService.get(url)
+        // url = process.env.Name_api + "/planComptables";
+        // this.items = await this.$myService.get(url)
 
-        url = process.env.Name_api + "/tiers";
-        this.tiers = await this.$myService.get(url)
+        // url = process.env.Name_api + "/tiers";
+        // this.tiers = await this.$myService.get(url)
 
-        url = process.env.Name_api + "/journaux";
-            this.journaux = await this.$myService.get(url)
+        // url = process.env.Name_api + "/journaux";
+        // this.journaux = await this.$myService.get(url)
 
 
     },

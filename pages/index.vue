@@ -2,14 +2,15 @@
   <div>
       <div class="d-flex" style="display:flex;justify-content: center;align-items: center;margin-top: 80px;flex-direction: column;">
         <img style="" class="img-fluid" :src="iconUrl" alt="logo wms">
-        <p style="font-size:44px"><span style="color:#00897B">WE</span>B <span style="color:#00897B">MANAGE</span>MENT <span style="color:#00897B">SYSTEM</span></p>
+        <!-- <p style="font-size:44px"><span style="color:#00897B">WE</span>B <span style="color:#00897B">MANAGE</span>MENT <span style="color:#00897B">SYSTEM</span></p> -->
+        <p style="font-size:44px">WEB MANAGEMENT SYSTEM</p>
       </div>
       <v-app>
         <div class="d-flex" style="justify-content: center;align-items: center;height: 20vh">
           <NuxtLink to="/settings/home">
             <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
               <div>
-                <v-icon size="large" color="blue">
+                <v-icon size="70" color="grey darken-3">
                  
                   mdi-cog-outline
                 </v-icon>
@@ -23,7 +24,7 @@
 
             <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
               <div>
-                <v-icon size="large" color="blue">
+                <v-icon size="70" color="teal accent-3">
                   mdi-numeric
                 </v-icon>
               </div>
@@ -32,7 +33,7 @@
           </NuxtLink>
           <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
             <div>
-              <v-icon size="large" color="blue">
+              <v-icon size="70" color="orange lighten-2">
                 mdi-account-tie
               </v-icon>
             </div>
@@ -40,7 +41,7 @@
           </v-card>
           <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
             <div>
-              <v-icon size="large" color="blue">
+              <v-icon size="70" color="indigo darken-1">
                 mdi-account-outline
               </v-icon>
             </div>
@@ -49,7 +50,7 @@
           <NuxtLink to="facturation">
             <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
               <div>
-                <v-icon size="large" color="blue">
+                <v-icon size="70" color="pink lighten-3">
                   mdi-file-document-outline 
                 </v-icon>
               </div>
@@ -58,7 +59,7 @@
           </NuxtLink>
           <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
             <div>
-              <v-icon size="large" color="blue">
+              <v-icon size="70" color="cyan darken-1">
                 mdi-text-box-search-outline
               </v-icon>
             </div>
@@ -66,7 +67,7 @@
           </v-card>
           <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor: pointer;">
             <div>
-              <v-icon size="large" color="blue">
+              <v-icon size="70" color="blue-grey lighten-4">
                 mdi-calendar-multiple-check
               </v-icon>
             </div>

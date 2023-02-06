@@ -30,7 +30,15 @@
                                 </v-btn>
                             </template> -->
 
-
+                            <v-snackbar v-model="snackbar" :timeout="timeout">
+                                {{ text }}
+                            
+                                <template v-slot:action="{ attrs }">
+                                    <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+                                        Close
+                                    </v-btn>
+                                </template>
+                                </v-snackbar>
 
 
                             <v-toolbar dark color="primary">
@@ -77,11 +85,11 @@
                                                     <v-menu ref="menu" v-model="menu" :close-on-content-click="false"
                                                         transition="scale-transition" offset-y min-width="auto">
                                                         <template v-slot:activator="{ on, attrs }">
-                                                            <v-text-field v-model="editedItem.du" :rules="obligationRule" outlined dense
-                                                                prepend-icon="mdi-calendar" readonly v-bind="attrs"
+                                                            <v-text-field :rules="obligationRule" v-model="dateFormatted" label="Date" hint="MM/DD/YYYY format" outlined dense
+                                                                prepend-icon="mdi-calendar" v-bind="attrs" @blur="date = parseDate(dateFormatted)"
                                                                 v-on="on"></v-text-field>
                                                         </template>
-                                                        <v-date-picker v-model="editedItem.du" :max="au"></v-date-picker>
+                                                        <v-date-picker v-model="date" no-title @input="handleDateDu" :min="minDateDu"></v-date-picker>
                                                     </v-menu>
 
                                                 </div>
@@ -89,14 +97,23 @@
                                             <v-col cols="6" class="py-0">
                                                 <label for="">Au *</label>
                                                 <div>
-                                                    <v-menu ref="menu" v-model="menu2" :close-on-content-click="false"
+                                                    <!-- <v-menu ref="menu" v-model="menu2" :close-on-content-click="false"
                                                         transition="scale-transition" offset-y min-width="auto">
                                                         <template v-slot:activator="{ on, attrs }">
                                                             <v-text-field :rules="obligationRule" v-model="editedItem.au" outlined dense
-                                                                prepend-icon="mdi-calendar" readonly v-bind="attrs"
+                                                                prepend-icon="mdi-calendar" v-bind="attrs"
                                                                 v-on="on"></v-text-field>
                                                         </template>
-                                                        <v-date-picker v-model="editedItem.au" :min="du"></v-date-picker>
+                                                        <v-date-picker @input="menu2 = false" v-model="editedItem.au" :min="du"></v-date-picker>
+                                                    </v-menu> -->
+                                                    <v-menu ref="menu" v-model="menu2" :close-on-content-click="false"
+                                                        transition="scale-transition" offset-y min-width="auto">
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <v-text-field :rules="obligationRule" v-model="dateFormattedAu" label="Date" hint="MM/DD/YYYY format" outlined dense
+                                                                prepend-icon="mdi-calendar" v-bind="attrs" @blur="dateAu = parseDate(dateFormattedAu)"
+                                                                v-on="on"></v-text-field>
+                                                        </template>
+                                                        <v-date-picker v-model="dateAu" no-title @input="handleDateAu" :min="minDateAu"></v-date-picker>
                                                     </v-menu>
 
                                                 </div>
@@ -152,7 +169,19 @@
 </template>
 <script>
 export default {
-    data: () => ({
+    data: (vm) => ({
+        date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        // dateAu: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        dateAu: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000 + 31536000000)).toISOString().substr(0, 10),
+        dateFormatted: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
+        // dateFormattedAu: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
+        dateFormattedAu: vm.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000 + 31536000000)).toISOString().substr(0, 10)),
+        snackbar: false,
+        timeout: 3000,
+        text: '',
+        lastExercice: {},
+        minDateDu:null,
+        minDateAu:null,
         dialog: false,
         dossier: {},
         rows: [],
@@ -201,7 +230,7 @@ export default {
             },
             { text: 'Du', value: 'du' },
             { text: 'Au', value: 'au' },
-            { text: 'Regime Tva', value: 'regimeTva' },
+            { text: 'Regime Tva', value: 'regime_tva' },
             { text: 'Tva', value: 'tva' },
             { text: 'Droit Timbre', value: 'droit_timbre' },
             { text: 'Action', value: 'action' },
@@ -211,6 +240,85 @@ export default {
             v => !!v || 'Champ obligatoire',
         ],
     }),
+    watch: {
+      date (val) {
+        if(val !== null && /^\d{4}-\d{2}-\d{2}$/.test(val)){
+
+            let d = new Date(val)
+            if(!isNaN(d.getTime())){
+                if(this.lastExercice !== null && this.lastExercice !== undefined && this.lastExercice !== ''){
+                    let lastExerciceDate = new Date(this.lastExercice.au)
+                    if(d.getTime() < lastExerciceDate.getTime()){
+                        this.showToast('La date du debut de l\'exercice doit être supérieur à la date de fin de l\'exercice précédent')
+                        this.date = new Date(lastExerciceDate.getTime() + 86400000).toISOString().substr(0, 10)
+                        this.dateAu = new Date(lastExerciceDate.getTime() + 31536000000).toISOString().substr(0, 10)
+                        this.dateFormatted = this.formatDate(this.date)
+                        this.dateFormattedAu = this.formatDate(this.dateAu)
+                        this.minDateAu = this.date
+                        return
+                    }
+                }
+                this.dateFormatted = this.formatDate(val)
+                this.dateAu = new Date(val)
+                this.dateAu.setDate(this.dateAu.getDate() + 365)
+                this.dateAu = this.dateAu.toISOString().substr(0, 10)
+                this.minDateAu = val
+            }
+            else{
+                this.showToast('Date invalide (aaaa/mm/jj)')
+            }
+           
+        }
+      },
+      dateAu (val) {
+        if(/^\d{4}-\d{2}-\d{2}$/.test(val)){
+            let d = new Date(val)
+            if(!isNaN(d.getTime())){
+                if(this.date !== null && this.date !== undefined && this.date !== ''){
+                    let dateDu = new Date(this.date)
+                    if(d.getTime() < dateDu.getTime()){
+                        this.showToast('La date du fin de l\'exercice ne peut pas être inférieur à la date de début.')
+                        this.dateAu = new Date(dateDu.getTime() + 31536000000).toISOString().substr(0, 10)
+                        this.dateFormattedAu = this.formatDate(this.dateAu)
+                        this.minDateAu = this.date
+                        return
+                    }
+                }
+                this.dateFormattedAu = this.formatDate(val)
+            }
+            else{
+                this.showToast('Date invalide (aaaa/mm/jj)')
+            }
+            
+        }
+    },
+      dossier(val){
+        if(val.exercices.length > 0){
+            this.lastExercice = val.exercices.reduce((prev, current) => (prev.id > current.id) ? prev : current)
+            
+            // Adding 1 day from lastExercice date
+            this.date = new Date(this.lastExercice.au)
+            this.date.setDate(this.date.getDate() + 1)
+            this.date = this.date.toISOString().substr(0, 10)
+            this.minDateDu = this.date
+
+            // Adding 1 year from start date
+            this.dateAu = new Date(this.date)
+            this.dateAu.setDate(this.dateAu.getDate() + 365)
+            this.dateAu = this.dateAu.toISOString().substr(0, 10)
+
+            // Setting the minimum date to start date + 1
+            this.minDateAu = new Date(this.date)
+            this.minDateAu.setDate(this.minDateAu.getDate() + 1)
+            this.minDateAu = this.minDateAu.toISOString().substr(0, 10)
+        }
+        else{
+            this.lastExercice = {}
+            this.minDateDu = null
+            this.date = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+        }
+      }
+    },
     created() {
         this.initialize()
     },
@@ -221,7 +329,6 @@ export default {
         },
         startExercice(item) {
             this.dossier = item
-            // console.log('item', item)
             this.dialog = true;
             
         },
@@ -236,10 +343,15 @@ export default {
             if(this.validateForm()){
                 
                 // this.dossier.exercices.push(this.editedItem)
+                this.editedItem.du = this.date
+                this.editedItem.au = this.dateAu
                 const res = await this.$myService.post(url, this.editedItem)
                 if(res.data && res.status == 200){
                     this.dossier.exercices.push(res.data)
-                    
+                    this.lastExercice = res.data
+                    this.minDateAu = this.date
+                    let newDate = new Date(res.data.au)
+                    this.date = new Date(newDate.getTime() + 86400000).toISOString().substr(0,10)
                 }
                 this.editedItem = Object.assign({}, this.defultItem)
                 this.resetForm()
@@ -257,9 +369,41 @@ export default {
             this.$refs.exerciceForm.resetValidation()
         },
         actionHandle(item) {
-            console.log('item', item)
+            // console.log('item', item)
             this.$router.push('/comptabilitee/' + item.id)
 
+        },
+        updateDate(value) {
+            this.defultItem.du = value;
+        },
+        formatDate (date) {
+        if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            return null
+        }
+        
+
+        const [year, month, day] = date.split('-')
+        return `${year}/${month}/${day}`
+        },
+        parseDate (date) {
+        if(!(/^\d{4}\/\d{2}\/\d{2}$/.test(date)) && date !== null){
+            this.showToast('Invalide date (aaaa/mm/jj)')
+            return null
+        }
+        if(!date) return null
+        const [month, day, year] = date.split('/')
+        return `${month.padStart(2, '0')}-${day.padStart(2, '0')}-${year}`
+        },
+        handleDateDu() {
+            this.menu = false
+        },
+        handleDateAu(){
+            this.menu2= false
+        },
+        showToast(message){
+            this.text = message
+            this.snackbar = true
+            
         },
 
     }

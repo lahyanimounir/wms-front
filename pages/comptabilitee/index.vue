@@ -3,6 +3,14 @@
 
     <v-container>
         <v-card>
+            <div class="d-flex" style="padding:1rem">
+                <v-btn class="" 
+                color="primary"
+                link @click="$router.push({ path: '/' })"
+                >
+                    <i class="fal fa-arrow-left mr-3"></i>Retour
+            </v-btn>
+            </div>
             <v-card-title>
                 Dossiers
                 <v-spacer></v-spacer>
@@ -37,6 +45,25 @@
 
                                 <v-card-text>
                                     <v-container>
+                                        
+                                        <v-card-title class="px-0 pb-2 pt-3"> Choix des Exercices</v-card-title>
+                                        <v-row class="py-5 ">
+                                            <v-col cols="12" class="py-0 px-0">
+                                                <v-data-table :search="search" :headers="Exerciceheaders"
+                                                    :items="dossier.exercices" style="border: 1px solid #ddd;"
+                                                    class="px-5">
+                                                    <template v-slot:item.action="{ item }">
+                                                    
+                                                        <v-btn text color="primary" @click="actionHandle(item)">
+                                                            Démarrer l'exercice
+                                                        </v-btn>
+                                                    
+                                                    </template>
+                                                </v-data-table>
+                                            </v-col>
+
+
+                                        </v-row>
                                         <v-card-title class="px-0 py-1"> Ajouter Exercice</v-card-title>
 
 
@@ -102,24 +129,6 @@
                                                 </v-card-actions>
                                             </v-col>
                                         </v-row>
-                                        <v-card-title class="px-0 pb-2 pt-3"> Choisir Exercice</v-card-title>
-                                        <v-row class="py-5 ">
-                                            <v-col cols="12" class="py-0 px-0">
-                                                <v-data-table :search="search" :headers="Exerciceheaders"
-                                                    :items="dossier.exercices" style="border: 1px solid #ddd;"
-                                                    class="px-5">
-                                                    <template v-slot:item.action="{ item }">
-                                                    
-                                                        <v-btn text color="primary" @click="actionHandle(item)">
-                                                            Démarrer l'exercice
-                                                        </v-btn>
-                                                    
-                                                    </template>
-                                                </v-data-table>
-                                            </v-col>
-
-
-                                        </v-row>
                                     </v-container>
                                 </v-card-text>
 
@@ -132,7 +141,7 @@
                 <template v-slot:item.action="{ item }">
 
                     <v-btn text color="primary" @click="startExercice(item)">
-                        Démarrer l'exercice
+                        Ouvrir
                     </v-btn>
 
                 </template>

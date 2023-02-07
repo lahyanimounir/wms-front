@@ -74,6 +74,19 @@
                                                 placeholder="Intitulée"></v-text-field>
                                         </v-col>
                                         <v-col cols="12" class="py-0">
+                                            <label for="">Type comptabilite *</label>
+                                            <v-autocomplete counter maxlength="100" :rules="obligationRule"
+                                                :items="itemsComptabilitee"
+                                                v-model="editedItem.type_comptabilite" outlined dense
+                                                item-text="intitulee" item-value="id" placeholder="Type comptabilite">
+                                                placeholder="Intitulée">
+
+                                                <template slot="item" slot-scope="{ item }">
+                                                    {{ item.code }} - {{ item.intitulee }}
+                                                </template>
+                                            </v-autocomplete>
+                                        </v-col>
+                                        <v-col cols="12" class="py-0">
                                             <label for="">Crédit / Debit *</label>
                                             <v-autocomplete v-model="editedItem.debit_credit" :rules="obligationRule"
                                                 :items="items" outlined dense placeholder="Crédit / Debit"
@@ -131,6 +144,7 @@ export default {
         file: null,
         dialog: false,
         dialogDelete: false,
+        itemsComptabilitee: [],
         items: [{ id: 'CREDIT', valeur: 'Crédit' }, { id: 'DEBIT', valeur: 'Debit' }],
         items2: [{ id: 'GENERALE', valeur: 'général' }, { id: 'COLLECTIF', valeur: 'Collectif' }],
         obligationRule: [
@@ -162,6 +176,11 @@ export default {
             debit_credit: '',
             type_compte: '',
             c_g: '',
+            type_comptabilite: {
+                id: '',
+                code: '',
+                intitulee: '',
+            },
 
         },
         defaultItem: {
@@ -170,6 +189,11 @@ export default {
             debit_credit: '',
             type_compte: '',
             c_g: '',
+            type_comptabilite: {
+                id: '',
+                code: '',
+                intitulee: '',
+            },
         },
     }),
 
@@ -198,6 +222,8 @@ export default {
         async initialize() {
             let url = process.env.Name_api + "/planComptables";
             this.rows = await this.$myService.get(url)
+            let url2 = process.env.Name_api + "/typeComptabilitees";
+            this.itemsComptabilitee = await this.$myService.get(url2)
 
         },
 

@@ -46,7 +46,18 @@
                     </v-list-item-title>
                 </v-list-item>
                 
-               
+                <v-list-item link  @click="$router.push({ path: 'typeComptabilitee' })">
+                    <v-list-item-icon>
+                        <i class="fad fa-calculator-alt"></i>
+                    </v-list-item-icon>
+
+                    <v-list-item-title class="pl-3">
+                        Type de Comptabilité
+                    </v-list-item-title>
+                </v-list-item>
+
+
+
                 <v-list-item link @click="$router.push({ path: 'planComptable' })">
 
                     <v-list-item-icon>
@@ -121,15 +132,7 @@
                 </v-list-item>
                 
                 
-                <v-list-item link  @click="$router.push({ path: 'typeComptabilitee' })">
-                    <v-list-item-icon>
-                        <i class="fad fa-calculator-alt"></i>
-                    </v-list-item-icon>
-
-                    <v-list-item-title class="pl-3">
-                        Type de Comptabilité
-                    </v-list-item-title>
-                </v-list-item>
+                
                 
                 
                 

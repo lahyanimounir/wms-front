@@ -4,7 +4,7 @@
       color="primary" class="flex-grow-0" style="border-radius: 0px;" >
       aaa
       </v-app-bar> -->
-    <v-navigation-drawer app permanent elevation="0">
+    <v-navigation-drawer app permanent elevation="0" style="width:320px">
         <v-sheet class="pa-4 d-flex my-Menu" style="align-items: center;">
             <v-avatar color="blue-grey lighten-5" size="64"></v-avatar>
 
@@ -21,7 +21,7 @@
                         <i class="fal fa-cog"></i>
                     </v-list-item-icon>
                     <v-list-item-content>
-                        <v-list-item-title>PARAMETRAGE</v-list-item-title>
+                        <v-list-item-title>PARAMETRAGE DOSSIER/EXERCICE</v-list-item-title>
                     </v-list-item-content>
                 </template>
 
@@ -316,9 +316,20 @@
                         <i class="fad fa-mail-bulk"></i>
                     </v-list-item-icon>
                     <v-list-item-content>
-                        <v-list-item-title>LETTRAGE</v-list-item-title>
+                        <v-list-item-title>MENU TRAITEMENT</v-list-item-title>
                     </v-list-item-content>
                 </template>
+
+                <v-list-item class="pl-6 pr-0" link>
+                    <v-list-item-icon>
+
+                        <i class="fal fa-chart-pie"></i>
+                    </v-list-item-icon>
+
+                    <v-list-item-title class="pl-3">
+                        LETTRAGE
+                    </v-list-item-title>
+                </v-list-item>
 
                 <v-list-item class="pl-6 pr-0" link
                     @click="$router.push({ path: '/comptabilitee/' + id + '/operation_divers' })">
@@ -368,6 +379,69 @@
 
             </v-list-group>
 
+            <v-list-group>
+                <template v-slot:activator>
+                    <v-list-item-icon>
+                        <!-- <v-icon>fa-graduation-cap</v-icon> -->
+                        <i class="fad fa-mail-bulk"></i>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>OUTILS</v-list-item-title>
+                    </v-list-item-content>
+                </template>
+                <v-list-item class="pl-6 pr-0" link>
+                    <v-list-item-icon>
+    
+                        <i class="fal fa-chart-pie"></i>
+                    </v-list-item-icon>
+    
+                    <v-list-item-title class="pl-3">
+                        RECHERCHE MULTICRITERE
+                    </v-list-item-title>
+                </v-list-item>
+                <v-list-item class="pl-6 pr-0" link>
+                    <v-list-item-icon>
+    
+                        <i class="fal fa-chart-pie"></i>
+                    </v-list-item-icon>
+    
+                    <v-list-item-title class="pl-3">
+                        MODIFIER COMPTE
+                    </v-list-item-title>
+                </v-list-item>
+                <v-list-item class="pl-6 pr-0" link>
+                    <v-list-item-icon>
+    
+                        <i class="fal fa-chart-pie"></i>
+                    </v-list-item-icon>
+    
+                    <v-list-item-title class="pl-3">
+                        MODIFIER JOURNAL
+                    </v-list-item-title>
+                </v-list-item>
+                <v-list-item class="pl-6 pr-0" link>
+                    <v-list-item-icon>
+    
+                        <i class="fal fa-chart-pie"></i>
+                    </v-list-item-icon>
+    
+                    <v-list-item-title class="pl-3">
+                        SUPPRESSION GROUPEE
+                    </v-list-item-title>
+                </v-list-item>
+                <v-list-item class="pl-6 pr-0" link>
+                    <v-list-item-icon>
+    
+                        <i class="fal fa-chart-pie"></i>
+                    </v-list-item-icon>
+    
+                    <v-list-item-title class="pl-3">
+                        EXTOURNER ECRITURE
+                    </v-list-item-title>
+                </v-list-item>
+            </v-list-group>
+
+
             <v-list-group no-action :value="false">
                 <template v-slot:activator>
                     <v-list-item-icon>
@@ -375,10 +449,10 @@
                         <i class="fad fa-tools"></i>
                     </v-list-item-icon>
                     <v-list-item-content>
-                        <v-list-item-title>OUTILS</v-list-item-title>
+                        <v-list-item-title>EDITIONS COMPTABLES</v-list-item-title>
                     </v-list-item-content>
                 </template>
-
+                
                 <v-list-item class="pl-6 pr-0" link
                     @click="$router.push({ path: '/comptabilitee/' + id + '/operation_divers' })">
                     <v-list-item-icon>
@@ -462,6 +536,7 @@
                 </v-list-item>
 
             </v-list-group>
+           
 
 
 
@@ -822,7 +897,7 @@ export default {
             ['mdi-alert-octagon', 'Spam'],
         ],
     }),
-    props: ['id']
+    props: ['id','dossier']
 }
 </script>
 

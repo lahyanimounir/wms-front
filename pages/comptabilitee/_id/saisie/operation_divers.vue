@@ -227,6 +227,7 @@ export default {
         let url = process.env.Name_api + "/exercice/" + this.id;
         let exercice = await this.$myService.get(url)
         this.dossier = exercice.dossier
+        console.log('here')
         // this.rows = ecritures
 
         // url = process.env.Name_api + "/planComptables";

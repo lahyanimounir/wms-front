@@ -26,7 +26,7 @@
                 </template>
 
                 <v-list-item class="pl-6 pr-0" link
-                    @click="$router.push({ path: '/comptabilitee/' + id + '/operation_divers' })">
+                    @click="$router.push({ path: '/comptabilitee/' + id + '/parametrage/definition_plan' })">
                     <v-list-item-icon>
 
                         <i class="fal fa-chart-pie"></i>
@@ -38,7 +38,7 @@
                 </v-list-item>
 
                 <v-list-item class="pl-6 pr-0" link
-                    @click="$router.push({ path: '/comptabilitee/' + id + '/operation_divers' })">
+                    @click="$router.push({ path: '/comptabilitee/' + id + '/parametrage/definition_tiers' })">
                     <v-list-item-icon>
 
                         <i class="fal fa-chart-pie"></i>

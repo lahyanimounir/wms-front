@@ -4,7 +4,7 @@
       color="primary" class="flex-grow-0" style="border-radius: 0px;" >
       aaa
       </v-app-bar> -->
-    <v-navigation-drawer app permanent elevation="0" style="width:320px">
+    <v-navigation-drawer app permanent elevation="0">
         <v-sheet class="pa-4 d-flex my-Menu" style="align-items: center;">
             <v-avatar color="blue-grey lighten-5" size="64"></v-avatar>
 

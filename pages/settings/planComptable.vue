@@ -75,9 +75,9 @@
                                         </v-col>
                                         <v-col cols="12" class="py-0">
                                             <label for="">Type comptabilite *</label>
-                                            <v-autocomplete counter maxlength="100" :rules="obligationRule"
+                                            <v-autocomplete counter maxlength="100" :rules="typeComptaRule"
                                                 :items="itemsComptabilitee"
-                                                v-model="editedItem.type_comptabilite" outlined dense
+                                                v-model="editedItem.type_comptabilitee" outlined dense
                                                 item-text="intitulee" item-value="id" placeholder="Type comptabilite">
                                                 placeholder="Intitulée">
 
@@ -154,6 +154,9 @@ export default {
             v => !!v || 'Ce domaine est obligatoire.',
             v => v.length == 8 || 'Le nombre de caractères doit être égal à 8.',
         ],
+        typeComptaRule: [
+            v => !!v || 'Type de comptabilité est obligatoire.',
+        ],
         headers: [
             {
                 text: 'id',
@@ -176,7 +179,7 @@ export default {
             debit_credit: '',
             type_compte: '',
             c_g: '',
-            type_comptabilite: {
+            type_comptabilitee: {
                 id: '',
                 code: '',
                 intitulee: '',
@@ -189,7 +192,7 @@ export default {
             debit_credit: '',
             type_compte: '',
             c_g: '',
-            type_comptabilite: {
+            type_comptabilitee: {
                 id: '',
                 code: '',
                 intitulee: '',
@@ -231,6 +234,9 @@ export default {
             this.editedIndex = this.rows.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.dialog = true
+            this.$nextTick(() => {
+                this.$refs.form.resetValidation()
+            })
         },
 
         deleteItem(item) {

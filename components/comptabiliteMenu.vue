@@ -33,7 +33,7 @@
                     </v-list-item-icon>
 
                     <v-list-item-title class="pl-3">
-                        DEFINITION PLAN COMPTABLE
+                        DEFINITION TYPE PLAN COMPTABLE
                     </v-list-item-title>
                 </v-list-item>
 

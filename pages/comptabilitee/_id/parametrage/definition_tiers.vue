@@ -1,11 +1,14 @@
 <template>
     <div>
-        <p class="" style="font-size:2rem">Choix des tiers</p>
-        <div class="d-flex flex-row-reverse">
-            <v-btn color="primary" dark  @click="enableTiers">
-                Valider
-            </v-btn>
+        <div class="d-flex" style="justify-content: space-between;">
+            <p class="" style="font-size:2rem">Choix des tiers</p>
+            <div class="d-flex flex-row-reverse">
+                <v-btn color="primary" dark  @click="enableTiers">
+                    Valider
+                </v-btn>
+            </div>
         </div>
+
         <v-data-table :headers="headers" sort-by="calories" :items="tiers" class="elevation-1 px-5 pl-comptable mt-6" v-model="selected"
         item-key="id" show-select>
             <template v-slot:item.logo="{ item }">
@@ -73,9 +76,17 @@ export default {
         ],
     }),
     created() {
-        this.test()
+        this.test();
+        this.getExercice()
     },
     methods: {
+        async getExercice(){
+            this.id = this.$route.params.id
+            const url = process.env.Name_api+'/exercice/'+this.id
+            const res = await this.$myService.get(url);
+            console.log("resultas",res[0].tiers.map( (item) => item.id));
+            this.selected = res[0].tiers;
+        },
         async test() {
             this.id = this.$route.params.id
             const url = process.env.Name_api + '/tiers'

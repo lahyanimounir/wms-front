@@ -72,14 +72,22 @@
                 </v-col>
                 <v-col cols="2">
                     <label for="">Date</label>
-                    <v-menu ref="menu" v-model="menu3" :close-on-content-click="false" transition="scale-transition"
+                    <!-- <v-menu ref="menu" v-model="menu3" :close-on-content-click="false" transition="scale-transition"
                         offset-y min-width="auto">
                         <template v-slot:activator="{ on, attrs }">
                             <v-text-field persistent-hint v-model="editedItem.date" outlined dense hide-details
                                 prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                         </template>
                         <v-date-picker  @change="betweenDate()" :min="editedItem.du" :max="editedItem.au" v-model="editedItem.date" ></v-date-picker>
-                    </v-menu>
+                    </v-menu> -->
+                    <v-menu ref="menu" v-model="menu3" :close-on-content-click="false" transition="scale-transition"
+                            offset-y min-width="auto">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-text-field v-model="editedItem.date" outlined dense hide-details prepend-icon="mdi-calendar"
+                                    readonly v-bind="attrs" v-on="on"></v-text-field>
+                            </template>
+                            <v-date-picker v-model="editedItem.date" ></v-date-picker>
+                        </v-menu>
                 </v-col>
                 <v-col cols="6">
                     <label for="">Référence</label>
@@ -98,6 +106,16 @@
                         </template>
                         <template slot="item" slot-scope="{ item }">
                             {{ item.numero_compte }} - {{ item.intitulee }}
+                        </template>
+                    </v-autocomplete>
+                </v-col>
+                <v-col cols="3" class="pl-3 pr-1 ">
+                    <label for="">Tiers</label>
+
+                    <v-autocomplete v-model="editedItem.tiers" :rules="obligationRule" :items="tiers"
+                        outlined dense placeholder="Tiers" item-text="denomination" item-value="id">
+                        <template slot="selection" slot-scope="{ item }">
+                            {{ item.denomination }}
                         </template>
                     </v-autocomplete>
                 </v-col>
@@ -137,7 +155,7 @@
                 Exercice du : {{ du }} au {{ au }}
             </div>
             <div class="pt-3">
-                <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows" sort-by="calories">
+                <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
                     <template v-slot:item.compte="{ item }">
                         <span>{{item && item.compte && item.compte.intitulee}}</span>    
                     </template>
@@ -184,8 +202,25 @@ export default {
         menu2: false,
         editedItem: {
             debit:'',
-            credit:''
+            credit:'',
+            tiers: {},
+            compte: {},
+            libelle: '',
+            reference_facture: '',
+            journal: {},
+            date: '',
         },
+        defaultItem: {
+            debit:'',
+            credit:'',
+            tiers: {},
+            compte: {},
+            libelle: '',
+            reference_facture: '',
+            journal: {},
+            date: '',
+        },
+        exerciceId: '',
         dossier: {},
         items: [],
         tiers: [],
@@ -209,14 +244,16 @@ export default {
         rows(val){
             this.someDebit = 0
             this.someCredit = 0
-            this.rows.forEach(item=>{
-                if(item.credit){
-                    this.someCredit = this.someCredit + parseInt(item.credit) 
-                }
-                if(item.debit){
-                    this.someDebit = this.someDebit + parseInt(item.debit)
-                } 
-            });
+            if(this.rows && this.rows.length > 0){
+                this.rows.forEach(item=>{
+                    if(item.credit){
+                        this.someCredit = this.someCredit + parseInt(item.credit) 
+                    }
+                    if(item.debit){
+                        this.someDebit = this.someDebit + parseInt(item.debit)
+                    } 
+                });
+            }
       
             console.log(this.someDebit)
             console.log(this.someCredit)
@@ -227,8 +264,13 @@ export default {
         let url = process.env.Name_api + "/exercice/" + this.id;
         let exercice = await this.$myService.get(url)
         this.dossier = exercice.dossier
-        console.log('here')
-        // this.rows = ecritures
+        // this.tiers = exercice[0].tiers
+        // this.exerciceId = exercice[0].id
+        // url = process.env.Name_api + "/ecriture/" + this.exerciceId;
+        // const res = await this.$myService.get(url)
+        // console.log(res);
+        // // this.rows = res
+        // // this.rows = exercice[0].ecriture
 
         // url = process.env.Name_api + "/planComptables";
         // this.items = await this.$myService.get(url)
@@ -236,8 +278,8 @@ export default {
         // url = process.env.Name_api + "/tiers";
         // this.tiers = await this.$myService.get(url)
 
-        // url = process.env.Name_api + "/journaux";
-        // this.journaux = await this.$myService.get(url)
+        url = process.env.Name_api + "/journaux";
+        this.journaux = await this.$myService.get(url)
 
 
     },

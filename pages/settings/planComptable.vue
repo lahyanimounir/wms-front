@@ -1,5 +1,11 @@
 <template>
-    <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5 pl-comptable">
+    <v-data-table :headers="headers" :items="rows" class="elevation-1 px-5 pl-comptable"
+    :page="offset"
+    :items-per-page="limit"
+    @update:page="pageUpdateFunction"
+    @update:items-per-page="offsetWatch"
+    :server-items-length="totalItems"
+    >
         <template v-slot:top>
             <v-toolbar flat>
               
@@ -42,23 +48,36 @@
                         <v-btn elevation="1" color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
                             Ajouter Plan Comptable
                         </v-btn>
-                    </template>
-
-                    <v-form lazy-validation ref="form" method="post" @submit.prevent="login">
-
-
-                        <v-toolbar dark color="primary">
-                            <v-btn icon dark @click="close()">
-                                <v-icon>mdi-close</v-icon>
-                            </v-btn>
-                            <v-toolbar-title> Ajouter Plan Comptable</v-toolbar-title>
-
-                        </v-toolbar>
-                        <v-card>
-
-
-                            <v-card-text>
-                                <v-container>
+                        <v-autocomplete counter maxlength="100" :items="itemsComptabilitee"
+                            auto-select-first
+                            v-model="selectedComptaType" outlined dense item-text="intitulee"
+                            placeholder="Type comptabilite"
+                            class="ml-4 mt-5"
+                            label="Type comptabilite"
+                            >
+                        
+                            <template slot="item" slot-scope="{ item }">
+                                {{ item.code }} - {{ item.intitulee }}
+                            </template>
+                        </v-autocomplete>
+                        </template>
+                        
+                        
+                        <v-form lazy-validation ref="form" method="post" @submit.prevent="login">
+                        
+                        
+                            <v-toolbar dark color="primary">
+                                <v-btn icon dark @click="close()">
+                                    <v-icon>mdi-close</v-icon>
+                                </v-btn>
+                                <v-toolbar-title> Ajouter Plan Comptable</v-toolbar-title>
+                        
+                            </v-toolbar>
+                            <v-card>
+                        
+                        
+                                <v-card-text>
+                                    <v-container>
                                     <v-row>
                                         <v-col cols="12" class="pb-0">
                                             <label for="">Numero de compte *</label>
@@ -73,11 +92,11 @@
                                                 v-model="editedItem.intitulee" outlined dense
                                                 placeholder="Intitulée"></v-text-field>
                                         </v-col>
-                                        <v-col cols="12" class="py-0">
+                                        <v-col v-if="editedIndex !== -1" cols="12" class="py-0">
                                             <label for="">Type comptabilite *</label>
                                             <v-autocomplete counter maxlength="100" :rules="typeComptaRule"
                                                 :items="itemsComptabilitee"
-                                                v-model="editedItem.type_comptabilitee" outlined dense
+                                                v-model="editedItem.type_comptabilitee_id" outlined dense
                                                 item-text="intitulee" item-value="id" placeholder="Type comptabilite">
                                                 placeholder="Intitulée">
 
@@ -168,6 +187,7 @@ export default {
             { text: 'Intitulée', value: 'intitulee' },
             { text: 'Debit / Credit', value: 'debit_credit' },
             { text: 'C / G', value: 'c_g' },
+            { text: 'Type comptabilite', value: 'type_comptabilitee'},
             { text: 'Action', value: 'action' },
 
         ],
@@ -179,11 +199,7 @@ export default {
             debit_credit: '',
             type_compte: '',
             c_g: '',
-            type_comptabilitee: {
-                id: '',
-                code: '',
-                intitulee: '',
-            },
+            type_comptabilitee_id:'',
 
         },
         defaultItem: {
@@ -192,12 +208,14 @@ export default {
             debit_credit: '',
             type_compte: '',
             c_g: '',
-            type_comptabilitee: {
-                id: '',
-                code: '',
-                intitulee: '',
-            },
+            type_comptabilitee_id:'',
+
         },
+        selectedComptaType: '',
+
+        offset:1,
+        limit:10,
+        totalItems:500,
     }),
 
     computed: {
@@ -216,17 +234,22 @@ export default {
     },
 
     created() {
-
+        this.getPlanComptable();
+        // console.log(this.rows.length);
         this.initialize();
     },
     fetch() {
     },
     methods: {
-        async initialize() {
-            let url = process.env.Name_api + "/planComptables";
+        async getPlanComptable() {
+            let url = process.env.Name_api + "/planComptables" + "?limit=" + this.limit + "&offset=" + this.offset;
             this.rows = await this.$myService.get(url)
+        },
+        async initialize() {
+          
             let url2 = process.env.Name_api + "/typeComptabilitees";
             this.itemsComptabilitee = await this.$myService.get(url2)
+            this.selectedComptaType =  this.itemsComptabilitee[0] 
 
         },
 
@@ -283,6 +306,7 @@ export default {
         async add() {
             try {
                 let url = process.env.Name_api + "/planComptables";
+                this.editedItem.type_comptabilitee_id = this.selectedComptaType.id
                 const aaaa = await this.$myService.post(url, this.editedItem)
                 this.rows.push(aaaa.data)
                 this.close()
@@ -333,7 +357,18 @@ export default {
             fData.append("file", file);
             let url = process.env.Name_api + "/upload-excel";
             const aaaa = await this.$myService.post(url, fData, true)
-        }
+        },
+        pageUpdateFunction(page) {
+            // this.pagination.page = page
+            console.log('offset : ' + page)
+            this.offset = page
+            this.getPlanComptable()
+        },
+        offsetWatch(offset){
+            console.log('limit : ' + offset)
+            this.limit = offset
+            this.getPlanComptable()
+        },
     },
 
 }

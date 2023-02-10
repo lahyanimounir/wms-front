@@ -1,5 +1,10 @@
 <template>
-    <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5">
+    <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5"
+    :page="offset"
+    :items-per-page="limit"
+    @update:page="pageUpdateFunction"
+    @update:items-per-page="offsetWatch"
+    :server-items-length="totalItems">
         <template v-slot:top>
             <v-toolbar flat>
                 <v-file-input style="display: none;" id="fileUpload" outlined hide-details="auto" class="pr-4"
@@ -181,6 +186,9 @@ export default {
             taux: '',
             compte:''
         },
+        offset:1,
+        limit:10,
+        totalItems:500,
     }),
 
     computed: {
@@ -200,11 +208,17 @@ export default {
 
     created() {
 
-        this.initialize();
+        // this.initialize();
+        this.getTva();
     },
     fetch() {
     },
     methods: {
+        async getTva(){
+            let url = `${this.Name_api}/tva?offset=${this.offset}&limit=${this.limit}`;
+            this.rows = await this.$myService.get(url)
+        },
+        
         uploadFile() {
             document.getElementById('fileUpload').click();
         },
@@ -314,7 +328,15 @@ export default {
             fData.append("file", file);
             let url = process.env.Name_api + "/tva/upload-excel";
             const aaaa = await this.$myService.post(url, fData, true)
-        }
+        },
+        pageUpdateFunction(page) {
+            this.offset = page
+            this.getTva()
+        },
+        offsetWatch(offset){
+            this.limit = offset
+            this.getTva()
+        },
     },
 }
 </script>

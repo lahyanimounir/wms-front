@@ -1,5 +1,12 @@
 <template>
-    <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5">
+    <div>
+    <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5"
+    :page="offset"
+    :items-per-page="limit"
+    @update:page="pageUpdateFunction"
+    @update:items-per-page="offsetWatch"
+    :server-items-length="totalItems"
+    >
         <template v-slot:top>
             <v-toolbar flat>
 
@@ -621,12 +628,30 @@
 
             </div>
         </template>
-
+        
     </v-data-table>
+    <!-- <div class="d-flex">
+        <v-pagination
+            v-model="offset"
+            :length="pageCount"
+          ></v-pagination>
+          <v-text-field
+          aria-readonly="true"
+            :value="limit"
+            label="Items per page"
+            type="number"
+            min="-1"
+            max="15"
+            @input="limit = parseInt($event, 10)"
+          ></v-text-field>
+    </div> -->
+    </div>
 </template>
 
 
 <script>
+import axios from '~/plugins/axios'
+
 export default {
     data: () => ({
         nombre:1,
@@ -801,6 +826,9 @@ export default {
             intitulee:'',
             code_postal:''
         },
+        offset:1,
+        limit:10,
+        totalItems:500,
     }),
 
     computed: {
@@ -833,10 +861,16 @@ export default {
     created() {
 
         this.initialize();
+        this.getDossiers();
     },
     fetch() {
     },
     methods: {
+        async getDossiers(){
+            let url = process.env.Name_api + `/dossiers${this.offset ? `?offset=${this.offset}` : ''}${this.limit ? `&limit=${this.limit}` : ''}`;
+            const res = await this.$myService.get(url)
+            this.rows = res
+        },
         ajoutBanque(){
             this.editedItem.dossier_banques.push({banque:'',rib:''})
         },
@@ -896,7 +930,11 @@ export default {
         },
         async initialize() {
 
-            url = process.env.Name_api + "/villes";
+            // let url = process.env.Name_api + `/dossiers${this.offset ? `?offset=${this.offset}` : ''}${this.limit ? `&limit=${this.limit}` : ''}`;
+            // this.rows = await this.$myService.get(url)
+            let url;
+
+            url = process.env.Name_api + "/villes?limit=-1";
             this.villes = await this.$myService.get(url)
 
             url = process.env.Name_api + "/typeComptabilitees";
@@ -905,8 +943,6 @@ export default {
             url = process.env.Name_api + "/banques";
             this.banques = await this.$myService.get(url)
 
-            let url = process.env.Name_api + "/dossiers";
-            this.rows = await this.$myService.get(url)
 
             // url = `https://maroc.welipro.com/recherche?q=${}&type=&rs=&cp=1&cp_max=2035272260000&et=&v=`;
             // let res = await this.$myService.get(url)
@@ -1211,6 +1247,14 @@ export default {
                 this.close()
             }
 
+        },
+        pageUpdateFunction(page) {
+            this.offset = page
+            this.getDossiers()
+        },
+        offsetWatch(offset){
+            this.limit = offset
+            this.getDossiers()
         },
     },
 }

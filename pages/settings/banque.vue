@@ -1,5 +1,10 @@
 <template>
-    <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5">
+    <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5"
+    :page="offset"
+    :items-per-page="limit"
+    @update:page="pageUpdateFunction"
+    @update:items-per-page="offsetWatch"
+    :server-items-length="totalItems">
         <template v-slot:top>
             <v-toolbar flat>
                 <!-- <v-toolbar-title>My CRUD</v-toolbar-title> -->
@@ -112,6 +117,9 @@ export default {
         defaultItem: {
             Nom: '',      
         },
+        offset:1,
+        limit:10,
+        totalItems:500,
     }),
 
     computed: {
@@ -131,11 +139,18 @@ export default {
 
     created() {
 
-        this.initialize();
+        // this.initialize();
+        this.getBanques();
     },
     fetch() {
     },
+    
     methods: {
+        async getBanques() {
+            let url = `${process.env.Name_api}/banques?limit=${this.limit}&offset=${this.offset}`;
+            this.rows = await this.$myService.get(url)
+           
+        },
         async initialize() {
             let url = process.env.Name_api + "/banques";
             this.rows = await this.$myService.get(url)
@@ -229,6 +244,14 @@ export default {
                 this.$global.makeToast(this.$toast.error, this.$global.getErrorMsg(errors).message, 'fal fa-exclamation-triangle')
                 this.closeDelete()
             }
+        },
+        pageUpdateFunction(page) {
+            this.offset = page
+            this.getBanques()
+        },
+        offsetWatch(offset){
+            this.limit = offset
+            this.getBanques()
         },
     },
 }

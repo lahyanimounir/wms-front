@@ -1,5 +1,10 @@
 <template>
-    <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5">
+    <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5"
+    :page="offset"
+    :items-per-page="limit"
+    @update:page="pageUpdateFunction"
+    @update:items-per-page="offsetWatch"
+    :server-items-length="totalItems">
         <template v-slot:top>
             <v-toolbar flat>
                 <!-- <v-toolbar-title>My CRUD</v-toolbar-title> -->
@@ -449,6 +454,9 @@ export default {
             intitulee:'',
             code_postal:''
         },
+        offset:1,
+        limit:10,
+        totalItems:500,
     }),
 
     computed: {
@@ -477,10 +485,16 @@ export default {
     created() {
 
         this.initialize();
+        this.getTiers()
     },
     fetch() {
     },
     methods: {
+        async getTiers(){
+            let url = `${this.Name_api}/tiers?offset=${this.offset}&limit=${this.limit}`
+            let res = await this.$myService.get(url)
+            this.rows = res
+        },
         ajoutBanque(){
             this.editedItem.tiers_banques.push({banque:'',rib:''})
         },
@@ -546,9 +560,11 @@ export default {
 
         },
 
-        editItem(item) {
+        async editItem(item) {
+            const url = process.env.Name_api + "/tiers/" + item.id;
+            const res = await this.$myService.get(url)
             this.editedIndex = this.rows.indexOf(item)
-            this.editedItem = Object.assign({}, item)
+            this.editedItem = Object.assign({}, res)
             //console.log(this.editedItem)
             this.dialog = true
         },
@@ -756,7 +772,15 @@ export default {
         },
         getTvaText(item){
             return `${item.code} - ${item.intitulee}`
-        }
+        },
+        pageUpdateFunction(page) {
+            this.offset = page
+            this.getTiers()
+        },
+        offsetWatch(offset){
+            this.limit = offset
+            this.getTiers()
+        },
     },
 }
 </script>

@@ -5,10 +5,13 @@
       aaa
       </v-app-bar> -->
     <v-navigation-drawer app permanent elevation="0">
-        <v-sheet class="pa-4 d-flex my-Menu" style="align-items: center;">
-            <v-avatar color="blue-grey lighten-5" size="64"></v-avatar>
-
-            <div class="px-2">Mounir Lahyani</div>
+        <v-sheet class="pa-4 d-flex my-Menu cursor-pointer" style="align-items: center;">
+                <!-- <v-btn class="w-100" 
+                color="dark"
+                link @click="$router.push({ path: '/' })"
+                >
+            </v-btn> -->
+            <i style="cursor:pointer" class="fal fa-arrow-left mr-3" link @click="$router.push({ path: '/comptabilitee' })"></i>PRECEDENT
         </v-sheet>
 
         <v-divider></v-divider>
@@ -49,12 +52,20 @@
                     </v-list-item-title>
                 </v-list-item>
                 <v-list-item class="pl-6 pr-0" link
-                    @click="$router.push({ path: '/comptabilitee/' + id + '/operation_divers' })">
+                    @click="$router.push({ path: '/comptabilitee/' + id + '/parametrage/journaux' })">
                     <v-list-item-icon>
 
                         <i class="fal fa-chart-pie"></i>
                     </v-list-item-icon>
+                    <!-- <v-list-item link  @click="$router.push({ path: 'journaux' })" >
+                    <v-list-item-icon>
+                        <i class="fal fa-newspaper"></i>
+                    </v-list-item-icon>
 
+                    <v-list-item-title class="pl-3">
+                        Journaux
+                    </v-list-item-title>
+                </v-list-item> -->
                     <v-list-item-title class="pl-3">
                         CREATION JOURNAUX
                     </v-list-item-title>

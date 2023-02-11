@@ -1,6 +1,15 @@
 <template>
-    <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5">
+    <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5" v-model="selected" show-select>
         <template v-slot:top>
+            <v-snackbar v-model="snackbar" :timeout="timeout">
+                {{ text }}
+            
+                <template v-slot:action="{ attrs }">
+                    <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+                        Close
+                    </v-btn>
+                </template>
+            </v-snackbar>
             <v-toolbar flat>
                 <!-- <v-toolbar-title>My CRUD</v-toolbar-title> -->
                 <!-- <v-divider
@@ -13,6 +22,9 @@
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
                             Ajouter journaux
+                        </v-btn>
+                        <v-btn color="primary" dark class="mb-2 mr-2" v-bind="attrs" @click="validerJournaux">
+                            Valider
                         </v-btn>
                     </template>
 
@@ -146,6 +158,12 @@ export default {
             type: '',      
             id_compte_contrepartie: '',      
         },
+        selected: [],
+        id: '',
+        snackbar: false,
+        timeout: 3000,
+        text: '',
+        test: '',
     }),
 
     computed: {
@@ -171,10 +189,15 @@ export default {
     },
     methods: {
         async initialize() {
-            url = process.env.Name_api + "/planComptables";
+            this.id = this.$route.params.id
+            let url = process.env.Name_api + "/planComptables";
            this.items2 = await this.$myService.get(url)
-            let url = process.env.Name_api + "/journaux";
+            url = process.env.Name_api + "/journaux";
             this.rows = await this.$myService.get(url)
+            url = process.env.Name_api + "/exercice/" + this.id+"?params=journaux";
+            const res  = await this.$myService.get(url)
+            this.selected = res[0].journaux
+            // this.test = exercice.journaux
         },
 
         editItem(item) {
@@ -264,6 +287,14 @@ export default {
                 this.$global.makeToast(this.$toast.error, this.$global.getErrorMsg(errors).message, 'fal fa-exclamation-triangle')
                 this.closeDelete()
             }
+        },
+        async validerJournaux() {
+            const ids = this.selected.map(item => item.id)
+            const url = process.env.Name_api + `/exercice/${this.id}/enableJournaux`;
+            const res = await this.$myService.post(url, ids)
+            this.text = res.data[0].message
+            this.snackbar = true
+
         },
     },
 }

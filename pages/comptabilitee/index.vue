@@ -293,7 +293,7 @@ export default {
         }
     },
       dossier(val){
-        if(val.exercices.length > 0){
+        if(val.exercices.length > 0 ){
             this.lastExercice = val.exercices.reduce((prev, current) => (prev.id > current.id) ? prev : current)
             
             // Adding 1 day from lastExercice date
@@ -327,8 +327,11 @@ export default {
             let url = process.env.Name_api + "/dossiers";
             this.rows = await this.$myService.get(url)
         },
-        startExercice(item) {
-            this.dossier = item
+        async startExercice(item) {
+            const url = process.env.Name_api + `/getExercicesByDossier/${item.id}`
+            const res = await this.$myService.get(url)
+            console.log('res', res)
+            this.dossier = res
             this.dialog = true;
             
         },

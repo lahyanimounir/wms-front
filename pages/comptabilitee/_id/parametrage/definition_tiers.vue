@@ -1,14 +1,14 @@
 <template>
     <div>
         <v-snackbar v-model="snackbar" :timeout="timeout">
-                                {{ text }}
-                                
-                                <template v-slot:action="{ attrs }">
-                                    <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
-                                        Close
-                                    </v-btn>
-                                </template>
-                                </v-snackbar>
+            {{ text }}
+        
+            <template v-slot:action="{ attrs }">
+                <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
         <div class="d-flex" style="justify-content: space-between;">
             <p class="" style="font-size:2rem">Choix des tiers</p>
             <div class="d-flex flex-row-reverse">
@@ -91,18 +91,18 @@ export default {
         ],
     }),
     created() {
-        this.test();
+        this.initialize();
         this.getExercice()
     },
     methods: {
         async getExercice(){
             this.id = this.$route.params.id
-            const url = process.env.Name_api+'/exercice/'+this.id
+            const url = process.env.Name_api+'/exercice/'+this.id+'?params=tiers'  
             const res = await this.$myService.get(url);
             console.log("resultas",res[0].tiers.map( (item) => item.id));
             this.selected = res[0].tiers;
         },
-        async test() {
+        async initialize() {
             this.id = this.$route.params.id
             const url = process.env.Name_api + '/tiers'
             const res = await this.$myService.get(url)

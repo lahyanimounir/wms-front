@@ -262,8 +262,9 @@ export default {
     async created() {
         this.id = this.$route.params.id
         let url = process.env.Name_api + "/exercice/" + this.id;
-        let exercice = await this.$myService.get(url)
-        this.dossier = exercice.dossier
+        // let exercice = await this.$myService.get(url)
+        // console.log(exercice);
+        // this.dossier = exercice.dossier
         // this.tiers = exercice[0].tiers
         // this.exerciceId = exercice[0].id
         // url = process.env.Name_api + "/ecriture/" + this.exerciceId;

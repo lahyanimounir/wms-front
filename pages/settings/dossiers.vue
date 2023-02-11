@@ -209,7 +209,7 @@
                                                     <v-col lg="6" cols="12" class="py-0">
                                                         <label for="">Type de Comptabilité</label>
                                                         <v-autocomplete :disabled="addClicked" :filled="addClicked"
-                                                            v-model="editedItem.type_comptabilitee"
+                                                            v-model="editedItem.typeComptabilitee.id"
                                                             :items="typeComptabilitees" outlined dense
                                                             placeholder="type de Comptabilité" item-text="intitulee"
                                                             item-value="id"></v-autocomplete>
@@ -777,6 +777,11 @@ export default {
             periodicite_honoraire: '',
             mot_passe_simpl: '',
             telephone_mobile: '',
+            typeComptabilitee:{
+                id:'',
+                intitulee:'',
+                code:'',
+            }
 
         },
         defaultItem: {
@@ -814,6 +819,11 @@ export default {
             periodicite_honoraire: '',
             mot_passe_simpl: '',
             telephone_mobile: '',
+            typeComptabilitee:{
+                id:'',
+                intitulee:'',
+                code:'',
+            }
 
         },
         defaultVille:{
@@ -966,14 +976,17 @@ export default {
 
         },
 
-        editItem(item) {
+        async editItem(item) {
+            const url = `${process.env.Name_api}/dossiers/${item.id}`;
+            const res = await this.$myService.get(url)
+            console.log(res);
             // to keep the same form step when editing if the previous closed element was the same
             if (this.prevClicked !== null && this.prevClicked !== this.rows.indexOf(item)) {
                 // if its not the same element form step is reset to 1
                 this.e1 = 1
             }
             this.editedIndex = this.rows.indexOf(item)
-            this.editedItem = Object.assign({}, item)
+            this.editedItem = Object.assign({}, res)
             this.prevClicked = this.editedIndex
             this.dialog = true
         },
@@ -1071,6 +1084,7 @@ export default {
 
                     formData.append("logo", this.logo);
                     formData.append('dossiers_banques',JSON.stringify(this.editedItem.dossier_banques))
+                    formData.append('type_comptabilitee',this.editedItem.typeComptabilitee.id)
                     let url = process.env.Name_api + "/dossiers";
                     const aaaa = await this.$myService.post(url, formData, true)
                     aaaa.data.dossier_banques = JSON.parse(JSON.stringify(this.editedItem.dossier_banques)) 
@@ -1156,6 +1170,7 @@ export default {
 
                 Object.keys(this.editedItem).forEach(key => formData.append(key, this.editedItem[key]));
                 formData.append('dossiers_banques',JSON.stringify(this.editedItem.dossier_banques))
+                formData.append('type_comptabilitee',this.editedItem.typeComptabilitee.id)
 
                 let url = process.env.Name_api + "/dossiers/" + this.editedItem.id;
                 const aaaa = await this.$myService.post(url, formData, true)

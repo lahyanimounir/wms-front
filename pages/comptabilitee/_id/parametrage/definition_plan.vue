@@ -1,5 +1,14 @@
 <template>
     <div>
+        <v-snackbar v-model="snackbar" :timeout="timeout">
+            {{ text }}
+        
+            <template v-slot:action="{ attrs }">
+                <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
         <div class="d-flex" style="justify-content: space-between;">
             <p class="" style="font-size:2rem">Definition des types des plans comptables</p>
             <div class="d-flex flex-row-reverse">
@@ -11,7 +20,7 @@
         <p>
             Selectionnez les types des plans comptables que vous souhaitez utiliser dans cet exercice
         </p>
-        <v-data-table :headers="headers" :items="rows" class="elevation-1 px-5 pl-comptable mt-6" v-model="selected"
+        <v-data-table :single-select="true" :headers="headers" :items="rows" class="elevation-1 px-5 pl-comptable mt-6" v-model="selected"
             item-key="id" :page="offset" :items-per-page="limit" @update:page="pageUpdateFunction"
             @update:items-per-page="offsetWatch" :server-items-length="totalItems" show-select >
             <template v-slot:item.logo="{ item }">
@@ -38,6 +47,9 @@ export default {
         limit: 10,
         totalItems: 500,
         selected: [],
+        snackbar: false,
+        timeout: 3000,
+        text: '',
         headers: [
             {
                 text: 'id',
@@ -45,11 +57,13 @@ export default {
                 sortable: true,
                 value: 'id',
             },
-            { text: 'Numero de compte', value: 'numero_compte' },
-            { text: 'Intitulée', value: 'intitulee' },
-            { text: 'Debit / Credit', value: 'debit_credit' },
-            { text: 'C / G', value: 'c_g' },
-            { text: 'Type comptabilite', value: 'type_comptabilitee' },
+            // { text: 'Numero de compte', value: 'numero_compte' },
+            // { text: 'Intitulée', value: 'intitulee' },
+            // { text: 'Debit / Credit', value: 'debit_credit' },
+            // { text: 'C / G', value: 'c_g' },
+            // { text: 'Type comptabilite', value: 'type_comptabilitee' },
+            { text: 'Code', value: 'code' },
+            { text: 'Intitulee', value: 'intitulee' },
 
         ],
     }),
@@ -60,14 +74,14 @@ export default {
     },
     methods: {
         async getPlanComptable() {
-            let url = process.env.Name_api + "/planComptables" + "?limit=" + this.limit + "&offset=" + this.offset;
+            let url = process.env.Name_api + "/typeComptabilitees" + "?limit=" + this.limit + "&offset=" + this.offset;
             this.rows = await this.$myService.get(url)
         },
         async initialize() {
             this.id = this.$route.params.id
-            let url = process.env.Name_api + "/exercice/" + this.id+"?params=PlanComptable";
+            let url = process.env.Name_api + "/exercice/" + this.id+"?params=type_comptabilitee";
             const res  = await this.$myService.get(url)
-            this.selected = res[0].plan_comptable
+            this.selected = res[0].type_comptabilitee
             
             console.log(res);
         },
@@ -87,6 +101,7 @@ export default {
             const ids = this.selected.map(item => item.id)
             const url = process.env.Name_api + `/exercice/${this.id}/enableTypeCompta`
             const res = await this.$myService.post(url, ids)
+            console.log(res);
             this.text = res.data[0].message
             this.snackbar = true
         }

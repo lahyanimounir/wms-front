@@ -109,23 +109,26 @@
                         </template>
                     </v-autocomplete>
                 </v-col>
-                <v-col cols="3" class="pl-3 pr-1 ">
+                <v-col cols="2" class="pl-3 pr-1 ">
                     <label for="">Tiers</label>
 
-                    <v-autocomplete v-model="editedItem.tiers" :rules="obligationRule" :items="tiers"
+                    <v-autocomplete v-model="editedItem.tiers" color="red" 
+                    :disabled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" :rules="obligationRule"
+                    :filled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')"
+                     :items="tiers"
                         outlined dense placeholder="Tiers" item-text="denomination" item-value="id">
                         <template slot="selection" slot-scope="{ item }">
                             {{ item.denomination }}
                         </template>
                     </v-autocomplete>
                 </v-col>
-                <v-col cols="2" class="px-1 " v-if="editedItem.compte && editedItem.compte.c_g == 'COLLECTIF'">
+                <!-- <v-col cols="2" class="px-1 " v-if="editedItem.compte && editedItem.compte.c_g == 'COLLECTIF'">
                     <label for="">Tiers</label>
                     {{ tiers }}
                     <v-autocomplete v-model="editedItem.tiers" :rules="obligationRule" :items="tiers" outlined dense
                         placeholder="Tiers" item-text="denomination" item-value="id">
                     </v-autocomplete>
-                </v-col>
+                </v-col> -->
                 <v-col cols="4" class="px-1 ">
                     <label for="">Libellé</label>
                     <v-text-field v-model="editedItem.libelle" outlined dense></v-text-field>
@@ -156,7 +159,7 @@
                 Exercice du : {{ du }} au {{ au }}
             </div>
             <div class="pt-3">
-                <!-- <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
+                <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
                     <template v-slot:item.compte="{ item }">
                         <span>{{item && item.compte && item.compte.intitulee}}</span>    
                     </template>
@@ -165,7 +168,7 @@
                         <div class="text--secondary">{{item && item.tiers && item.tiers.activitee}} </div>   
                     </template>
             
-                </v-data-table> -->
+                </v-data-table>
                 <div style="display: flex;justify-content: space-between;">
                     <div style="width: 67%;"  class="subtitle-2" >
                         Total
@@ -262,18 +265,28 @@ export default {
       
             console.log(this.someDebit)
             console.log(this.someCredit)
-        }
+        },
+        'editedItem.reference_facture'(val){
+            this.editedItem.libelle = this.editedItem.reference_facture +' '+(this.editedItem.compte.intitulee ? this.editedItem.compte.intitulee : '')
+        },
+        'editedItem.compte'(val){
+            this.editedItem.libelle = this.editedItem.reference_facture +' '+(this.editedItem.compte.intitulee ? this.editedItem.compte.intitulee : '')
+        },
+
     },
  
     async created() {
         this.id = this.$route.params.id
         let url = process.env.Name_api + "/exercice/" + this.id +"?params=OP";
          let exercice = await this.$myService.get(url)
+         console.log(exercice);
       
          this.exercice = exercice
          this.journaux = exercice.data.journaux;
          this.tiers = exercice.data.tiers;
-         this.items = exercice.data.plan_comptable;
+         this.items = exercice.data.planComptable;
+
+
         //  this.rows.push(exercice.data.ecritures)
         //  console.log(this.rows)
         // console.log(exercice);

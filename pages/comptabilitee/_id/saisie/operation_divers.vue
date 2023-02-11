@@ -6,7 +6,7 @@
             <div class=" py-5 px-3">
 
                 <div class="subtitle-2 ">
-                    Dossier : {{ dossier && dossier.denomination }} - {{ dossier && dossier.activitee }}
+                    Dossier : {{ exercice && exercice.d_denomination }} - {{ exercice && exercice.d_activitee }}
                 </div>
                 <div class="text--secondary">saisie operation diverses</div>
             </div>
@@ -121,6 +121,7 @@
                 </v-col>
                 <v-col cols="2" class="px-1 " v-if="editedItem.compte && editedItem.compte.c_g == 'COLLECTIF'">
                     <label for="">Tiers</label>
+                    {{ tiers }}
                     <v-autocomplete v-model="editedItem.tiers" :rules="obligationRule" :items="tiers" outlined dense
                         placeholder="Tiers" item-text="denomination" item-value="id">
                     </v-autocomplete>
@@ -155,7 +156,7 @@
                 Exercice du : {{ du }} au {{ au }}
             </div>
             <div class="pt-3">
-                <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
+                <!-- <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
                     <template v-slot:item.compte="{ item }">
                         <span>{{item && item.compte && item.compte.intitulee}}</span>    
                     </template>
@@ -164,7 +165,7 @@
                         <div class="text--secondary">{{item && item.tiers && item.tiers.activitee}} </div>   
                     </template>
             
-                </v-data-table>
+                </v-data-table> -->
                 <div style="display: flex;justify-content: space-between;">
                     <div style="width: 67%;"  class="subtitle-2" >
                         Total
@@ -184,6 +185,9 @@
                     >
                     Les champs Débit total et Crédit doivent être égaux.
                 </v-alert>
+            </div>
+            <div class="mt-2">
+                <v-btn color="primary" small class="mt-6 py-5" @click="allValid()">Valider</v-btn>
             </div>
         </v-card>
     </div>
@@ -221,6 +225,7 @@ export default {
             date: '',
         },
         exerciceId: '',
+        exercice:{},
         dossier: {},
         items: [],
         tiers: [],
@@ -259,10 +264,18 @@ export default {
             console.log(this.someCredit)
         }
     },
+ 
     async created() {
         this.id = this.$route.params.id
-        let url = process.env.Name_api + "/exercice/" + this.id;
-        // let exercice = await this.$myService.get(url)
+        let url = process.env.Name_api + "/exercice/" + this.id +"?params=OP";
+         let exercice = await this.$myService.get(url)
+      
+         this.exercice = exercice
+         this.journaux = exercice.data.journaux;
+         this.tiers = exercice.data.tiers;
+         this.items = exercice.data.plan_comptable;
+        //  this.rows.push(exercice.data.ecritures)
+        //  console.log(this.rows)
         // console.log(exercice);
         // this.dossier = exercice.dossier
         // this.tiers = exercice[0].tiers
@@ -279,12 +292,17 @@ export default {
         // url = process.env.Name_api + "/tiers";
         // this.tiers = await this.$myService.get(url)
 
-        url = process.env.Name_api + "/journaux";
-        this.journaux = await this.$myService.get(url)
+        // url = process.env.Name_api + "/journaux";
+        // this.journaux = await this.$myService.get(url)
 
 
     },
     methods: {
+        async allValid(){
+            this.id = this.$route.params.id
+            let url = process.env.Name_api + "/allValid/" + this.id;
+            let exercice = await this.$myService.get(url)
+        },
         async search() {
             let url = process.env.Name_api + "/ecriture/find/" + this.editedItem.du + "/" + this.editedItem.au + "/" + this.id;
            
@@ -297,7 +315,7 @@ export default {
         async addEcriture(){
             
      
-            let url = process.env.Name_api + "/ecriture";
+            let url = process.env.Name_api + "/ecriture/"+this.exercice.data.id;
 
             if(typeof this.editedItem.journal === 'object' && this.editedItem.journal !== null){
                 this.editedItem.journal = this.editedItem.journal.id
@@ -307,7 +325,8 @@ export default {
                 this.editedItem.compte = this.editedItem.compte.id
             }
 
-            this.editedItem.dossier = this.id
+            this.editedItem.dossier = this.exercice.d_id
+          
                 
            const aa = await this.$myService.post(url,this.editedItem);
            if(this.editedItem.debit){
@@ -319,14 +338,13 @@ export default {
             
             this.editedItem.credit = ''
            }
-           console.log(aa)
+          
            this.rows.push(aa.data)
         },
         async betweenDate(){
             if(!this.editedItem.du || !this.editedItem.au){
                 this.editedItem.date = ''
                 return;
-
             }
             let date = new Date(this.editedItem.date)
             let du = new Date(this.editedItem.du)

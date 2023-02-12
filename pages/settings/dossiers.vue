@@ -993,7 +993,10 @@ export default {
 
         deleteItem(item) {
             this.editedIndex = this.rows.indexOf(item)
-            this.editedItem = Object.assign({}, item)
+            this.editedItem.id = item.id
+            console.log("item", this.editedItem.id)
+            // console.log("item", item.id)
+            // return
             console.log(this.editedItem)
 
             this.dialogDelete = true
@@ -1003,7 +1006,7 @@ export default {
         },
         deleteItemConfirm() {
 
-            this.delete(this.editedItem)
+            this.delete(this.editedItem.id)
             // this.rows.splice(this.editedIndex, 1)
 
         },
@@ -1189,7 +1192,7 @@ export default {
         async delete(val) {
             console.log(val)
             try {
-                let url = process.env.Name_api + "/dossiers/" + val.id;
+                let url = process.env.Name_api + "/dossiers/" + val;
                 const aaaa = await this.$myService.delete(url, this.editItem)
                 this.rows.splice(this.editedIndex, 1)
                 this.closeDelete()

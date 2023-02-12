@@ -24,9 +24,9 @@
         <v-data-table :headers="headers" :items="tiers" class="elevation-1 px-5 pl-comptable mt-6" v-model="selected"
         item-key="id" show-select>
             <template v-slot:item.logo="{ item }">
-                <td>
+                <!-- <td>
                     <img alt="logo" :src="defaultImage" style="width: 50px; height: 50px">
-                </td>
+                </td> -->
             </template>
             <!-- <template v-slot:item.active="{ item }">
                 <td>
@@ -40,7 +40,7 @@
 <script>
 export default {
     data: () => ({
-        defaultImage: 'https://www.logodesign.net/logo/line-art-house-roof-and-buildings-4485ld.png',
+        // defaultImage: 'https://www.logodesign.net/logo/line-art-house-roof-and-buildings-4485ld.png',
         
         tiers: [],
         editedItem:{

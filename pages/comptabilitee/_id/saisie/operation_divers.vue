@@ -67,7 +67,7 @@
                 </v-col>
                 <v-col cols="2">
                     <label for="">N° de piece</label>
-                    <v-text-field v-model="editedItem.num_pieces" hide-details outlined dense></v-text-field>
+                    <v-text-field :disabled="true" :filled="true" v-model="editedItem.num_pieces" hide-details outlined dense></v-text-field>
 
                 </v-col>
                 <v-col cols="2">
@@ -111,7 +111,6 @@
                 </v-col>
                 <v-col cols="2" class="pl-3 pr-1 ">
                     <label for="">Tiers</label>
-
                     <v-autocomplete v-model="editedItem.tiers" color="red" 
                     :disabled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" :rules="obligationRule"
                     :filled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')"
@@ -193,7 +192,19 @@
                 <v-btn color="primary" small class="mt-6 py-5" @click="allValid()">Valider</v-btn>
             </div>
         </v-card>
-    </div>
+        <v-dialog v-model="dialogConfirmation" max-width="520px">
+            <v-card>
+                <v-card-title class="text-h6">Êtes-vous sûr de bien vouloir valider cet ecriture
+                    ?</v-card-title>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="closeDelete">Annuler</v-btn>
+                    <v-btn color="blue darken-1" text @click="confimEcriture">Confirmer</v-btn>
+                    <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        </div>
 
 </template>
 
@@ -246,7 +257,12 @@ export default {
             v => !!v || 'Ce domaine est obligatoire.',
         ],
         menu3: false,
-        journaux:[]
+        journaux:[],
+        journal:'',
+        month:'',
+        ecritures:[],
+        dialogConfirmation: false,
+
     }),
     watch:{
         rows(val){
@@ -262,15 +278,48 @@ export default {
                     } 
                 });
             }
-      
-            console.log(this.someDebit)
-            console.log(this.someCredit)
         },
         'editedItem.reference_facture'(val){
             this.editedItem.libelle = this.editedItem.reference_facture +' '+(this.editedItem.compte.intitulee ? this.editedItem.compte.intitulee : '')
         },
         'editedItem.compte'(val){
             this.editedItem.libelle = this.editedItem.reference_facture +' '+(this.editedItem.compte.intitulee ? this.editedItem.compte.intitulee : '')
+        },
+        'editedItem.date'(val){
+            this.month = new Date(val).getMonth() + 1
+            let incr
+            let aaa = this.ecritures.filter(item=>item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth()+1 == this.month)
+            if (aaa.length > 0){
+                incr = aaa[aaa.length-1].num_pieces.split('/')[2]
+                incr = this.zeroPad(parseInt(incr)+1,5)
+                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            }
+            else{
+                incr = this.zeroPad(1,5)
+                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            }
+
+        },
+        'editedItem.journal'(val){
+            if(val.type.split(' ').length == 1){
+                this.journal = val.type.split(' ')[0].substring(0,2).toUpperCase()
+            }else{
+                this.journal = val.type.split(' ')[0].substring(0,1).toUpperCase() + val.split(' ')[1].substring(0,1).toUpperCase()
+            }
+            let incr
+            let aaa = this.ecritures.filter(item=>item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth()+1 == this.month)
+            if (aaa.length > 0){
+                incr = aaa[aaa.length-1].num_pieces.split('/')[2]
+                incr = this.zeroPad(parseInt(incr)+1,5)
+                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            }
+            else{
+                incr = this.zeroPad(1,5)
+                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            }
+            console.log('aaa',aaa);
+
+
         },
 
     },
@@ -285,6 +334,7 @@ export default {
          this.journaux = exercice.data.journaux;
          this.tiers = exercice.data.tiers;
          this.items = exercice.data.planComptable;
+         this.ecritures = exercice.data.ecritures;
 
 
         //  this.rows.push(exercice.data.ecritures)
@@ -312,9 +362,15 @@ export default {
     },
     methods: {
         async allValid(){
-            this.id = this.$route.params.id
-            let url = process.env.Name_api + "/allValid/" + this.id;
-            let exercice = await this.$myService.get(url)
+            this.dialogConfirmation = true
+            // this.id = this.$route.params.id
+            // let url = process.env.Name_api + "/allValid/" + this.id;
+            // let exercice = await this.$myService.get(url)
+            
+
+
+
+
         },
         async search() {
             let url = process.env.Name_api + "/ecriture/find/" + this.editedItem.du + "/" + this.editedItem.au + "/" + this.id;
@@ -326,22 +382,22 @@ export default {
             console.log(this.du)
         },
         async addEcriture(){
-            
-     
-            let url = process.env.Name_api + "/ecriture/"+this.exercice.data.id;
 
-            if(typeof this.editedItem.journal === 'object' && this.editedItem.journal !== null){
-                this.editedItem.journal = this.editedItem.journal.id
-            }
+            this.rows.push(JSON.parse(JSON.stringify(this.editedItem)))
+        //     let url = process.env.Name_api + "/ecriture/"+this.exercice.data.id;
 
-            if(typeof this.editedItem.compte === 'object' && this.editedItem.compte !== null){
-                this.editedItem.compte = this.editedItem.compte.id
-            }
+        //     if(typeof this.editedItem.journal === 'object' && this.editedItem.journal !== null){
+        //         this.editedItem.journal = this.editedItem.journal.id
+        //     }
 
-            this.editedItem.dossier = this.exercice.d_id
+        //     if(typeof this.editedItem.compte === 'object' && this.editedItem.compte !== null){
+        //         this.editedItem.compte = this.editedItem.compte.id
+        //     }
+
+        //     this.editedItem.dossier = this.exercice.d_id
           
                 
-           const aa = await this.$myService.post(url,this.editedItem);
+        //    const aa = await this.$myService.post(url,this.editedItem);
            if(this.editedItem.debit){
                this.editedItem.credit = this.editedItem.debit
                console.log(this.editedItem)
@@ -352,7 +408,7 @@ export default {
             this.editedItem.credit = ''
            }
           
-           this.rows.push(aa.data)
+        //    this.rows.push(aa.data)
         },
         async betweenDate(){
             if(!this.editedItem.du || !this.editedItem.au){
@@ -385,7 +441,46 @@ export default {
             if(wich == 'c'){
                 this.editedItem.debit = ''
             }
-        }
+        },
+        zeroPad(num, places) {
+            return String(num).padStart(places, '0')
+        },
+        closeDelete(){
+            this.dialogDelete = false
+        },
+        async confimEcriture(){
+            let url = process.env.Name_api + "/ecriture/"+this.exercice.data.id;
+            const aa = await this.$myService.post(url,this.rows);
+            this.ecritures = [...this.ecritures,...this.rows] 
+            this.rows = []
+            this.dialogConfirmation = false
+            console.log('ecriture',this.ecritures);
+            this.incrementSuffix()
+            this.clearInputs()
+            
+
+        },
+        incrementSuffix(){
+            let incr
+            let aaa = this.ecritures.filter(item=>item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth()+1 == this.month)
+            if (aaa.length > 0){
+                incr = aaa[aaa.length-1].num_pieces.split('/')[2]
+                incr = this.zeroPad(parseInt(incr)+1,5)
+                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            }
+            else{
+                incr = this.zeroPad(1,5)
+                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            }
+        },
+        clearInputs () {
+            this.editedItem.reference_facture = ''
+            this.editedItem.libelle = ''
+            this.editedItem.debit = ''
+            this.editedItem.credit = ''
+            this.editedItem.tiers = {}
+            this.editedItem.compte = {}
+        },
 
     }
 

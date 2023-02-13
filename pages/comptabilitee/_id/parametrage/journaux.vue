@@ -1,5 +1,5 @@
 <template>
-    <v-data-table :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5" v-model="selected" show-select>
+    <v-data-table :headers="headers" :items="items3" sort-by="calories" class="elevation-1 px-5">
         <template v-slot:top>
             <v-snackbar v-model="snackbar" :timeout="timeout">
                 {{ text }}
@@ -23,9 +23,9 @@
                         <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
                             Ajouter journaux
                         </v-btn>
-                        <v-btn color="primary" dark class="mb-2 mr-2" v-bind="attrs" @click="validerJournaux">
+                        <!-- <v-btn color="primary" dark class="mb-2 mr-2" v-bind="attrs" @click="validerJournaux">
                             Valider
-                        </v-btn>
+                        </v-btn> -->
                     </template>
 
                     <v-form lazy-validation ref="form" method="post"
@@ -66,9 +66,9 @@
                                         
                                         <v-autocomplete   v-model="editedItem.id_compte_contrepartie" :items="items2" outlined dense 
                                             placeholder="compte de contrepartie" item-text="intitulee" item-value="id">
-                                            <template slot="selection" slot-scope="{ item }">
+                                            <!-- <template slot="selection" slot-scope="{ item }">
                                                 {{  item.numero_compte}} -  {{ item.intitulee }} 
-                                        </template>
+                                        </template> -->
                                         <template slot="item" slot-scope="{ item }">
                                             {{  item.numero_compte}} -  {{ item.intitulee }} 
                                             </template>
@@ -152,22 +152,14 @@ export default {
         editedItem: {
             nom: '',
             type: '',
-            id_compte_contrepartie: {
-                code: '',
-                id: '',
-                intitulee: '',
-            },
+            id_compte_contrepartie: ""
         },
         defaultItem: {
             nom: '',
             type: '',      
-            id_compte_contrepartie: {
-                code: '',
-                id: '',
-                intitulee: '',
-            },     
+            id_compte_contrepartie: "",
         },
-        selected: [],
+        items3: [],
         id: '',
         snackbar: false,
         timeout: 3000,
@@ -205,18 +197,18 @@ export default {
             this.rows = await this.$myService.get(url)
             url = process.env.Name_api + "/exercice/" + this.id+"?params=journaux";
             const res  = await this.$myService.get(url)
-            this.selected = res[0].journaux
+            this.items3 = res[0].journaux
             // this.test = exercice.journaux
         },
 
         editItem(item) {
-            this.editedIndex = this.rows.indexOf(item)
+            this.editedIndex = this.items3.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.dialog = true
         },
 
         deleteItem(item) {
-            this.editedIndex = this.rows.indexOf(item)
+            this.editedIndex = this.items3.indexOf(item)
             console.log(this.editedIndex)
             this.editedItem = Object.assign({}, item)
             this.dialogDelete = true
@@ -258,9 +250,9 @@ export default {
         },
         async add() {
             try {
-                let url = process.env.Name_api + "/journaux";
+                let url = process.env.Name_api + "/journaux/" + this.id + "/exercice";
                 const aaaa = await this.$myService.post(url, this.editedItem)
-                this.rows.push(aaaa.data)
+                this.items3.push(aaaa.data)
                 this.close()
             } catch (errors) {
                 this.$global.makeToast(this.$toast.error, this.$global.getErrorMsg(errors).message, 'fal fa-exclamation-triangle')
@@ -273,10 +265,11 @@ export default {
         async update() {
             try {
                 let url = process.env.Name_api + "/journaux/" + this.editedItem.id;
+                console.log('url :',url);
                 const aaaa = await this.$myService.update(url, this.editedItem)
                 // const skil =this.rows.find(item=> item.id == this.editedItem.id)
                 // Object.assign(skil, this.editedItem);
-                Object.assign(this.rows[this.editedIndex], aaaa)
+                Object.assign(this.items3[this.editedIndex], aaaa)
                 this.close()
             } catch (errors) {
                 this.$global.makeToast(this.$toast.error, this.$global.getErrorMsg(errors).message, 'fal fa-exclamation-triangle')
@@ -288,23 +281,23 @@ export default {
         async delete(val) {
             console.log(val)
             try {
-                let url = process.env.Name_api + "/journaux/" + val.id;
+                let url = process.env.Name_api + "/journaux/" + this.id + "/exercice/" + val.id;
                 const aaaa = await this.$myService.delete(url, this.editItem)
-                this.rows.splice(this.editedIndex, 1)
+                this.items3.splice(this.editedIndex, 1)
                 this.closeDelete()
             } catch (errors) {
                 this.$global.makeToast(this.$toast.error, this.$global.getErrorMsg(errors).message, 'fal fa-exclamation-triangle')
                 this.closeDelete()
             }
         },
-        async validerJournaux() {
-            const ids = this.selected.map(item => item.id)
-            const url = process.env.Name_api + `/exercice/${this.id}/enableJournaux`;
-            const res = await this.$myService.post(url, ids)
-            this.text = res.data[0].message
-            this.snackbar = true
+        // async validerJournaux() {
+        //     const ids = this.items3.map(item => item.id)
+        //     const url = process.env.Name_api + `/exercice/${this.id}/enableJournaux`;
+        //     const res = await this.$myService.post(url, ids)
+        //     this.text = res.data[0].message
+        //     this.snackbar = true
 
-        },
+        // },
     },
 }
 </script>

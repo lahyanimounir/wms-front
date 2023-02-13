@@ -329,12 +329,18 @@ export default {
         let url = process.env.Name_api + "/exercice/" + this.id +"?params=OP";
          let exercice = await this.$myService.get(url)
          console.log(exercice);
-      
-         this.exercice = exercice
-         this.journaux = exercice.data.journaux;
-         this.tiers = exercice.data.tiers;
-         this.items = exercice.data.planComptable;
-         this.ecritures = exercice.data.ecritures;
+        if(exercice && exercice.data != null){
+            this.exercice = exercice.data
+            this.journaux = exercice.data.journaux;
+            this.tiers = exercice.data.tiers;
+            this.items = exercice.data.planComptable;
+            this.ecritures = exercice.data.ecritures;
+        }
+        //  this.exercice = exercice
+        //  this.journaux = exercice.data.journaux;
+        //  this.tiers = exercice.data.tiers;
+        //  this.items = exercice.data.planComptable;
+        //  this.ecritures = exercice.data.ecritures;
 
 
         //  this.rows.push(exercice.data.ecritures)

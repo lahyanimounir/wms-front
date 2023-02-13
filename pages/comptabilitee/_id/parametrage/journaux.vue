@@ -59,12 +59,12 @@
                                     </v-col>
 
                                     <v-col cols="12" class="py-0">
-                                        <label for="">compte de contrepartie *</label>
+                                        <label for="">compte de contrepartie</label>
                               
 
 
                                         
-                                        <v-autocomplete   v-model="editedItem.id_compte_contrepartie" :rules="obligationRule" :items="items2" outlined dense 
+                                        <v-autocomplete   v-model="editedItem.id_compte_contrepartie" :items="items2" outlined dense 
                                             placeholder="compte de contrepartie" item-text="intitulee" item-value="id">
                                             <template slot="selection" slot-scope="{ item }">
                                                 {{  item.numero_compte}} -  {{ item.intitulee }} 
@@ -111,7 +111,8 @@
             <i class="fal fa-trash-alt" @click="deleteItem(item)"></i>
         </template>
         <template v-slot:item.id_compte_contrepartie="{ item }">
-           {{ item.id_compte_contrepartie.intitulee }}
+            <!-- if item is not null display its intitulee -->
+            {{ item.id_compte_contrepartie ? item.id_compte_contrepartie.intitulee : '-' }}
         </template>
     </v-data-table>
 </template>
@@ -151,12 +152,20 @@ export default {
         editedItem: {
             nom: '',
             type: '',
-            id_compte_contrepartie: '',
+            id_compte_contrepartie: {
+                code: '',
+                id: '',
+                intitulee: '',
+            },
         },
         defaultItem: {
             nom: '',
             type: '',      
-            id_compte_contrepartie: '',      
+            id_compte_contrepartie: {
+                code: '',
+                id: '',
+                intitulee: '',
+            },     
         },
         selected: [],
         id: '',
@@ -267,7 +276,7 @@ export default {
                 const aaaa = await this.$myService.update(url, this.editedItem)
                 // const skil =this.rows.find(item=> item.id == this.editedItem.id)
                 // Object.assign(skil, this.editedItem);
-                Object.assign(this.rows[this.editedIndex], this.editedItem)
+                Object.assign(this.rows[this.editedIndex], aaaa)
                 this.close()
             } catch (errors) {
                 this.$global.makeToast(this.$toast.error, this.$global.getErrorMsg(errors).message, 'fal fa-exclamation-triangle')

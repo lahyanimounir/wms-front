@@ -50,7 +50,8 @@
                         </v-btn>
                         <v-autocomplete counter maxlength="100" :items="itemsComptabilitee"
                             auto-select-first
-                            v-model="selectedComptaType" outlined dense item-text="intitulee"
+                            v-model="selectedComptaType" outlined dense item-text="intitulee" item-value="id"
+                            @change="getPlanComptable"
                             placeholder="Type comptabilite"
                             class="ml-4 mt-5"
                             label="Type comptabilite"
@@ -234,23 +235,22 @@ export default {
     },
 
     created() {
-        this.getPlanComptable();
-        // console.log(this.rows.length);
         this.initialize();
+        // console.log(this.rows.length);
     },
     fetch() {
     },
     methods: {
         async getPlanComptable() {
-            let url = process.env.Name_api + "/planComptables" + "?limit=" + this.limit + "&offset=" + this.offset;
+            let url = process.env.Name_api + "/planComptables" + "?limit=" + this.limit + "&offset=" + this.offset + "&type=" + this.selectedComptaType;
             this.rows = await this.$myService.get(url)
         },
         async initialize() {
           
             let url2 = process.env.Name_api + "/typeComptabilitees";
             this.itemsComptabilitee = await this.$myService.get(url2)
-            this.selectedComptaType =  this.itemsComptabilitee[0] 
-
+            this.selectedComptaType =  this.itemsComptabilitee[0].id;
+            this.getPlanComptable();
         },
 
         editItem(item) {

@@ -6,7 +6,7 @@
             <div class=" py-5 px-3">
 
                 <div class="subtitle-2 ">
-                    Dossier : {{ exercice && exercice.d_denomination }} - {{ exercice && exercice.d_activitee }}
+                    Dossier : {{ dossier && dossier.d_denomination }} - {{ dossier && dossier.d_activitee }}
                 </div>
                 <div class="text--secondary">saisie operation diverses</div>
             </div>
@@ -254,7 +254,8 @@ export default {
         month: '',
         ecritures: [],
         dialogConfirmation: false,
-        test: []
+        test: [],
+        dossier: {},
 
     }),
     watch: {
@@ -337,6 +338,7 @@ export default {
         let url = process.env.Name_api + "/exercice/" + this.id + "?params=OP";
         let exercice = await this.$myService.get(url)
         if (exercice && exercice.data != null) {
+            this.dossier = {d_id:exercice.d_id,d_activitee:exercice.d_activitee,d_denomination:exercice.d_denomination}
             this.exercice = exercice.data
             // this.journaux = exercice.data.journaux;
             this.journaux = exercice.data.journaux

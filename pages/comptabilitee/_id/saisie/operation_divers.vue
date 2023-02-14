@@ -101,7 +101,7 @@
                     <label for="">Compte *</label>
 
                     <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
-                        outlined dense placeholder="compte de contrepartie" item-text="intitulee" item-value="id">
+                        outlined dense placeholder="compte de contrepartie" item-text="numero_compte" item-value="id">
                         <template slot="selection" slot-scope="{ item }">
                             {{ item.numero_compte }} - {{ item.intitulee }}
                         </template>
@@ -161,8 +161,7 @@
                         <span>{{ item && item.compte && item.compte.intitulee}}</span>
                     </template>
                     <template v-slot:item.tiers="{ item }">
-                        <div class="subtitle-2">{{ item && item.tiers && item.tiers.denomination}}</div>
-                        <div class="text--secondary">{{ item && item.tiers && item.tiers.activitee}} </div>
+                        <span>{{ item.denomination }}</span>
                     </template>
 
                 </v-data-table>
@@ -402,7 +401,6 @@ export default {
             if(!this.$refs.ecritureForm.validate() || (this.editedItem.debit == 0 && this.editedItem.credit == 0)){
                 return
             }
-
             this.rows.push(JSON.parse(JSON.stringify(this.editedItem)))
             //     let url = process.env.Name_api + "/ecriture/"+this.exercice.data.id;
 

@@ -7,118 +7,115 @@
 
                 <div class="subtitle-2 ">
                     Dossier : {{ dossier && dossier.d_denomination }} - {{ dossier && dossier.d_activitee }}
+                    <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
                 </div>
                 <div class="text--secondary">saisie operation diverses</div>
             </div>
-           
+
             <v-form ref="ecritureForm">
-            <v-row class="mx-0">
-                <v-col cols="2">
-                    <label for="">Journal *</label>
+                <v-row class="mx-0">
+                    <v-col cols="2">
+                        <label for="">Journal *</label>
 
-                    <v-autocomplete hide-details v-model="editedItem.journal" return-object :rules="obligationRule"
-                        :items="journaux" outlined dense placeholder="Journaux" item-text="nom" item-value="id">
+                        <v-autocomplete hide-details v-model="editedItem.journal" return-object :rules="obligationRule"
+                            :items="journaux" outlined dense placeholder="Journaux" item-text="nom" item-value="id">
 
-                    </v-autocomplete>
-                </v-col>
-                <v-col cols="2">
-                    <label for="">N° de piece</label>
-                    <v-text-field :disabled="true" :filled="true" v-model="editedItem.num_pieces" hide-details outlined
-                        dense></v-text-field>
+                        </v-autocomplete>
+                    </v-col>
+                    <v-col cols="1" hidden>
+                        <label for="">N° de piece</label>
+                        <v-text-field :disabled="true" :filled="true" v-model="editedItem.num_pieces" hide-details
+                            outlined dense></v-text-field>
 
-                </v-col>
-                <v-col cols="2">
-                    <label for="">Date *</label>
-                    
-                        <v-menu ref="menu" v-model="menu" :close-on-content-click="false"
-                            transition="scale-transition" offset-y min-width="auto">
+                    </v-col>
+                    <v-col cols="2">
+                        <label for="">Date *</label>
+
+                        <v-menu ref="menu" v-model="menu3" :close-on-content-click="false" transition="scale-transition"
+                            offset-y min-width="auto">
                             <template v-slot:activator="{ on, attrs }">
-                                <v-text-field :rules="obligationRule" v-model="dateFormatted" label="Date" hint="MM/DD/YYYY format" outlined dense
-                                    prepend-icon="mdi-calendar" v-bind="attrs" @blur="date = parseDate(dateFormatted)"
-                                    v-on="on"></v-text-field>
+                                <v-text-field v-model="editedItem.date" outlined dense hide-details
+                                    prepend-icon="mdi-calendar" v-bind="attrs" v-on="on"></v-text-field>
                             </template>
-                            <v-date-picker v-model="date" no-title @input="handleDateDu" :min="minDateDu"></v-date-picker>
+                            <v-date-picker v-model="editedItem.date"></v-date-picker>
                         </v-menu>
-                </v-col>
-                <v-col cols="2">
-                    <label for="">Référence *</label>
-                    <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details outlined dense></v-text-field>
-                </v-col>
-                
-                <v-col cols="2" class="pl-3 pr-1 ">
-                    <label for="">Planc comptable *</label>
+                    </v-col>
+                    <v-col cols="2">
+                        <label for="">Référence *</label>
+                        <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details
+                            outlined dense></v-text-field>
+                    </v-col>
+                    <v-col cols="1" class="px-1 ">
+                        <label for="">Libellé *</label>
+                        <v-text-field v-model="editedItem.libelle" outlined dense></v-text-field>
+                    </v-col>
+                    <v-col cols="3" class="pl-3 pr-1 ">
+                        <label for="">Plan comptable *</label>
 
-                    <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
-                        outlined dense placeholder="Plan comptable" item-text="intitulee" item-value="id">
-                        <template slot="selection" slot-scope="{ item }">
-                            {{ item.numero_compte }} - {{ item.intitulee }}
-                        </template>
-                        <template slot="item" slot-scope="{ item }">
-                            {{ item.numero_compte }} - {{ item.intitulee }}
-                        </template>
-                    </v-autocomplete>
-                </v-col>
-                <v-col cols="2" class="px-1 ">
-                    <label for="">Libellé *</label>
-                    <v-text-field v-model="editedItem.libelle" outlined dense></v-text-field>
-                </v-col>
-            </v-row>
+                        <v-autocomplete v-model="editedItem.plan_comptable" return-object :rules="obligationRule"
+                            :items="collectif" outlined dense placeholder="Plan comptable" item-text="numero_compte"
+                            item-value="id" style="font-size:16px">
+                            <template slot="selection" slot-scope="{ item }">
+                                {{ item.numero_compte }} - {{ item.intitulee.length > 5 && charsNumberCollectif != -1 ?item.intitulee.substring(0, charsNumberCollectif) + '...' : item.intitulee }}
+                            </template>
+                            <template slot="item" slot-scope="{ item }">
+                                {{ item.numero_compte }} - {{ item.intitulee }}
+                            </template>
+                        </v-autocomplete>
+                    </v-col>
+                    <v-col cols="2" class="pl-3 pr-1 ">
+                        <label for="">Tiers</label>
+                        <v-autocomplete v-model="editedItem.tiers" color="red"
+                            :disabled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
+                            :filled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')" :items="tiersShow"
+                            outlined dense placeholder="Tiers" item-text="denomination" item-value="id">
+                            <template slot="selection" slot-scope="{ item }">
+                                {{ item.denomination }}
+                            </template>
+                        </v-autocomplete>
+                    </v-col>
+                </v-row>
 
-            <v-row class="mx-0 mt-0">
-                <v-col cols="2" class="pl-3 pr-1 ">
-                    <label for="">Compte *</label>
+                <v-row class="mx-0 mt-0">
+                    <v-col cols="2" class="pl-3 pr-1 ">
+                        <label for="">Compte *</label>
 
-                    <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
-                        outlined dense placeholder="compte de contrepartie" item-text="intitulee" item-value="id">
-                        <template slot="selection" slot-scope="{ item }">
-                            {{ item.numero_compte }} - {{ item.intitulee }}
-                        </template>
-                        <template slot="item" slot-scope="{ item }">
-                            {{ item.numero_compte }} - {{ item.intitulee }}
-                        </template>
-                    </v-autocomplete>
-                </v-col>
-                <v-col cols="2" class="pl-3 pr-1 ">
-                    <label for="">Tiers</label>
-                    <v-autocomplete v-model="editedItem.tiers" color="red"
-                        :disabled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" 
-                        :filled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" :items="test" outlined
-                        dense placeholder="Tiers" item-text="denomination" item-value="id">
-                        <template slot="selection" slot-scope="{ item }">
-                            {{ item.denomination }}
-                        </template>
-                    </v-autocomplete>
-                </v-col>
-                <v-col cols="1">
-                    <label for="">ECHEANCE</label>
-                    <v-text-field :rules="obligationRule" v-model="editedItem.echeance" hide-details outlined dense></v-text-field>
-                </v-col>
-                <v-col cols="1" class="px-1 ">
-                    <label for="">Code TVA</label>
-                    <v-text-field v-model="editedItem.montant_ht" @keyup="positive('d')" type="number" outlined
-                        dense></v-text-field>
-                </v-col>
-                <v-col cols="1" class="px-1 ">
-                    <label for="">Taux TVA</label>
-                    <v-text-field v-model="editedItem.montant_ht" @keyup="positive('d')" type="number" outlined
-                        dense></v-text-field>
-                </v-col>
-                <v-col cols="1" class="px-1 ">
-                    <label for="">MONTANT HT</label>
-                    <v-text-field v-model="editedItem.montant_ht" @keyup="positive('d')" type="number" outlined
-                        dense></v-text-field>
-                </v-col>
-                <v-col cols="1" class="px-1 ">
-                    <label for="">MONTANT TVA</label>
-                    <v-text-field  v-model="editedItem.montant_ht" @keyup="positive('d')" type="number" outlined
-                        dense></v-text-field>
-                </v-col>
-                <v-col cols="1" class="px-1 ">
-                    <label for="">MONTANT TTC</label>
-                    <v-text-field v-model="editedItem.montant_ht" @keyup="positive('d')" type="number" outlined
-                        dense></v-text-field>
-                </v-col>
-                <!-- <v-col cols="1" class="px-1 ">
+                        <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule"
+                            :items="contreparties" outlined dense placeholder="compte de contrepartie"
+                            item-text="numero_compte" item-value="id">
+                            <template slot="selection" slot-scope="{ item }">
+                                {{ item.numero_compte }} - {{ item.intitulee.length ? item.intitulee.substring(0, charsNumberContreparties) + '...' : item.intitulee }}
+                            </template>
+                            <template slot="item" slot-scope="{ item }">
+                                {{ item.numero_compte }} - {{ item.intitulee }}
+                            </template>
+                        </v-autocomplete>
+                    </v-col>
+                   
+                    
+                    <v-col cols="2">
+                        <label for="">ECHEANCE</label>
+                        <v-text-field :rules="obligationRule" v-model="editedItem.echeance" hide-details outlined
+                            dense></v-text-field>
+                    </v-col>
+                    <v-col cols="3" class="px-1 ">
+                        <label for="">Code TVA</label>
+                        <v-autocomplete  v-model="editedItem.code_tva" :items="tvas" outlined dense placeholder="Code TVA"
+                            item-text="code" item-value="id">
+                            <template slot="item" slot-scope="{ item }">
+                                {{ item.code }} - {{ item.intitulee }}
+                            </template>
+                            <template slot="selection" slot-scope="{ item }">
+                                {{item.code}} - {{ item.intitulee.length > 20 ? item.intitulee.substring(0, charsNumberTva) + '...' : item.intitulee }}
+                            </template>
+                        </v-autocomplete>
+                    </v-col>
+                    <v-col cols="1" class="px-1 ">
+                        <label for="">Taux TVA</label>
+                        <v-text-field v-model="editedItem.montant_ht" @keyup="positive('d')" type="number" outlined
+                            dense></v-text-field>
+                    </v-col>
+                    <!-- <v-col cols="1" class="px-1 ">
                     <label for="">Débit</label>
                     <v-text-field v-model="editedItem.debit" @keyup="positive('d')" type="number" outlined
                         dense></v-text-field>
@@ -129,11 +126,29 @@
                         dense></v-text-field>
 
                 </v-col> -->
-                <v-col cols="1" class="px-1 text-center">
-                    <v-btn color="primary" large class="mt-5 py-5" @click="addEcriture()">Ajouter</v-btn>
-                </v-col>
-            </v-row>
-        </v-form>
+                   
+                </v-row>
+                <v-row class="mx-0 mt-0" style="justify-content:end">
+                    <v-col cols="1" class="px-1 ">
+                        <label for="">MONTANT HT</label>
+                        <v-text-field v-model="editedItem.montant_ht" @keyup="positive('d')" type="number" outlined
+                            dense></v-text-field>
+                    </v-col>
+                    <v-col cols="1" class="px-1 ">
+                        <label for="">MONTANT TVA</label>
+                        <v-text-field v-model="editedItem.montant_ht" @keyup="positive('d')" type="number" outlined
+                            dense></v-text-field>
+                    </v-col>
+                    <v-col cols="1" class="px-1 ">
+                        <label for="">MONTANT TTC</label>
+                        <v-text-field v-model="editedItem.montant_ht" @keyup="positive('d')" type="number" outlined
+                            dense></v-text-field>
+                    </v-col>
+                    <v-col cols="1" class="px-1 text-center">
+                        <v-btn color="primary" large class="mt-5 py-5" @click="addEcriture()">Ajouter</v-btn>
+                    </v-col>
+                </v-row>
+            </v-form>
         </v-card>
 
 
@@ -197,32 +212,43 @@ export default {
         id: '',
         menu2: false,
         editedItem: {
-            debit: '',
-            credit: '',
+            montant_tva: '',
+            montant_ttc: '',
+            montant_ht: '',
+            taux_tva: '',
+            code_tva: '',
+            echeance: '',
             tiers: {},
             compte: {},
             libelle: '',
             reference_facture: '',
             journal: {},
+            plan_comptable: {},
             date: '',
         },
         defaultItem: {
-            debit: '',
-            credit: '',
+            montant_tva: '',
+            montant_ttc: '',
+            montant_ht: '',
+            taux_tva: '',
+            code_tva: '',
+            echeance: '',
             tiers: {},
             compte: {},
             libelle: '',
             reference_facture: '',
             journal: {},
+            plan_comptable: {},
             date: '',
         },
         exerciceId: '',
         exercice: {},
         dossier: {},
-        items: [],
+        contreparties: [],
         tiers: [],
         isCollectif: false,
         dossier: {},
+        collectif: [],
         headers: [
 
             { text: 'compte', value: 'compte' },
@@ -241,7 +267,12 @@ export default {
         month: '',
         ecritures: [],
         dialogConfirmation: false,
-        test: []
+        tiersShow: [],
+        tvas: [],
+        charsNumberTva: 20,
+        charsNumberCollectif: -1,
+        charsNumberTiers: 7,
+        charsNumberContreparties: 7,
 
     }),
     watch: {
@@ -269,6 +300,14 @@ export default {
                 this.editedItem.debit = ''
                 this.editedItem.credit = ''
             }
+        },
+        'editedItem.plan_comptable'(val){
+            this.tiersShow = this.tiers.filter(item => item.compte_tiers?.id == val?.id)
+        },
+        'editedItem.tiers'(val){
+            console.log('val', val)
+            let selectedTiers = this.tiers.find(item => item.id == val)
+            console.log('selected tiers : ', selectedTiers)
         },
         'editedItem.reference_facture'(val) {
             this.editedItem.libelle = this.editedItem.reference_facture + ' ' + (this.editedItem.compte?.intitulee ? this.editedItem.compte.intitulee : '')
@@ -322,23 +361,29 @@ export default {
         this.id = this.$route.params.id
         let url = process.env.Name_api + "/exercice/" + this.id + "?params=AC";
         let exercice = await this.$myService.get(url)
-        let url2 = process.env.Name_api + "/planComptables";
-        // let planComptable = await this.$myService.get(url2)      
-        // console.log('exercice', exercice);
-        // if (exercice && exercice.data != null) {
-        //     this.dossier = {d_id:exercice.d_id,d_activitee:exercice.d_activitee,d_denomination:exercice.d_denomination}
-        //     this.exercice = exercice.data
-        //     this.journaux = exercice.data.journaux
-        //     this.tiers = exercice.data.tiers;
-        //     this.items = exercice.data.planComptable;
-        //     this.ecritures = exercice.data.ecritures;
-        // }
-        
+        url = process.env.Name_api + "/planComptables";
+        let contreparties = await this.$myService.get(url)
+        url = process.env.Name_api + "/tva";
+        let tvas = await this.$myService.get(url)
+
+        if (exercice && exercice.data != null) {
+            this.dossier = {d_id:exercice.d_id,d_activitee:exercice.d_activitee,d_denomination:exercice.d_denomination}
+            this.exercice = exercice.data
+            this.journaux = exercice.data.journaux
+            this.tiers = exercice.data.tiers;
+            this.collectif = exercice.collectif;
+            this.contreparties = contreparties;
+            this.tvas = tvas;
+            
+            // this.items = exercice.data.planComptable;
+            // this.ecritures = exercice.data.ecritures;
+        }
+
     },
     methods: {
         async allValid() {
             this.dialogConfirmation = true
-           
+
         },
         async search() {
             let url = process.env.Name_api + "/ecriture/find/" + this.editedItem.du + "/" + this.editedItem.au + "/" + this.id;
@@ -351,12 +396,12 @@ export default {
         },
         async addEcriture() {
 
-            if(!this.$refs.ecritureForm.validate() || (this.editedItem.debit == 0 && this.editedItem.credit == 0)){
+            if (!this.$refs.ecritureForm.validate() || (this.editedItem.debit == 0 && this.editedItem.credit == 0)) {
                 return
             }
 
             this.rows.push(JSON.parse(JSON.stringify(this.editedItem)))
-           
+
         },
         async betweenDate() {
             if (!this.editedItem.du || !this.editedItem.au) {

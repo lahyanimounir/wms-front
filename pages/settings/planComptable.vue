@@ -50,7 +50,7 @@
                         </v-btn>
                         <v-autocomplete counter maxlength="100" :items="itemsComptabilitee"
                             auto-select-first
-                            v-model="selectedComptaType" outlined dense item-text="intitulee" item-value="id"
+                            v-model="selectedComptaType" outlined dense item-text="intitulee" item-value="intitulee"
                             @change="getPlanComptable"
                             placeholder="Type comptabilite"
                             class="ml-4 mt-5"
@@ -249,7 +249,7 @@ export default {
           
             let url2 = process.env.Name_api + "/typeComptabilitees";
             this.itemsComptabilitee = await this.$myService.get(url2)
-            this.selectedComptaType =  this.itemsComptabilitee[0].id;
+            this.selectedComptaType =  this.itemsComptabilitee[0].intitulee;
             this.getPlanComptable();
         },
 

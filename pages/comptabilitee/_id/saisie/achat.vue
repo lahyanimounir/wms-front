@@ -121,23 +121,23 @@
                     </v-col>
                 </v-row>
                 <v-row class="mx-0 mt-0" style="justify-content:end">
-                    <v-col cols="1" class="px-1 ">
+                    <v-col cols="2" class="px-1 ">
                         <label for="">MONTANT TTC</label>
                         <v-text-field :rules="obligationRule" @blur="addDecimals()" v-model="editedItem.montant_ttc" @keyup="positive()" type="number" outlined
                             dense></v-text-field>
                     </v-col>
-                    <v-col cols="1" class="px-1 ">
+                    <v-col cols="2" class="px-1 ">
                         <label for="">MONTANT HT</label>
                         <v-text-field v-model="editedItem.montant_ht"  type="number" outlined
                             dense></v-text-field>
                     </v-col>
-                    <v-col cols="1" class="px-1 ">
+                    <v-col cols="2" class="px-1 ">
                         <label for="">MONTANT TVA</label>
                         <v-text-field v-model="editedItem.montant_tva"  type="number" outlined
                             dense></v-text-field>
                     </v-col>
                    
-                    <v-col cols="1" class="px-1 text-center">
+                    <v-col cols="2" class="px-1 text-center">
                         <v-btn color="primary" large class="mt-5 py-5" @click="addEcriture()">Ajouter</v-btn>
                     </v-col>
                 </v-row>

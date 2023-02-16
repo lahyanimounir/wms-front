@@ -208,7 +208,7 @@ export default {
 
     created() {
 
-        // this.initialize();
+        this.initialize();
         this.getTva();
     },
     fetch() {
@@ -223,10 +223,10 @@ export default {
             document.getElementById('fileUpload').click();
         },
         async initialize() {
-            url = process.env.Name_api + "/planComptables";
+            let url = process.env.Name_api + "/planComptables";
             this.items2 = await this.$myService.get(url)
-            let url = process.env.Name_api + "/tva";
-            this.rows = await this.$myService.get(url)
+            // let url = process.env.Name_api + "/tva";
+            // this.rows = await this.$myService.get(url)
 
            
         },

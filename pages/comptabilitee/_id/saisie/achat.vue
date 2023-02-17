@@ -78,22 +78,25 @@
                     </v-col>
                     <v-col cols="2" class="pl-3 pr-1 ">
                         <label for="">Tiers</label>
-                        
-                        <v-autocomplete v-model="editedItem.tiers" color="red" return-object
-                            :disabled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
-                            :filled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
-                            :items="tiersShow" outlined dense placeholder="Tiers" item-text="denomination" item-value="id">
-                            <template slot="selection" slot-scope="{ item }">
-                                {{ item.denomination }}
-                            </template>
-                        </v-autocomplete>
-                        <div style="color: #5092f3;cursor: pointer;" @click="addTiers()" class="">
+                        <div class="d-flex">
+                            <v-autocomplete v-model="editedItem.tiers" color="red" return-object
+                                :disabled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
+                                :filled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
+                                :items="tiersShow" outlined dense placeholder="Tiers" item-text="denomination" item-value="id">
+                                <template slot="selection" slot-scope="{ item }">
+                                    {{ item.denomination }}
+                                </template>
+                            </v-autocomplete>
+                            <div style="color: #5092f3;cursor: pointer;margin-left: 0.5rem;" @click="addTiers()" class="">
                             <div class="d-inline-block px-2"
-                                style="border: 2px dotted #5092f3;border-radius: 5px;cursor: pointer;">
+                                style="border: 2px dotted; height: 38px; line-height: 36px; #5092f3;border-radius: 5px;cursor: pointer;">
                                 <i class="fal fa-plus"></i>
 
                             </div>
                         </div>
+
+                        </div>
+                        
                         
                     </v-col>
 
@@ -146,13 +149,9 @@
                         <label for="">MONTANT TVA</label>
                         <v-text-field v-model="editedItem.montant_tva" type="number" outlined dense></v-text-field>
                     </v-col>
-<<<<<<< HEAD
                    
                     <v-col cols="2" class="px-1 text-center">
-=======
 
-                    <v-col cols="1" class="px-1 text-center">
->>>>>>> 6f04ba0 (Redirect to Add tiers form from module comptabilitee on Achat)
                         <v-btn color="primary" large class="mt-5 py-5" @click="addEcriture()">Ajouter</v-btn>
                     </v-col>
                 </v-row>

@@ -457,12 +457,15 @@ export default {
         offset:1,
         limit:10,
         totalItems:500,
+        exerciceId:null,
+        previousMenu:null,
+        ecriture:{},
     }),
 
     computed: {
         formTitle() {
             return this.editedIndex === -1 ? 'Ajouter Forme Juridique' : 'Modifier Forme Juridique'
-        },
+        }
     },
 
     watch: {
@@ -483,7 +486,15 @@ export default {
     },
 
     created() {
-
+        let query = this.$route.query
+        let ecriture = localStorage.getItem('ecriture')
+        if (ecriture != null && query.hasOwnProperty('exerciceId') && query.hasOwnProperty('previousMenu') && Object.keys(query).length){
+            this.exerciceId = query.exerciceId
+            this.previousMenu = query.previousMenu
+            this.ecriture = JSON.parse(ecriture)
+            this.dialog = true
+            
+        }
         this.initialize();
         this.getTiers()
     },
@@ -584,12 +595,16 @@ export default {
         },
 
         close() {
+            
             this.dialog = false
             this.$nextTick(() => {
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
                 this.$refs.form.resetValidation()
             })
+            if(this.isRedirect()){
+                this.$router.push({path:`/comptabilitee/${this.exerciceId}/saisie/${this.previousMenu}`,query:{message:'close'}})
+            }
         },
 
         closeDelete() {
@@ -612,16 +627,26 @@ export default {
         },
         async add() {
             try {
-                let url = process.env.Name_api + "/tiers";
+                let params = this.isRedirect() ? `?exerciceId=${this.exerciceId}`: ""
+                let url = process.env.Name_api + "/tiers" + params;
                 var formData = new FormData();
 
                 Object.keys(this.editedItem).forEach(key => formData.append(key, this.editedItem[key]));
                 formData.append('tiers_banque_arr',JSON.stringify(this.editedItem.tiers_banques))
                 //console.log(formData.get('tiers_banque_arr'))
                 const aaaa = await this.$myService.post(url, formData, true)
+                console.log('aaaa',aaaa.data)
                 aaaa.data.tiers_banques = JSON.parse(JSON.stringify(this.editedItem.tiers_banques)) 
                 this.rows.push(aaaa.data)
-                this.close()
+                if(this.isRedirect()){
+                    console.log('here add')
+                    this.ecriture.tiers = aaaa.data
+                    this.ecriture.plan_comptable = aaaa.data.compte_tiers
+                    localStorage.setItem('ecriture',JSON.stringify(this.ecriture))
+                    this.$router.push({path:`/comptabilitee/${this.exerciceId}/saisie/${this.previousMenu}`,query:{message:'success'}})
+                }
+                else this.close()
+                
             } catch (errors) {
                 this.$global.makeToast(this.$toast.error, this.$global.getErrorMsg(errors).message, 'fal fa-exclamation-triangle')
                 // this.$global.makeToast(this.$bvToast,'warning',this.$global.getErrorMsg(errors).message,'Attention')                  
@@ -781,6 +806,9 @@ export default {
             this.limit = offset
             this.getTiers()
         },
+        isRedirect(){
+            return this.exerciceId != null && this.previousMenu != null && this.exerciceId != '' && this.previousMenu != '' && localStorage.getItem('ecriture') != null
+        }
     },
 }
 </script>

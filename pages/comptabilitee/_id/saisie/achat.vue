@@ -6,7 +6,8 @@
             <div class=" py-5 px-3">
 
                 <div style="font-size:18px">
-                    Dossier :<b> {{ dossier && dossier.d_denomination }} </b>-<b> {{ dossier && dossier.d_activitee }} </b>| Exercice du : <b>{{ du }}</b> au <b>{{ au }}</b>
+                    Dossier :<b> {{ dossier && dossier.d_denomination }} </b>-<b> {{ dossier && dossier.d_activitee }} </b>|
+                    Exercice du : <b>{{ du }}</b> au <b>{{ au }}</b>
                     <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
                 </div>
                 <div class="text--secondary">Saisie Achat</div>
@@ -24,8 +25,8 @@
                     </v-col>
                     <v-col cols="1" hidden>
                         <label for="">N° de piece</label>
-                        <v-text-field :disabled="true" :filled="true" v-model="editedItem.num_pieces" hide-details
-                            outlined dense></v-text-field>
+                        <v-text-field :disabled="true" :filled="true" v-model="editedItem.num_pieces" hide-details outlined
+                            dense></v-text-field>
 
                     </v-col>
                     <v-col cols="2">
@@ -34,13 +35,13 @@
                         <v-menu ref="menu" v-model="menu3" :close-on-content-click="false" transition="scale-transition"
                             offset-y min-width="auto">
                             <template v-slot:activator="{ on, attrs }">
-                                <v-text-field :rules="obligationRule" readonly v-model="editedItem.date" outlined dense hide-details
-                                    prepend-icon="mdi-calendar" v-bind="attrs" v-on="on"></v-text-field>
+                                <v-text-field :rules="obligationRule" readonly v-model="editedItem.date" outlined dense
+                                    hide-details prepend-icon="mdi-calendar" v-bind="attrs" v-on="on"></v-text-field>
                             </template>
                             <v-date-picker :min="du" :max="au" v-model="editedItem.date"></v-date-picker>
                         </v-menu>
                     </v-col>
-                   
+
                     <v-col cols="2">
                         <label for="">ECHEANCE</label>
                         <v-text-field :rules="obligationRule" v-model="editedItem.echeance" hide-details outlined
@@ -48,15 +49,15 @@
                     </v-col>
                     <v-col cols="3">
                         <label for="">Référence *</label>
-                        <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details
-                            outlined dense></v-text-field>
+                        <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details outlined
+                            dense></v-text-field>
                     </v-col>
                     <v-col cols="3" class="px-1 ">
                         <label for="">Libellé *</label>
                         <v-text-field :rules="obligationRule" v-model="editedItem.libelle" outlined dense></v-text-field>
                     </v-col>
-                    
-                    
+
+
                 </v-row>
 
                 <v-row class="mx-0 mt-0">
@@ -67,7 +68,8 @@
                             :items="collectif" outlined dense placeholder="Plan comptable" item-text="numero_compte"
                             item-value="id" style="font-size:16px">
                             <template slot="selection" slot-scope="{ item }">
-                                {{ item.numero_compte }} - {{ item.intitulee.length > 5 && charsNumberCollectif != -1 ?item.intitulee.substring(0, charsNumberCollectif) + '...' : item.intitulee }}
+                                {{ item.numero_compte }} - {{ item.intitulee.length > 5 && charsNumberCollectif != -1
+                                    ? item.intitulee.substring(0, charsNumberCollectif) + '...' : item.intitulee }}
                             </template>
                             <template slot="item" slot-scope="{ item }">
                                 {{ item.numero_compte }} - {{ item.intitulee }}
@@ -76,17 +78,28 @@
                     </v-col>
                     <v-col cols="2" class="pl-3 pr-1 ">
                         <label for="">Tiers</label>
-                        <v-autocomplete v-model="editedItem.tiers" color="red"
-                            return-object
-                            :disabled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
-                            :filled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')" :items="tiersShow"
-                            outlined dense placeholder="Tiers" item-text="denomination" item-value="id">
-                            <template slot="selection" slot-scope="{ item }">
-                                {{ item.denomination }}
-                            </template>
-                        </v-autocomplete>
+                        <div class="d-flex">
+                            <v-autocomplete v-model="editedItem.tiers" color="red" return-object
+                                :disabled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
+                                :filled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
+                                :items="tiersShow" outlined dense placeholder="Tiers" item-text="denomination" item-value="id">
+                                <template slot="selection" slot-scope="{ item }">
+                                    {{ item.denomination }}
+                                </template>
+                            </v-autocomplete>
+                            <div style="color: #5092f3;cursor: pointer;margin-left: 0.5rem;" @click="addTiers()" class="">
+                            <div class="d-inline-block px-2"
+                                style="border: 2px dotted; height: 38px; line-height: 36px; #5092f3;border-radius: 5px;cursor: pointer;">
+                                <i class="fal fa-plus"></i>
+
+                            </div>
+                        </div>
+
+                        </div>
+                        
+                        
                     </v-col>
-                    
+
                     <v-col cols="3" class="pl-3 pr-1 ">
                         <label for="">Compte contrepartie *</label>
 
@@ -94,7 +107,8 @@
                             :items="contreparties" outlined dense placeholder="compte de contrepartie"
                             item-text="numero_compte" item-value="id">
                             <template slot="selection" slot-scope="{ item }">
-                                {{ item.numero_compte }} - {{ item.intitulee.length ? item.intitulee.substring(0, charsNumberContreparties) + '...' : item.intitulee }}
+                                {{ item.numero_compte }} - {{ item.intitulee.length ? item.intitulee.substring(0,
+                                    charsNumberContreparties) + '...' : item.intitulee }}
                             </template>
                             <template slot="item" slot-scope="{ item }">
                                 {{ item.numero_compte }} - {{ item.intitulee }}
@@ -104,13 +118,14 @@
 
                     <v-col cols="3" class="px-1 ">
                         <label for="">Code TVA</label>
-                        <v-autocomplete  v-model="editedItem.code_tva" return-object :items="tvas" :rules="obligationRule" outlined dense placeholder="Code TVA"
-                            item-text="id" item-value="code">
+                        <v-autocomplete v-model="editedItem.code_tva" return-object :items="tvas" :rules="obligationRule"
+                            outlined dense placeholder="Code TVA" item-text="id" item-value="code">
                             <template slot="item" slot-scope="{ item }">
                                 {{ item.code }} - {{ item.intitulee }}
                             </template>
                             <template slot="selection" slot-scope="{ item }">
-                                {{item.code}} - {{ item.intitulee.length > 20 ? item.intitulee.substring(0, charsNumberTva) + '...' : item.intitulee }}
+                                {{ item.code }} - {{ item.intitulee.length > 20 ? item.intitulee.substring(0, charsNumberTva)
+                                    + '...' : item.intitulee }}
                             </template>
                         </v-autocomplete>
                     </v-col>
@@ -123,21 +138,20 @@
                 <v-row class="mx-0 mt-0" style="justify-content:end">
                     <v-col cols="2" class="px-1 ">
                         <label for="">MONTANT TTC</label>
-                        <v-text-field :rules="obligationRule" @blur="addDecimals()" v-model="editedItem.montant_ttc" @keyup="positive()" type="number" outlined
-                            dense></v-text-field>
+                        <v-text-field :rules="obligationRule" @blur="addDecimals()" v-model="editedItem.montant_ttc"
+                            @keyup="positive()" type="number" outlined dense></v-text-field>
                     </v-col>
                     <v-col cols="2" class="px-1 ">
                         <label for="">MONTANT HT</label>
-                        <v-text-field v-model="editedItem.montant_ht"  type="number" outlined
-                            dense></v-text-field>
+                        <v-text-field v-model="editedItem.montant_ht" type="number" outlined dense></v-text-field>
                     </v-col>
                     <v-col cols="2" class="px-1 ">
                         <label for="">MONTANT TVA</label>
-                        <v-text-field v-model="editedItem.montant_tva"  type="number" outlined
-                            dense></v-text-field>
+                        <v-text-field v-model="editedItem.montant_tva" type="number" outlined dense></v-text-field>
                     </v-col>
                    
                     <v-col cols="2" class="px-1 text-center">
+
                         <v-btn color="primary" large class="mt-5 py-5" @click="addEcriture()">Ajouter</v-btn>
                     </v-col>
                 </v-row>
@@ -150,7 +164,7 @@
                 Ecritures :
             </div>
             <div class="pt-3">
-                <table width="100%" class="table styled-table" >
+                <table width="100%" class="table styled-table">
                     <thead class="text-left">
                         <tr>
                             <th class="subtitle-2">Date</th>
@@ -170,30 +184,6 @@
                             <td>{{ item?.debit }}</td>
                             <td>{{ item?.credit }}</td>
                         </tr>
-                        <!-- <tr>
-                            <td >01/01/2020</td>
-                            <td>21117500 - Compte de l'exploitant</td>
-                            <td>STE DROGUERIE</td>
-                            <td>510 Compte de l'exploitant</td>
-                            <td></td>
-                            <td>544.00</td>
-                        </tr>
-                        <tr>
-                            <td ></td>
-                            <td>1111-Actionnaires, capital souscrit-non appelé</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>453.33</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td ></td>
-                            <td>83-Opérations de crédit-bail</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>90.67</td>
-                            <td></td>
-                        </tr> -->
                     </tbody>
                     <tfoot>
                         <tr>
@@ -203,16 +193,6 @@
                         </tr>
                     </tfoot>
                 </table>
-                <!-- <div style="display: flex;justify-content: space-between;">
-                    <div style="width: 67%;" class="subtitle-2">
-                        Total
-                    </div>
-                    <div style="width: 33%;display: flex;justify-content: space-around;">
-                        <div class="subtitle-2">{{ someDebit }}</div>
-                        <div class="subtitle-2">{{ someCredit }}</div>
-                    </div>
-                </div> -->
-
                 <v-alert class="mt-3" dense outlined v-if="someDebit != someCredit" type="error">
                     Les champs Débit total et Crédit doivent être égaux.
                 </v-alert>
@@ -233,8 +213,7 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-    </div>
-
+</div>
 </template>
 
 <style>
@@ -246,16 +225,17 @@
     min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
+
 .styled-table thead tr {
     background-color: #505c59;
     color: #ffffff;
     text-align: left;
 }
+
 .styled-table th,
 .styled-table td {
     padding: 12px 15px;
 }
-
 </style>
 <script>
 export default {
@@ -318,9 +298,9 @@ export default {
         dialogConfirmation: false,
         tiersShow: [],
         tvas: [],
-        tempEcritures:[],
-        selectedTiers:{},
-        selectedTva:{},
+        tempEcritures: [],
+        selectedTiers: {},
+        selectedTva: {},
         charsNumberTva: 25,
         charsNumberCollectif: 10,
         charsNumberTiers: 7,
@@ -345,56 +325,58 @@ export default {
             }
             this.someCredit = this.someCredit.toFixed(2)
             this.someDebit = this.someDebit.toFixed(2)
-            
+
         },
-        'editedItem.montant_ht'(val){
-            if (val && this.editedItem.taux_tva) {
-                this.editedItem.montant_tva = (val * (this.editedItem.taux_tva / 100)).toFixed(2)
+        'editedItem.montant_ht'(val) {
+            if (val && this.editedItem.taux_tva && this.editedItem.montant_ttc) {
+                this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
             }
         },
-        'editedItem.montant_tva'(val){
+        'editedItem.montant_tva'(val) {
             if (val && this.editedItem.taux_tva) {
-                this.editedItem.montant_ht = (val / (this.editedItem.taux_tva / 100)).toFixed(2)
+                this.editedItem.montant_ht = (this.editedItem.montant_ttc - this.editedItem.montant_tva).toFixed(2)
+                
             }
         },
         'editedItem.taux_tva'(val) {
             if (val && this.editedItem.montant_ttc) {
-                this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (val / 100))).toFixed(2)
-                this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
+                // this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (val / 100))).toFixed(2)
+                // this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
+                this.editedItem.montant_ht = (val * 100 / (100 + this.editedItem.taux_tva)).toFixed(2)
+                this.editedItem.montant_tva = (val - this.editedItem.montant_ht).toFixed(2)
             }
         },
         'editedItem.montant_ttc'(val) {
-            // this.editedItem.montant_ht = val / (1 + (this.editedItem.taux_tva / 100))
-            // this.editedItem.montant_tva = val - this.editedItem.montant_ht
-            // val can't be null or 0
-            if(val == 0 || val == null) {
+            if (val == 0 || val == null) {
                 this.editedItem.montant_ht = ''
                 this.editedItem.montant_tva = ''
                 return
             }
             if (val && this.editedItem.taux_tva) {
-                // add 2 decimals to the value
-                if(val.toString().split('.').length == 1) {
+                if (val.toString().split('.').length == 1) {
                     val = val + '.00'
                 }
-                else if(val.toString().split('.')[1].length == 1) {
+                else if (val.toString().split('.')[1].length == 1) {
                     val = val + '0'
                 }
-                this.editedItem.montant_ht = (val / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
+                // this.editedItem.montant_ht = (val / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
+                // this.editedItem.montant_tva = (val - this.editedItem.montant_ht).toFixed(2)
+                // this.editedItem.montant_ht = val / (1 + (this.editedItem.taux_tva / 100))
+                this.editedItem.montant_ht = (val * 100 / (100 + this.editedItem.taux_tva)).toFixed(2)
                 this.editedItem.montant_tva = (val - this.editedItem.montant_ht).toFixed(2)
             }
         },
-        'editedItem.code_tva'(val){
+        'editedItem.code_tva'(val) {
             let tva = this.tvas.find(item => item.id == val.id)
             this.editedItem.taux_tva = tva?.taux
             this.selectedTva = tva
             this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
             this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
         },
-        'editedItem.plan_comptable'(val){
+        'editedItem.plan_comptable'(val) {
             this.tiersShow = this.tiers.filter(item => item.compte_tiers?.id == val?.id)
         },
-        'editedItem.tiers'(val){
+        'editedItem.tiers'(val) {
             this.selectedTiers = this.tiers.find(item => item.id == val)
             this.editedItem.echeance = this.calculateEcheance()
         },
@@ -410,7 +392,7 @@ export default {
             this.month = new Date(val).getMonth() + 1
             let incr
             let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
-            console.log('here ',aaa)    
+            console.log('here ', aaa)
             if (aaa.length > 0) {
                 incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
                 incr = this.zeroPad(parseInt(incr) + 1, 5)
@@ -452,7 +434,7 @@ export default {
         let tvas = await this.$myService.get(url)
 
         if (exercice && exercice.data != null) {
-            this.dossier = {d_id:exercice.d_id,d_activitee:exercice.d_activitee,d_denomination:exercice.d_denomination}
+            this.dossier = { d_id: exercice.d_id, d_activitee: exercice.d_activitee, d_denomination: exercice.d_denomination }
             this.exercice = exercice.data
             this.journaux = exercice.data.journaux
             this.tiers = exercice.data.tiers;
@@ -463,17 +445,26 @@ export default {
             this.au = this.exercice.au
             this.editedItem.date = this.exercice.du
             this.ecritures = exercice.data.ecritures;
-            
+            let query = this.$route.query
+            let ecriture = localStorage.getItem('ecriture')
+            if (ecriture != null && query.hasOwnProperty('message') && Object.keys(query).length){
+                let ec = JSON.parse(ecriture)
+                console.log('ec', ec);
+                this.editedItem = ec
+                // this.editedItem.tiers = ec.tiers
+                // this.editedItem.plan_comptable = ec.plan_comptable
+            }
+
             // this.items = exercice.data.planComptable;
         }
 
     },
     methods: {
         async allValid() {
-            if(this.someCredit == this.someCredit && this.newEcritures.length > 0){
+            if (this.someCredit == this.someCredit && this.newEcritures.length > 0) {
                 this.dialogConfirmation = true
             }
-            else{
+            else {
                 return
             }
 
@@ -488,43 +479,45 @@ export default {
             console.log(this.du)
         },
         async addEcriture() {
-            if (!this.$refs.ecritureForm.validate()) {
+            if (!this.$refs.ecritureForm.validate() || this.editedItem.montant_ttc == 0) {
                 return
             }
-            for(let i = 0; i < 3; i++){
-                let compte,compteObj;
-                if(i==0){
-                    compte =  `${this.editedItem?.plan_comptable?.numero_compte} - ${this.editedItem?.plan_comptable?.intitulee}`
+            for (let i = 0; i < 3; i++) {
+                let compte, compteObj;
+                if (i == 0) {
+                    compte = `${this.editedItem?.plan_comptable?.numero_compte} - ${this.editedItem?.plan_comptable?.intitulee}`
                     compteObj = this.editedItem?.plan_comptable
                 }
-                else if (i==1){
-                    compte =  `${this.editedItem?.compte?.numero_compte} - ${this.editedItem?.compte?.intitulee}`
+                else if (i == 1) {
+                    compte = `${this.editedItem?.compte?.numero_compte} - ${this.editedItem?.compte?.intitulee}`
                     compteObj = this.editedItem?.compte
                 }
-                else{
+                else {
                     compte = `${this.editedItem.code_tva.compte?.numero_compte} - ${this.editedItem.code_tva.compte?.intitulee}`
                     compteObj = this.editedItem.code_tva?.compte
                 }
-                this.tempEcritures.push({ 
-                    date: this.editedItem?.date, 
-                    compte: compte, 
-                    tiers: `${this.editedItem?.tiers?.denomination}`, 
+                this.tempEcritures.push({
+                    date: this.editedItem?.date,
+                    compte: compte,
+                    tiers: `${this.editedItem?.tiers?.denomination}`,
                     libelle: this.editedItem?.libelle,
                 })
                 let debit;
                 let credit;
-                if(i == 0){
+                if (i == 0) {
                     credit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ttc : '';
-                    debit = this.editedItem.montant_ttc < 0 ?  this.editedItem.montant_ttc: '';
-                }else if(i == 1){
+                    debit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ttc : '';
+                } else if (i == 1) {
                     debit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ht : ''
                     credit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ht : '';
-                }else{
+                } else {
                     debit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_tva : ''
                     credit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_tva : '';
                 }
-                this.tempEcritures[this.tempEcritures.length-1].credit = credit
-                this.tempEcritures[this.tempEcritures.length-1].debit = debit
+                credit = Math.abs(credit)
+                debit = Math.abs(debit)
+                this.tempEcritures[this.tempEcritures.length - 1].credit = credit
+                this.tempEcritures[this.tempEcritures.length - 1].debit = debit
                 console.log('this edited item', this.editedItem)
                 let row = {
                     num_pieces: this.editedItem.num_pieces,
@@ -542,14 +535,14 @@ export default {
                 console.log('row', row)
                 this.newEcritures.push(row)
             }
+            localStorage.removeItem('ecriture')
             this.$refs.ecritureForm.resetValidation()
             this.editedItem.montant_ht = ''
             this.editedItem.montant_tva = ''
             this.editedItem.montant_ttc = ''
-            
-            
 
-            // this.rows.push(JSON.parse(JSON.stringify(this.editedItem)))
+
+
 
         },
         async betweenDate() {
@@ -569,10 +562,6 @@ export default {
         },
         positive() {
 
-            
-            // if (this.editedItem.montant_ttc == 0) {
-            //     this.editedItem.montant_ttc = ''
-            // }
         },
         zeroPad(num, places) {
             return String(num).padStart(places, '0')
@@ -634,7 +623,7 @@ export default {
             echeance = echeance.toISOString().split('T')[0]
             return echeance
         },
-        calculateEcheanceDateFixe(d,duration){
+        calculateEcheanceDateFixe(d, duration) {
             let date = new Date(d)
             let year = date.getFullYear()
             let month = date.getMonth()
@@ -643,28 +632,34 @@ export default {
             echeance = echeance.toISOString().split('T')[0]
             return echeance
         },
-        calculateEcheance(){
+        calculateEcheance() {
             let type = this.selectedTiers?.type_echeance
             let duration = this.selectedTiers?.echeance?.nbr_jours
             let date = this.editedItem?.date
-            if(date && duration && type){
-                if(type == 'fin_du_moi'){
+            if (date && duration && type) {
+                if (type == 'fin_du_moi') {
                     return this.calculateEcheanceFinMois(date, duration)
                 }
-                if(type == 'date_facturation'){
+                if (type == 'date_facturation') {
                     return this.calculateEcheanceDateFixe(date, duration)
                 }
             }
-            else if(date){
+            else if (date) {
                 return new Date(date).toISOString().split('T')[0]
             }
-            else{
+            else {
                 return ''
             }
         },
         addDecimals() {
-            this.editedItem.montant_ttc = (Math.round(this.editedItem.montant_ttc * 100) / 100).toFixed(2)
+            // this.editedItem.montant_ttc = (Math.round(this.editedItem.montant_ttc * 100) / 100).toFixed(2)
         },
+        addTiers(){
+            // save edited item in local storage and redirect to tiers page
+            localStorage.setItem('ecriture', JSON.stringify(this.editedItem))
+            this.$router.push({path:'/settings/tiers', query:{exerciceId:this.id,previousMenu:'achat'}})
+
+        }
 
     }
 

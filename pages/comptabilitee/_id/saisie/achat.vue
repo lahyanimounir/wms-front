@@ -327,20 +327,23 @@ export default {
             this.someDebit = this.someDebit.toFixed(2)
 
         },
-        // 'editedItem.montant_ht'(val) {
-        //     if (val && this.editedItem.taux_tva) {
-        //         this.editedItem.montant_tva = (val * (this.editedItem.taux_tva / 100)).toFixed(2)
-        //     }
-        // },
-        // 'editedItem.montant_tva'(val) {
-        //     if (val && this.editedItem.taux_tva) {
-        //         this.editedItem.montant_ht = (val / (this.editedItem.taux_tva / 100)).toFixed(2)
-        //     }
-        // },
+        'editedItem.montant_ht'(val) {
+            if (val && this.editedItem.taux_tva && this.editedItem.montant_ttc) {
+                this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
+            }
+        },
+        'editedItem.montant_tva'(val) {
+            if (val && this.editedItem.taux_tva) {
+                this.editedItem.montant_ht = (this.editedItem.montant_ttc - this.editedItem.montant_tva).toFixed(2)
+                
+            }
+        },
         'editedItem.taux_tva'(val) {
             if (val && this.editedItem.montant_ttc) {
-                this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (val / 100))).toFixed(2)
-                this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
+                // this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (val / 100))).toFixed(2)
+                // this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
+                this.editedItem.montant_ht = (val * 100 / (100 + this.editedItem.taux_tva)).toFixed(2)
+                this.editedItem.montant_tva = (val - this.editedItem.montant_ht).toFixed(2)
             }
         },
         'editedItem.montant_ttc'(val) {
@@ -356,7 +359,10 @@ export default {
                 else if (val.toString().split('.')[1].length == 1) {
                     val = val + '0'
                 }
-                this.editedItem.montant_ht = (val / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
+                // this.editedItem.montant_ht = (val / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
+                // this.editedItem.montant_tva = (val - this.editedItem.montant_ht).toFixed(2)
+                // this.editedItem.montant_ht = val / (1 + (this.editedItem.taux_tva / 100))
+                this.editedItem.montant_ht = (val * 100 / (100 + this.editedItem.taux_tva)).toFixed(2)
                 this.editedItem.montant_tva = (val - this.editedItem.montant_ht).toFixed(2)
             }
         },
@@ -473,7 +479,7 @@ export default {
             console.log(this.du)
         },
         async addEcriture() {
-            if (!this.$refs.ecritureForm.validate()) {
+            if (!this.$refs.ecritureForm.validate() || this.editedItem.montant_ttc == 0) {
                 return
             }
             for (let i = 0; i < 3; i++) {
@@ -508,6 +514,8 @@ export default {
                     debit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_tva : ''
                     credit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_tva : '';
                 }
+                credit = Math.abs(credit)
+                debit = Math.abs(debit)
                 this.tempEcritures[this.tempEcritures.length - 1].credit = credit
                 this.tempEcritures[this.tempEcritures.length - 1].debit = debit
                 console.log('this edited item', this.editedItem)
@@ -644,7 +652,7 @@ export default {
             }
         },
         addDecimals() {
-            this.editedItem.montant_ttc = (Math.round(this.editedItem.montant_ttc * 100) / 100).toFixed(2)
+            // this.editedItem.montant_ttc = (Math.round(this.editedItem.montant_ttc * 100) / 100).toFixed(2)
         },
         addTiers(){
             // save edited item in local storage and redirect to tiers page

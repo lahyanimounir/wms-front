@@ -173,16 +173,25 @@
                             <th class="subtitle-2">Libelle</th>
                             <th class="subtitle-2">Debit</th>
                             <th class="subtitle-2">Credit</th>
+                            <th class="subtitle-2 text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in tempEcritures" :key="index">
-                            <td>{{ item?.date }}</td>
+                            <td>{{ index%3 == 0 ? item?.date:'-' }}</td>
                             <td>{{ item?.compte }}</td>
-                            <td>{{ item?.tiers }}</td>
-                            <td>{{ item?.libelle }}</td>
+                            <td>{{ index %3 ==0 ?item?.tiers:'-'}}</td>
+                            <td>{{ index %3 ==0 ?item?.libelle:'-' }}</td>
                             <td>{{ item?.debit }}</td>
                             <td>{{ item?.credit }}</td>
+                            <td  class="text-center">
+                                <v-btn v-if="index%3 == 0" icon @click="deleteEcriture([ ...Array(3).keys() ].map( i => i+index))">
+                                    <v-icon>mdi-delete</v-icon>
+                                </v-btn>
+                                <v-btn v-if="index%3 == 0" icon @click="editEcriture([ ...Array(3).keys() ].map( i => i+index))">
+                                    <v-icon>mdi-pencil</v-icon>
+                                </v-btn>
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -305,6 +314,7 @@ export default {
         charsNumberCollectif: 10,
         charsNumberTiers: 7,
         charsNumberContreparties: 18,
+        isUpdate:false,
 
     }),
     watch: {
@@ -352,19 +362,18 @@ export default {
                 this.editedItem.montant_tva = ''
                 return
             }
-            if (val && this.editedItem.taux_tva) {
+            if (val && this.editedItem.taux_tva && !this.isUpdate) {
                 if (val.toString().split('.').length == 1) {
                     val = val + '.00'
                 }
                 else if (val.toString().split('.')[1].length == 1) {
                     val = val + '0'
                 }
-                // this.editedItem.montant_ht = (val / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
-                // this.editedItem.montant_tva = (val - this.editedItem.montant_ht).toFixed(2)
-                // this.editedItem.montant_ht = val / (1 + (this.editedItem.taux_tva / 100))
+
                 this.editedItem.montant_ht = (val * 100 / (100 + this.editedItem.taux_tva)).toFixed(2)
                 this.editedItem.montant_tva = (val - this.editedItem.montant_ht).toFixed(2)
             }
+            this.isUpdate = false
         },
         'editedItem.code_tva'(val) {
             let tva = this.tvas.find(item => item.id == val.id)
@@ -659,7 +668,39 @@ export default {
             localStorage.setItem('ecriture', JSON.stringify(this.editedItem))
             this.$router.push({path:'/settings/tiers', query:{exerciceId:this.id,previousMenu:'achat'}})
 
-        }
+        },
+        editEcriture(item) {
+            // let temp = JSON.parse(JSON.stringify(this.defaultItem))
+            this.isUpdate = true
+            console.log('new Ecr', this.newEcritures)
+            item.forEach((i,index)=>{
+                let ecriture = this.newEcritures[i]
+                if(index == 0){
+                    this.editedItem.date = ecriture.date
+                    this.editedItem.tiers = this.tiers.find(i=>i.id == ecriture.tiers)
+                    this.editedItem.libelle = ecriture.libelle
+                    this.editedItem.plan_comptable = ecriture.compte
+                    this.editedItem.montant_ttc = ecriture.debit != 0 ? ecriture.debit : ecriture.credit
+
+                }
+                else if (index == 1){
+                    this.editedItem.montant_ht = ecriture.debit != 0 ? ecriture.debit : ecriture.credit
+                }
+                else if (index == 2){
+                    this.editedItem.montant_tva = ecriture.debit != 0 ? ecriture.debit : ecriture.credit
+                }
+            })
+            // this.editedIndex = this.ecritures.indexOf(item)
+            // this.editedItem = Object.assign({}, item)
+            // this.dialog = true
+
+        },
+        deleteEcriture(item) {
+            console.log('item', item)
+            // this.editedIndex = this.ecritures.indexOf(item)
+            // this.editedItem = Object.assign({}, item)
+            // this.dialogDelete = true
+        },
 
     }
 

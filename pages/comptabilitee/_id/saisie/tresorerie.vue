@@ -66,27 +66,22 @@
                         </template>
                     </v-autocomplete>
                 </v-col>
-                <v-col cols="2" class="px-1 ">
+                <v-col cols="4" class="px-1 ">
                     <label for="">Libellé *</label>
                     <v-text-field v-model="editedItem.libelle" outlined dense></v-text-field>
                 </v-col>
-                <v-col cols="2" class="px-1 ">
-                    <label for="">Mode de paiement</label>
-                    <v-text-field v-model="editedItem.debit" outlined dense></v-text-field>
+                <v-col cols="1" class="px-1 ">
+                    <label for="">Débit</label>
+                    <v-text-field v-model="editedItem.debit" @keyup="positive('d')" type="number" outlined
+                        dense></v-text-field>
                 </v-col>
-                <v-col cols="2" class="px-1 ">
-                    <label for="">Montant TTC</label>
+                <v-col cols="1" class="px-1 ">
+                    <label for="">Credit</label>
                     <v-text-field v-model="editedItem.credit" @keyup="positive('c')" type="number" outlined
                         dense></v-text-field>
                 </v-col>
                 <v-col cols="1" class="px-1 ">
                     <v-btn color="primary" small class="mt-6 py-5" @click="addEcriture()">Ajouter</v-btn>
-                </v-col>
-            </v-row>
-            <v-row class="mx-0">
-                <v-col cols="12" class="px-1">
-                    <v-data-table :headers="enrHeaders" hide-default-footer :items-per-page="-1" elevation="0" :items="enrRows">
-                    </v-data-table>
                 </v-col>
             </v-row>
         </v-form>
@@ -184,15 +179,7 @@ export default {
             { text: 'Débit', value: 'debit' },
             { text: 'Crédit', value: 'credit' },
         ],
-        enrHeaders: [
-            { text: 'Reference', value: 'reference' },
-            { text: 'Date', value: 'date' },
-            { text: 'Montant', value: 'montant' },
-            { text: 'Reliquat', value: 'reliquat' },
-            { text: 'Regler', value: 'regler' },
-        ],
         rows: [],
-        enrRows: [],
         obligationRule: [
             v => !!v || 'Ce domaine est obligatoire.',
         ],
@@ -257,7 +244,6 @@ export default {
 
         },
         'editedItem.journal'(val) {
-            // console.log(val)
             if (val.type.split(' ').length == 1) {
                 this.journal = val.type.split(' ')[0].substring(0, 2).toUpperCase()
             } else {
@@ -274,7 +260,6 @@ export default {
                 incr = this.zeroPad(1, 5)
                 this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
             }
-            console.log('aaa', aaa);
         },
 
     },
@@ -283,12 +268,15 @@ export default {
         this.id = this.$route.params.id
         let url = process.env.Name_api + "/exercice/" + this.id + "?params=TR";
         let exercice = await this.$myService.get(url)
+        let url2 = process.env.Name_api + "/planComptables";
+        let planComptable = await this.$myService.get(url2)
         if (exercice && exercice.data != null) {
             this.dossier = {d_id:exercice.d_id,d_activitee:exercice.d_activitee,d_denomination:exercice.d_denomination}
             this.exercice = exercice.data
             this.journaux = exercice.data.journaux
             this.tiers = exercice.data.tiers;
-            this.items = exercice.data.planComptable;
+            this.items = planComptable
+            // this.items = exercice.collectif;
             this.ecritures = exercice.data.ecritures;
         }
     },
@@ -326,6 +314,23 @@ export default {
                 this.editedItem.date = ''
             }
 
+        },
+        positive(wich) {
+
+            if (this.editedItem.debit <= 0) {
+                this.editedItem.debit = ''
+
+            }
+
+            if (this.editedItem.credit <= 0) {
+                this.editedItem.credit = ''
+            }
+            if (wich == 'd') {
+                this.editedItem.credit = ''
+            }
+            if (wich == 'c') {
+                this.editedItem.debit = ''
+            }
         },
         zeroPad(num, places) {
             return String(num).padStart(places, '0')

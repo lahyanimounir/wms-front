@@ -131,7 +131,7 @@
                     </v-col>
                     <v-col cols="1" class="px-1 ">
                         <label for="">Taux TVA</label>
-                        <v-text-field :disabled="true" :filled="true" v-model="editedItem.taux_tva" type="number" outlined
+                        <v-text-field v-model="editedItem.taux_tva" type="number" outlined
                             dense></v-text-field>
                     </v-col>
                 </v-row>
@@ -151,8 +151,8 @@
                     </v-col>
                    
                     <v-col cols="2" class="px-1 text-center">
-
-                        <v-btn color="primary" large class="mt-5 py-5" @click="addEcriture()">Ajouter</v-btn>
+                        <v-btn v-if="isEdit" color="#EF9A9A" class="mt-5 py-5" @click="resetEcriture()">Annuler</v-btn>
+                        <v-btn color="primary" large class="mt-5 py-5" @click="addEcriture()">{{ btnText }}</v-btn>
                     </v-col>
                 </v-row>
             </v-form>
@@ -315,27 +315,22 @@ export default {
         charsNumberTiers: 7,
         charsNumberContreparties: 18,
         isUpdate:false,
+        isEdit:false,
+        editedItems:[],
+        previousEditedItem:{}
 
     }),
+    computed:{
+        btnText(){
+            return this.isEdit ? 'Editer' : 'Ajouter'
+        },
+    },
     watch: {
         newEcritures(val) {
-            this.someDebit = 0
-            this.someCredit = 0
-            if (this.newEcritures && this.newEcritures.length > 0) {
-                this.newEcritures.forEach(item => {
-                    if (item.credit) {
-                        // this.someCredit = this.someCredit + parseInt(item.credit)
-                        this.someCredit = (this.someCredit + parseFloat(item.credit))
-                    }
-                    if (item.debit) {
-                        // this.someDebit = this.someDebit + parseInt(item.debit)
-                        this.someDebit = (this.someDebit + parseFloat(item.debit))
-                    }
-                });
-            }
-            this.someCredit = this.someCredit.toFixed(2)
-            this.someDebit = this.someDebit.toFixed(2)
-
+            this.updateTotal()
+        },
+        editedItems(val){
+            this.updateTotal()
         },
         'editedItem.montant_ht'(val) {
             if (val && this.editedItem.taux_tva && this.editedItem.montant_ttc) {
@@ -401,7 +396,6 @@ export default {
             this.month = new Date(val).getMonth() + 1
             let incr
             let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
-            console.log('here ', aaa)
             if (aaa.length > 0) {
                 incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
                 incr = this.zeroPad(parseInt(incr) + 1, 5)
@@ -491,6 +485,63 @@ export default {
             if (!this.$refs.ecritureForm.validate() || this.editedItem.montant_ttc == 0) {
                 return
             }
+            if(this.isEdit){
+                for(let i =0; i < 3 ; i++){
+                    let compte, compteObj;
+                    if(i == 0){
+                        compte = `${this.editedItem?.plan_comptable?.numero_compte} - ${this.editedItem?.plan_comptable?.intitulee}`
+                        compteObj = this.editedItem?.plan_comptable
+                    }
+                    else if(i == 1){
+                        compte = `${this.editedItem?.compte?.numero_compte} - ${this.editedItem?.compte?.intitulee}`
+                        compteObj = this.editedItem?.compte
+                    }
+                    else{
+                        compte = `${this.editedItem.code_tva.compte?.numero_compte} - ${this.editedItem.code_tva.compte?.intitulee}`
+                        compteObj = this.editedItem.code_tva?.compte
+                    }
+                    let editedEcriture = {
+                        date:this.editedItem.date,
+                        compte: compte,
+                        tiers: this.editedItem.tiers.denomination,
+                        libelle: this.editedItem.libelle,
+                    }
+                    this.tempEcritures[this.editedItems[i]] = editedEcriture
+                    let debit,credit;
+                    if (i == 0) {
+                        credit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ttc : '';
+                        debit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ttc : '';
+                    } else if (i == 1) {
+                        debit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ht : ''
+                        credit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ht : '';
+                    } else {
+                        debit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_tva : ''
+                        credit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_tva : '';
+                    }
+                    credit = Math.abs(credit)
+                    debit = Math.abs(debit)
+                    this.tempEcritures[this.editedItems[i]].debit = debit
+                    this.tempEcritures[this.editedItems[i]].credit = credit
+
+                    let row = {
+                        num_pieces: this.editedItem.num_pieces,
+                        journal: this.editedItem.journal,
+                        date: this.editedItem.date,
+                        echeance: this.editedItem.echeance,
+                        reference_facture: this.editedItem.reference_facture,
+                        libelle: this.editedItem.libelle,
+                        compte: compteObj,
+                        tiers: this.editedItem.tiers.id,
+                        debit: debit,
+                        credit: credit,
+                    }
+                    this.newEcritures[this.editedItems[i]] = row
+                }
+                this.editedItem = this.previousEditedItem
+                this.isEdit = false
+                this.editedItems = []
+            }
+            else{
             for (let i = 0; i < 3; i++) {
                 let compte, compteObj;
                 if (i == 0) {
@@ -510,6 +561,7 @@ export default {
                     compte: compte,
                     tiers: `${this.editedItem?.tiers?.denomination}`,
                     libelle: this.editedItem?.libelle,
+                    taux_tva:this.editedItem?.taux_tva
                 })
                 let debit;
                 let credit;
@@ -537,12 +589,14 @@ export default {
                     libelle: this.editedItem.libelle,
                     compte: compteObj,
                     tiers: this.editedItem.tiers.id,
+                    taux_tva:this.editedItem?.taux_tva,
                     debit: debit,
                     credit: credit,
 
                 }
                 console.log('row', row)
                 this.newEcritures.push(row)
+            }
             }
             localStorage.removeItem('ecriture')
             this.$refs.ecritureForm.resetValidation()
@@ -670,8 +724,11 @@ export default {
 
         },
         editEcriture(item) {
-            // let temp = JSON.parse(JSON.stringify(this.defaultItem))
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            this.previousEditedItem = JSON.parse(JSON.stringify(this.editedItem))
             this.isUpdate = true
+            this.isEdit = true
+            this.editedItems = item
             console.log('new Ecr', this.newEcritures)
             item.forEach((i,index)=>{
                 let ecriture = this.newEcritures[i]
@@ -679,15 +736,19 @@ export default {
                     this.editedItem.date = ecriture.date
                     this.editedItem.tiers = this.tiers.find(i=>i.id == ecriture.tiers)
                     this.editedItem.libelle = ecriture.libelle
+                    this.editedItem.reference_facture = ecriture.reference_facture
+                    this.editedItem.taux_tva = ecriture.taux_tva
                     this.editedItem.plan_comptable = ecriture.compte
-                    this.editedItem.montant_ttc = ecriture.debit != 0 ? ecriture.debit : ecriture.credit
+                    this.editedItem.montant_ttc = ecriture.debit != 0 ? ecriture.debit *-1 : ecriture.credit
 
                 }
                 else if (index == 1){
-                    this.editedItem.montant_ht = ecriture.debit != 0 ? ecriture.debit : ecriture.credit
+                    this.editedItem.montant_ht = ecriture.debit != 0 ? ecriture.debit : ecriture.credit *-1
+                    this.editedItem.compte = ecriture.compte
                 }
                 else if (index == 2){
-                    this.editedItem.montant_tva = ecriture.debit != 0 ? ecriture.debit : ecriture.credit
+                    this.editedItem.montant_tva = ecriture.debit != 0 ? ecriture.debit : ecriture.credit *-1
+                    this.editedItem.code_tva = this.tvas.find(i=>i.compte?.id == ecriture.compte?.id)
                 }
             })
             // this.editedIndex = this.ecritures.indexOf(item)
@@ -696,11 +757,30 @@ export default {
 
         },
         deleteEcriture(item) {
-            console.log('item', item)
-            // this.editedIndex = this.ecritures.indexOf(item)
-            // this.editedItem = Object.assign({}, item)
-            // this.dialogDelete = true
+            console.log('item :',item)
         },
+        resetEcriture() {
+            this.editedItem = this.previousEditedItem
+            this.isEdit = false
+        },
+        updateTotal(){
+            this.someDebit = 0
+            this.someCredit = 0
+            if (this.newEcritures && this.newEcritures.length > 0) {
+                this.newEcritures.forEach(item => {
+                    if (item.credit) {
+                        // this.someCredit = this.someCredit + parseInt(item.credit)
+                        this.someCredit = (this.someCredit + parseFloat(item.credit))
+                    }
+                    if (item.debit) {
+                        // this.someDebit = this.someDebit + parseInt(item.debit)
+                        this.someDebit = (this.someDebit + parseFloat(item.debit))
+                    }
+                });
+            }
+            this.someCredit = this.someCredit.toFixed(2)
+            this.someDebit = this.someDebit.toFixed(2)
+        }
 
     }
 

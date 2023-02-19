@@ -178,12 +178,12 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in tempEcritures" :key="index">
-                            <td>{{ index%3 == 0 ? item?.date:'-' }}</td>
-                            <td>{{ item?.compte }}</td>
-                            <td>{{ index %3 ==0 ?item?.tiers:'-'}}</td>
-                            <td>{{ index %3 ==0 ?item?.libelle:'-' }}</td>
-                            <td>{{ item?.debit }}</td>
-                            <td>{{ item?.credit }}</td>
+                            <td>{{ index%3 == 0 ? item.date:'-' }}</td>
+                            <td>{{ item.compte }}</td>
+                            <td>{{ index %3 ==0 ?item.tiers:'-'}}</td>
+                            <td>{{ index %3 ==0 ?item.libelle:'-' }}</td>
+                            <td>{{ item.debit }}</td>
+                            <td>{{ item.credit }}</td>
                             <td  class="text-center">
                                 <v-btn v-if="index%3 == 0" icon @click="deleteEcriture([ ...Array(3).keys() ].map( i => i+index))">
                                     <v-icon>mdi-delete</v-icon>

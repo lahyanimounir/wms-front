@@ -163,12 +163,12 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in tempEcritures" :key="index">
-                            <td>{{ item?.date }}</td>
-                            <td>{{ item?.compte }}</td>
-                            <td>{{ item?.tiers }}</td>
-                            <td>{{ item?.libelle }}</td>
-                            <td>{{ item?.debit }}</td>
-                            <td>{{ item?.credit }}</td>
+                            <td>{{ item.date }}</td>
+                            <td>{{ item.compte }}</td>
+                            <td>{{ item.tiers }}</td>
+                            <td>{{ item.libelle }}</td>
+                            <td>{{ item.debit }}</td>
+                            <td>{{ item.credit }}</td>
                         </tr>
                         <!-- <tr>
                             <td >01/01/2020</td>

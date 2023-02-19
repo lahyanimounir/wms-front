@@ -10,7 +10,7 @@
                     Exercice du : <b>{{ du }}</b> au <b>{{ au }}</b>
                     <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
                 </div>
-                <div class="text--secondary">Saisie Achat</div>
+                <div class="font-weight-bold" style="font-size:18px">Saisie Achat</div>
             </div>
 
             <v-form ref="ecritureForm">

@@ -9,7 +9,7 @@
                     Dossier :<b> {{ dossier && dossier.d_denomination }} </b>-<b> {{ dossier && dossier.d_activitee }} </b>| Exercice du : <b>{{ du }}</b> au <b>{{ au }}</b>
                     <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
                 </div>
-                <div class="text--secondary">Saisie de vente</div>
+                <div class="font-weight-bold" style="font-size:18px">Saisie de vente</div>
             </div>
 
             <v-form ref="ecritureForm">

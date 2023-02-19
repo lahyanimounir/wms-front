@@ -5,167 +5,189 @@
         <v-card elevation="0" style="border:1px solid #ddd">
             <div class=" py-5 px-3">
 
-                <div class="subtitle-2 ">
-                    Dossier : {{ dossier && dossier.d_denomination }} - {{ dossier && dossier.d_activitee }}
+                <div style="font-size:18px">
+                    Dossier :<b> {{ dossier && dossier.d_denomination }} </b>-<b> {{ dossier && dossier.d_activitee }} </b>|
+                    Exercice du : <b>{{ du }}</b> au <b>{{ au }}</b>
+                    <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
                 </div>
-                <div class="text--secondary">saisie operation diverses</div>
+                <div class="font-weight-bold" style="font-size:18px;">Saisie operations diverses :</div>
             </div>
             <!-- <v-row class="px-3">
 
 
 
-                <v-col cols="5">
-                    <label for="">Du *</label>
-                    <div>
-                        <v-menu ref="menu" v-model="menu" :close-on-content-click="false" transition="scale-transition"
-                            offset-y min-width="auto">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-text-field v-model="editedItem.du" outlined dense hide-details prepend-icon="mdi-calendar"
-                                    readonly v-bind="attrs" v-on="on"></v-text-field>
-                            </template>
-                            <v-date-picker v-model="editedItem.du" :max="editedItem.au"></v-date-picker>
-                        </v-menu>
+                    <v-col cols="5">
+                        <label for="">Du *</label>
+                        <div>
+                            <v-menu ref="menu" v-model="menu" :close-on-content-click="false" transition="scale-transition"
+                                offset-y min-width="auto">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field v-model="editedItem.du" outlined dense hide-details prepend-icon="mdi-calendar"
+                                        readonly v-bind="attrs" v-on="on"></v-text-field>
+                                </template>
+                                <v-date-picker v-model="editedItem.du" :max="editedItem.au"></v-date-picker>
+                            </v-menu>
 
-                    </div>
-                </v-col>
-                <v-col cols="5">
-                    <label for="">Au *</label>
-                    <div>
-                        <v-menu ref="menu" v-model="menu2" :close-on-content-click="false" transition="scale-transition"
-                            offset-y min-width="auto">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-text-field v-model="editedItem.au" outlined dense hide-details prepend-icon="mdi-calendar"
-                                    readonly v-bind="attrs" v-on="on"></v-text-field>
-                            </template>
-                            <v-date-picker v-model="editedItem.au" :min="editedItem.du"></v-date-picker>
-                        </v-menu>
+                        </div>
+                    </v-col>
+                    <v-col cols="5">
+                        <label for="">Au *</label>
+                        <div>
+                            <v-menu ref="menu" v-model="menu2" :close-on-content-click="false" transition="scale-transition"
+                                offset-y min-width="auto">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field v-model="editedItem.au" outlined dense hide-details prepend-icon="mdi-calendar"
+                                        readonly v-bind="attrs" v-on="on"></v-text-field>
+                                </template>
+                                <v-date-picker v-model="editedItem.au" :min="editedItem.du"></v-date-picker>
+                            </v-menu>
 
-                    </div>
-                </v-col>
+                        </div>
+                    </v-col>
 
-                <v-col cols="2">
-                    <label for=""></label>
-                    <v-btn color="primary" small class="mt-7" @click="search()">
-                        Chercher
-                    </v-btn>
-                </v-col>
-
-
+                    <v-col cols="2">
+                        <label for=""></label>
+                        <v-btn color="primary" small class="mt-7" @click="search()">
+                            Chercher
+                        </v-btn>
+                    </v-col>
 
 
 
-            </v-row> -->
+
+
+                </v-row> -->
             <v-form ref="ecritureForm">
-            <v-row class="mx-0">
-                <v-col cols="2">
-                    <label for="">Journal *</label>
+                <v-row class="mx-0">
+                    <v-col cols="2">
+                        <label for="">Journal *</label>
 
-                    <v-autocomplete hide-details v-model="editedItem.journal" return-object :rules="obligationRule"
-                        :items="journaux" outlined dense placeholder="Journaux" item-text="nom" item-value="id">
+                        <v-autocomplete hide-details v-model="editedItem.journal" return-object :rules="obligationRule"
+                            :items="journaux" outlined dense placeholder="Journaux" item-text="nom" item-value="id">
 
-                    </v-autocomplete>
-                </v-col>
-                <v-col cols="2">
-                    <label for="">N° de piece</label>
-                    <v-text-field :disabled="true" :filled="true" v-model="editedItem.num_pieces" hide-details outlined
-                        dense></v-text-field>
+                        </v-autocomplete>
+                    </v-col>
+                    <v-col cols="2" hidden>
+                        <label for="">N° de piece</label>
+                        <v-text-field :disabled="true" :filled="true" v-model="editedItem.num_pieces" hide-details outlined
+                            dense></v-text-field>
 
-                </v-col>
-                <v-col cols="2">
-                    <label for="">Date *</label>
-                    <!-- <v-menu ref="menu" v-model="menu3" :close-on-content-click="false" transition="scale-transition"
-                        offset-y min-width="auto">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-text-field persistent-hint v-model="editedItem.date" outlined dense hide-details
-                                prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                        </template>
-                        <v-date-picker  @change="betweenDate()" :min="editedItem.du" :max="editedItem.au" v-model="editedItem.date" ></v-date-picker>
-                    </v-menu> -->
-                    <v-menu ref="menu" v-model="menu3" :close-on-content-click="false" transition="scale-transition"
+                    </v-col>
+                    <v-col cols="2">
+                        <label for="">Date *</label>
+                        <!-- <v-menu ref="menu" v-model="menu3" :close-on-content-click="false" transition="scale-transition"
                             offset-y min-width="auto">
                             <template v-slot:activator="{ on, attrs }">
-                                <v-text-field v-model="editedItem.date" outlined dense hide-details prepend-icon="mdi-calendar"
-                                    v-bind="attrs" v-on="on"></v-text-field>
+                                <v-text-field persistent-hint v-model="editedItem.date" outlined dense hide-details
+                                    prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                             </template>
-                            <v-date-picker v-model="editedItem.date" ></v-date-picker>
+                            <v-date-picker  @change="betweenDate()" :min="editedItem.du" :max="editedItem.au" v-model="editedItem.date" ></v-date-picker>
+                        </v-menu> -->
+                        <v-menu ref="menu" v-model="menu3" :close-on-content-click="false" transition="scale-transition"
+                            offset-y min-width="auto">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-text-field v-model="editedItem.date" outlined dense hide-details
+                                    prepend-icon="mdi-calendar" v-bind="attrs" v-on="on"></v-text-field>
+                            </template>
+                            <v-date-picker :min="du" :max="au" v-model="editedItem.date"></v-date-picker>
                         </v-menu>
-                </v-col>
-                <v-col cols="6">
-                    <label for="">Référence *</label>
-                    <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details outlined dense></v-text-field>
-                </v-col>
-            </v-row>
+                    </v-col>
+                    <v-col cols="6">
+                        <label for="">Référence *</label>
+                        <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details outlined
+                            dense></v-text-field>
+                    </v-col>
+                </v-row>
 
-            <v-row class="mx-0">
-                <v-col cols="3" class="pl-3 pr-1 ">
-                    <label for="">Compte *</label>
+                <v-row class="mx-0">
+                    <v-col cols="3" class="pl-3 pr-1 ">
+                        <label for="">Compte *</label>
 
-                    <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
-                        outlined dense placeholder="compte de contrepartie" item-text="numero_compte" item-value="id">
-                        <template slot="selection" slot-scope="{ item }">
-                            {{ item.numero_compte }} - {{ item.intitulee }}
-                        </template>
-                        <template slot="item" slot-scope="{ item }">
-                            {{ item.numero_compte }} - {{ item.intitulee }}
-                        </template>
-                    </v-autocomplete>
-                </v-col>
-                <v-col cols="2" class="pl-3 pr-1 ">
-                    <label for="">Tiers</label>
-                    <v-autocomplete v-model="editedItem.tiers" color="red"
-                        :disabled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" 
-                        :filled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" :items="test" outlined
-                        dense placeholder="Tiers" item-text="denomination" item-value="id">
-                        <template slot="selection" slot-scope="{ item }">
-                            {{ item.denomination }}
-                        </template>
-                    </v-autocomplete>
-                </v-col>
-                <!-- <v-col cols="2" class="px-1 " v-if="editedItem.compte && editedItem.compte.c_g == 'COLLECTIF'">
-                    <label for="">Tiers</label>
-                    {{ tiers }}
-                    <v-autocomplete v-model="editedItem.tiers" :rules="obligationRule" :items="tiers" outlined dense
-                        placeholder="Tiers" item-text="denomination" item-value="id">
-                    </v-autocomplete>
-                </v-col> -->
-                <v-col cols="4" class="px-1 ">
-                    <label for="">Libellé *</label>
-                    <v-text-field v-model="editedItem.libelle" outlined dense></v-text-field>
-                </v-col>
-                <v-col cols="1" class="px-1 ">
-                    <label for="">Débit</label>
-                    <v-text-field v-model="editedItem.debit" @keyup="positive('d')" type="number" outlined
-                        dense></v-text-field>
-                </v-col>
-                <v-col cols="1" class="px-1 ">
-                    <label for="">Credit</label>
-                    <v-text-field v-model="editedItem.credit" @keyup="positive('c')" type="number" outlined
-                        dense></v-text-field>
+                        <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
+                            outlined dense placeholder="compte de contrepartie" item-text="numero_compte" item-value="id">
+                            <template slot="selection" slot-scope="{ item }">
+                                {{ item.numero_compte }} - {{ item.intitulee }}
+                            </template>
+                            <template slot="item" slot-scope="{ item }">
+                                {{ item.numero_compte }} - {{ item.intitulee }}
+                            </template>
+                        </v-autocomplete>
+                    </v-col>
+                    <v-col cols="2" class="pl-3 pr-1 ">
+                        <label for="">Tiers *</label>
+                        <v-autocomplete v-model="editedItem.tiers" color="red"
+                            return-object
+                            :rules="editedItem.compte && editedItem.compte.c_g == 'COLLECTIF' ? obligationRule : []"
+                            :disabled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')"
+                            :filled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" :items="test" outlined
+                            dense placeholder="Tiers" item-text="denomination" item-value="id">
+                            <template slot="selection" slot-scope="{ item }">
+                                {{ item.denomination }}
+                            </template>
+                        </v-autocomplete>
+                    </v-col>
+                    <!-- <v-col cols="2" class="px-1 " v-if="editedItem.compte && editedItem.compte.c_g == 'COLLECTIF'">
+                        <label for="">Tiers</label>
+                        {{ tiers }}
+                        <v-autocomplete v-model="editedItem.tiers" :rules="obligationRule" :items="tiers" outlined dense
+                            placeholder="Tiers" item-text="denomination" item-value="id">
+                        </v-autocomplete>
+                    </v-col> -->
+                    <v-col cols="3" class="px-1 ">
+                        <label for="">Libellé *</label>
+                        <v-text-field v-model="editedItem.libelle" :rules="obligationRule" outlined dense></v-text-field>
+                    </v-col>
+                    <v-col cols="1" class="px-1 ">
+                        <label for="">Débit</label>
+                        <v-text-field v-model="editedItem.debit" @keyup="positive('d')" type="number" outlined
+                            dense></v-text-field>
+                    </v-col>
+                    <v-col cols="1" class="px-1 ">
+                        <label for="">Credit</label>
+                        <v-text-field v-model="editedItem.credit" @keyup="positive('c')" type="number" outlined
+                            dense></v-text-field>
 
-                </v-col>
-                <v-col cols="1" class="px-1 ">
-                    <v-btn color="primary" small class="mt-6 py-5" @click="addEcriture()">Ajouter</v-btn>
-                </v-col>
-            </v-row>
-        </v-form>
+                    </v-col>
+                   
+                    <v-col cols="1" class="px-1 d-flex">
+                        <v-btn v-if="isEdit" color="#EF9A9A" class="mt-5 py-5" @click="cancelEdit()">Annuler</v-btn>
+                        <v-btn color="primary" small class="mt-5 py-5 ml-3" @click="addEcriture()">{{ btnText }}</v-btn>
+                    </v-col>
+                </v-row>
+            </v-form>
         </v-card>
 
 
         <v-card elevation="0" class="mt-3 px-3 py-3" style="border:1px solid #ddd">
-            <div class="subtitle-2 ">
-                Exercice du : {{ du }} au {{ au }}
-            </div>
             <div class="pt-3">
                 <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
                     <template v-slot:item.compte="{ item }">
-                        <span>{{ item && item.compte && item.compte.intitulee}}</span>
+                        <span>{{ item && item.compte && item.compte.intitulee }}</span>
                     </template>
                     <template v-slot:item.tiers="{ item }">
-                        <span>{{ item.denomination }}</span>
+                        <span>{{ item.tiers?.denomination }}</span>
                     </template>
+                    <template v-slot:item.actions="{ item,index }">
+                        <v-icon size="small" class="me-2" @click="editItem(item,index)">
+                            mdi-pencil
+                        </v-icon>
+                        <v-icon size="small" @click="deleteItem(item,index)">
+                            mdi-delete
+                        </v-icon>
+                    </template>
+                    <template slot="body.append">
+                    <tr class="">
+                        <th class="title">Total</th>
+                        <th class=""></th>
+                        <th class=""></th>
+                        <th class="" style="font-size:1rem">{{ someDebit }}</th>
+                        <th class="" style="font-size:1rem">{{ someCredit }}</th>
+                        <th class=""></th>
+                    </tr>
+                </template>
 
                 </v-data-table>
-                <div style="display: flex;justify-content: space-between;">
+                <!-- <div style="display: flex;justify-content: space-between;">
                     <div style="width: 67%;" class="subtitle-2">
                         Total
                     </div>
@@ -173,7 +195,7 @@
                         <div class="subtitle-2">{{ someDebit }}</div>
                         <div class="subtitle-2">{{ someCredit }}</div>
                     </div>
-                </div>
+                </div> -->
 
                 <v-alert class="mt-3" dense outlined v-if="someDebit != someCredit" type="error">
                     Les champs Débit total et Crédit doivent être égaux.
@@ -196,10 +218,11 @@
             </v-card>
         </v-dialog>
     </div>
-
 </template>
 
 <script>
+import { throws } from 'assert';
+
 export default {
     data: () => ({
         someDebit: 0,
@@ -212,21 +235,21 @@ export default {
         editedItem: {
             debit: '',
             credit: '',
-            tiers: {},
-            compte: {},
+            tiers: '',
+            compte: '',
             libelle: '',
             reference_facture: '',
-            journal: {},
+            journal: '',
             date: '',
         },
         defaultItem: {
             debit: '',
             credit: '',
-            tiers: {},
-            compte: {},
+            tiers: '',
+            compte: '',
             libelle: '',
             reference_facture: '',
-            journal: {},
+            journal: '',
             date: '',
         },
         exerciceId: '',
@@ -242,6 +265,8 @@ export default {
             { text: 'Libellé', value: 'libelle' },
             { text: 'Débit', value: 'debit' },
             { text: 'Crédit', value: 'credit' },
+            { text: 'Actions', value: 'actions', sortable: false },
+
         ],
         rows: [],
         obligationRule: [
@@ -249,40 +274,25 @@ export default {
         ],
         menu3: false,
         journaux: [],
-        journal: '',
+        journal: 'OD',
         month: '',
         ecritures: [],
         dialogConfirmation: false,
         test: [],
         dossier: {},
+        isEdit:false,
+        previousEditedItem:{},
+        editedIndex: -1,
 
     }),
+    computed:{
+        btnText(){
+            return this.isEdit ? 'Modifier' : 'Ajouter'
+        }
+    },
     watch: {
         rows(val) {
-            this.someDebit = 0
-            this.someCredit = 0
-            if (this.rows && this.rows.length > 0) {
-                this.rows.forEach(item => {
-                    if (item.credit) {
-                        this.someCredit = this.someCredit + parseInt(item.credit)
-                    }
-                    if (item.debit) {
-                        this.someDebit = this.someDebit + parseInt(item.debit)
-                    }
-                });
-            }
-            // calculate the right amount needed to equalize the debit and credit and add it to the right field
-            if (this.someDebit > this.someCredit) {
-                this.editedItem.credit = this.someDebit - this.someCredit
-                this.editedItem.debit = ''
-            } else if (this.someCredit > this.someDebit) {
-                this.editedItem.debit = this.someCredit - this.someDebit
-                this.editedItem.credit = ''
-            }
-            else {
-                this.editedItem.debit = ''
-                this.editedItem.credit = ''
-            }
+            this.updateTotal()
         },
         'editedItem.reference_facture'(val) {
             this.editedItem.libelle = this.editedItem.reference_facture + ' ' + (this.editedItem.compte?.intitulee ? this.editedItem.compte.intitulee : '')
@@ -290,6 +300,7 @@ export default {
         'editedItem.compte'(val) {
             this.editedItem.libelle = this.editedItem.reference_facture + ' ' + (this.editedItem.compte?.intitulee ? this.editedItem.compte.intitulee : '')
             this.test = this.tiers.filter(item => item.compte_tiers?.id == val?.id)
+            if(this.test.length == 0) this.editedItem.tiers = ''
         },
         'editedItem.date'(val) {
             if (isNaN(new Date(val))) return
@@ -308,7 +319,6 @@ export default {
 
         },
         'editedItem.journal'(val) {
-            // console.log(val)
             if (val.type.split(' ').length == 1) {
                 this.journal = val.type.split(' ')[0].substring(0, 2).toUpperCase()
             } else {
@@ -325,7 +335,6 @@ export default {
                 incr = this.zeroPad(1, 5)
                 this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
             }
-            console.log('aaa', aaa);
 
 
         },
@@ -337,13 +346,16 @@ export default {
         let url = process.env.Name_api + "/exercice/" + this.id + "?params=OP";
         let exercice = await this.$myService.get(url)
         if (exercice && exercice.data != null) {
-            this.dossier = {d_id:exercice.d_id,d_activitee:exercice.d_activitee,d_denomination:exercice.d_denomination}
+            this.dossier = { d_id: exercice.d_id, d_activitee: exercice.d_activitee, d_denomination: exercice.d_denomination }
             this.exercice = exercice.data
             // this.journaux = exercice.data.journaux;
             this.journaux = exercice.data.journaux
             this.tiers = exercice.data.tiers;
             this.items = exercice.data.planComptable;
             this.ecritures = exercice.data.ecritures;
+            this.du = this.exercice.du
+            this.au = this.exercice.au
+            this.editedItem.date = this.du
         }
         //  this.exercice = exercice
         //  this.journaux = exercice.data.journaux;
@@ -394,14 +406,22 @@ export default {
 
             this.au = this.editedItem.au
             this.du = this.editedItem.du
-            console.log(this.du)
         },
         async addEcriture() {
 
-            if(!this.$refs.ecritureForm.validate() || (this.editedItem.debit == 0 && this.editedItem.credit == 0)){
+            if (!this.$refs.ecritureForm.validate() || (this.editedItem.debit == 0 && this.editedItem.credit == 0)) {
                 return
             }
-            this.rows.push(JSON.parse(JSON.stringify(this.editedItem)))
+            if(this.editedIndex > -1){
+                Object.assign(this.rows[this.editedIndex], this.editedItem)
+                this.editedIndex = -1
+                this.editedItem = Object.assign({}, this.previousEditedItem)
+                this.isEdit = false
+                this.updateTotal()
+
+
+            }else
+                this.rows.push(JSON.parse(JSON.stringify(this.editedItem)))
             //     let url = process.env.Name_api + "/ecriture/"+this.exercice.data.id;
 
             //     if(typeof this.editedItem.journal === 'object' && this.editedItem.journal !== null){
@@ -469,11 +489,14 @@ export default {
         },
         async confimEcriture() {
             let url = process.env.Name_api + "/ecriture/" + this.exercice.id;
-            const aa = await this.$myService.post(url, this.rows);
+            let data = JSON.parse(JSON.stringify(this.rows))
+            data.forEach(item => {
+                item.tiers = item?.tiers?.id
+            })
+            const aa = await this.$myService.post(url, data);
             this.ecritures = [...this.ecritures, ...this.rows]
             this.rows = []
             this.dialogConfirmation = false
-            console.log('ecriture', this.ecritures);
             this.incrementSuffix()
             this.clearInputs()
             this.$refs.ecritureForm.resetValidation()
@@ -498,9 +521,49 @@ export default {
             this.editedItem.libelle = ''
             this.editedItem.debit = ''
             this.editedItem.credit = ''
-            this.editedItem.tiers = {}
-            this.editedItem.compte = {}
+            this.editedItem.tiers = ''
+            this.editedItem.compte = ''
         },
+        editItem(item,index){
+            Object.assign(this.previousEditedItem, this.editedItem)
+            Object.assign(this.editedItem, item)
+            this.editedIndex = index
+            this.isEdit = true
+        },
+        deleteItem(item,index){
+            this.editedIndex = index
+            this.rows.splice(this.editedIndex, 1)
+            this.editedIndex = -1
+        },
+        cancelEdit(){
+            this.isEdit = false
+            this.editedItem = this.previousEditedItem
+        },
+        updateTotal(){
+            this.someDebit = 0
+            this.someCredit = 0
+            if (this.rows && this.rows.length > 0) {
+                this.rows.forEach(item => {
+                    if (item.credit) {
+                        this.someCredit = this.someCredit + parseInt(item.credit)
+                    }
+                    if (item.debit) {
+                        this.someDebit = this.someDebit + parseInt(item.debit)
+                    }
+                });
+            }
+                if (this.someDebit > this.someCredit) {
+                this.editedItem.credit = this.someDebit - this.someCredit
+                this.editedItem.debit = ''
+            } else if (this.someCredit > this.someDebit) {
+                this.editedItem.debit = this.someCredit - this.someDebit
+                this.editedItem.credit = ''
+            }
+            else {
+                this.editedItem.debit = ''
+                this.editedItem.credit = ''
+            }
+        }
     }
 
 }

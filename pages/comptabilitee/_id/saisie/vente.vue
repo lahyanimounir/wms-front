@@ -11,6 +11,15 @@
                 </div>
                 <div class="font-weight-bold" style="font-size:18px">Saisie de vente</div>
             </div>
+            <v-snackbar v-model="snackbar" :timeout="timeout">
+                {{ text }}
+
+                <template v-slot:action="{ attrs }">
+                    <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+                        Close
+                    </v-btn>
+                </template>
+            </v-snackbar>
 
             <v-form ref="ecritureForm">
                 <v-row class="mx-0">
@@ -28,7 +37,7 @@
                             outlined dense></v-text-field>
 
                     </v-col>
-                    <v-col cols="2">
+                    <!-- <v-col cols="2">
                         <label for="">Date *</label>
 
                         <v-menu ref="menu" v-model="menu3" :close-on-content-click="false" transition="scale-transition"
@@ -38,6 +47,19 @@
                                     prepend-icon="mdi-calendar" v-bind="attrs" v-on="on"></v-text-field>
                             </template>
                             <v-date-picker :min="du" :max="au" v-model="editedItem.date"></v-date-picker>
+                        </v-menu>
+                    </v-col> -->
+                    <v-col cols="2">
+                        <label for="">Date *</label>
+                        <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition"
+                            offset-y max-width="290px" min-width="290px">
+                            <template v-slot:activator="{ on, attrs }" >
+                                <v-text-field v-model="dateFormatted" persistent-hint v-bind="attrs" hint="JJ/MM/AAAA format"
+                                prepend-icon="mdi-calendar" outlined dense
+                                    :format="'DD/MM/AAAA'" :rules="obligationRule" @blur="date = parseDate(dateFormatted)"
+                                    v-on="on"></v-text-field>
+                            </template>
+                            <v-date-picker v-model="date" no-title @input="menu1 = false" :min="du" :max="au"></v-date-picker>
                         </v-menu>
                     </v-col>
                    
@@ -163,7 +185,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in tempEcritures" :key="index">
-                            <td>{{ item.date }}</td>
+                            <td>{{ item.date.split('-').reverse().join('/') }}</td>
                             <td>{{ item.compte }}</td>
                             <td>{{ item.tiers }}</td>
                             <td>{{ item.libelle }}</td>
@@ -259,7 +281,10 @@
 </style>
 <script>
 export default {
-    data: () => ({
+    data: (vm) => ({
+        date: new Date().toISOString().substr(0, 10),
+        dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+        menu1: false,
         someDebit: 0,
         someCredit: 0,
         du: null,
@@ -325,8 +350,34 @@ export default {
         charsNumberCollectif: 10,
         charsNumberTiers: 7,
         charsNumberContreparties: 18,
+        snackbar: false,
+        timeout: 3000,
+        text: '',
     }),
+    computed:{
+        computedDateFormatted() {
+            return this.formatDate(this.date)
+        }
+    },
     watch: {
+        date(val) {
+            this.dateFormatted = this.formatDate(this.date)
+            if (isNaN(new Date(val))) return
+            this.month = new Date(val).getMonth() + 1
+            let incr
+            let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
+            console.log('here ',aaa)    
+            if (aaa.length > 0) {
+                incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
+                incr = this.zeroPad(parseInt(incr) + 1, 5)
+                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            }
+            else {
+                incr = this.zeroPad(1, 5)
+                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            }
+            this.editedItem.echeance = this.calculateEcheance()
+        },
         newEcritures(val) {
             this.someDebit = 0
             this.someCredit = 0
@@ -393,7 +444,7 @@ export default {
             this.tiersShow = this.tiers.filter(item => item.compte_tiers?.id == val?.id)
         },
         'editedItem.tiers'(val){
-            this.selectedTiers = this.tiers.find(item => item.id == val)
+            this.selectedTiers = this.tiers.find(item => item.id == val.id)
             this.editedItem.echeance = this.calculateEcheance()
         },
         'editedItem.reference_facture'(val) {
@@ -403,24 +454,24 @@ export default {
             this.editedItem.libelle = this.editedItem.reference_facture + ' ' + (this.editedItem.compte?.intitulee ? this.editedItem.compte.intitulee : '')
             this.test = this.tiers.filter(item => item.compte_tiers?.id == val?.id)
         },
-        'editedItem.date'(val) {
-            if (isNaN(new Date(val))) return
-            this.month = new Date(val).getMonth() + 1
-            let incr
-            let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
-            console.log('here ',aaa)    
-            if (aaa.length > 0) {
-                incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
-                incr = this.zeroPad(parseInt(incr) + 1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
-            else {
-                incr = this.zeroPad(1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
-            this.editedItem.echeance = this.calculateEcheance()
+        // 'editedItem.date'(val) {
+        //     if (isNaN(new Date(val))) return
+        //     this.month = new Date(val).getMonth() + 1
+        //     let incr
+        //     let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
+        //     console.log('here ',aaa)    
+        //     if (aaa.length > 0) {
+        //         incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
+        //         incr = this.zeroPad(parseInt(incr) + 1, 5)
+        //         this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+        //     }
+        //     else {
+        //         incr = this.zeroPad(1, 5)
+        //         this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+        //     }
+        //     this.editedItem.echeance = this.calculateEcheance()
 
-        },
+        // },
         'editedItem.journal'(val) {
             let incr
             let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
@@ -459,8 +510,9 @@ export default {
             this.tvas = tvas;
             this.du = this.exercice.du
             this.au = this.exercice.au
-            this.editedItem.date = this.exercice.du
+            // this.editedItem.date = this.exercice.du
             this.ecritures = exercice.data.ecritures;
+            this.date = this.du
             
             // this.items = exercice.data.planComptable;
         }
@@ -504,7 +556,7 @@ export default {
                     compteObj = this.editedItem.code_tva?.compte
                 }
                 this.tempEcritures.push({ 
-                    date: this.editedItem?.date, 
+                    date: this.date, 
                     compte: compte, 
                     tiers: `${this.editedItem?.tiers?.denomination}`, 
                     libelle: this.editedItem?.libelle,
@@ -526,7 +578,7 @@ export default {
                 let row = {
                     num_pieces: this.editedItem.num_pieces,
                     journal: this.editedItem.journal,
-                    date: this.editedItem.date,
+                    date: this.date,
                     echeance: this.editedItem.echeance,
                     reference_facture: this.editedItem.reference_facture,
                     libelle: this.editedItem.libelle,
@@ -618,7 +670,7 @@ export default {
             let nextMonthYear = nextMonth.getFullYear()
             let nextMonthMonth = nextMonth.getMonth()
             let echeance = new Date(nextMonthYear, nextMonthMonth, nextMonthDay + duration)
-            echeance = echeance.toISOString().split('T')[0]
+            echeance = echeance.toLocaleDateString('en-GB')
             return echeance
         },
         calculateEcheanceDateFixe(d,duration){
@@ -627,13 +679,13 @@ export default {
             let month = date.getMonth()
             let day = date.getDate()
             let echeance = new Date(year, month, day + duration)
-            echeance = echeance.toISOString().split('T')[0]
+            echeance = echeance.toLocaleDateString('en-GB')
             return echeance
         },
         calculateEcheance(){
             let type = this.selectedTiers?.type_echeance
             let duration = this.selectedTiers?.echeance?.nbr_jours
-            let date = this.editedItem?.date
+            let date = this.date
             if(date && duration && type){
                 if(type == 'fin_du_moi'){
                     return this.calculateEcheanceFinMois(date, duration)
@@ -643,7 +695,7 @@ export default {
                 }
             }
             else if(date){
-                return new Date(date).toISOString().split('T')[0]
+                return new Date(date).toLocaleDateString('en-GB')
             }
             else{
                 return ''
@@ -651,6 +703,44 @@ export default {
         },
         addDecimals() {
             this.editedItem.montant_ttc = (Math.round(this.editedItem.montant_ttc * 100) / 100).toFixed(2)
+        },
+        formatDate(date) {
+            if (!date) return null
+
+            const [year, month, day] = date.split('-')
+            return `${day}/${month}/${year}`
+        },
+        parseDate(date) {
+            if (!date) return null
+            if (!(/^\d{2}\/\d{2}\/\d{4}$/.test(date)) && date !== null) {
+                this.showToast('Invalide date (jj/mm/aaaa)')
+                return null
+            }
+            if (!(/(^0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(\d{4}$)/.test(date))) {
+                this.showToast('Invalide date')
+                return null
+            }
+            // date should not be greate than this.au or less than this.du
+            let d = new Date(this.parseDateToISO(date))
+            let du = new Date((this.du))
+            let au = new Date((this.au))
+            console.log(d, du, au)
+            if (d > au || d < du && date !== null) {
+                this.showToast('La date doit être comprise entre ' + this.formatDate(this.du) + ' et ' + this.formatDate(this.au))
+                return null
+            }
+            const [day, month, year] = date.split('/')
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        },
+        parseDateToISO(date) {
+            if (!date) return null
+            const [day, month, year] = date.split('/')
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        },
+        showToast(message) {
+            this.text = message
+            this.snackbar = true
+
         },
 
     }

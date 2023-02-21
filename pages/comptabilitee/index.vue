@@ -88,7 +88,7 @@
                                                             min-width="290px">
                                                             <template v-slot:activator="{ on, attrs }">
                                                                 <v-text-field v-model="dateFormatted" label="Du"
-                                                                    hint="JJ/MM/YYYY format" persistent-hint v-bind="attrs"
+                                                                    hint="JJ/MM/AAAA format" persistent-hint v-bind="attrs"
                                                                     :format="'DD/MM/AAAA'" :rules="obligationRule"
                                                                     @blur="date = parseDate(dateFormatted)"
                                                                     v-on="on"></v-text-field>

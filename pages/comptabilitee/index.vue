@@ -229,7 +229,7 @@ export default {
             },
             { text: 'Du', value: 'du' },
             { text: 'Au', value: 'au' },
-            { text: 'Regime Tva', value: 'regime_tva' },
+            { text: 'Regime Tva', value: 'regimeTva' },
             { text: 'Tva', value: 'tva' },
             { text: 'Droit Timbre', value: 'droit_timbre' },
             { text: 'Action', value: 'action' },

@@ -398,7 +398,7 @@ export default {
             }
         },
         'editedItem.taux_tva'(val) {
-            this.filteredTvas = this.tvas.filter(item => item.taux == val)
+            this.filteredTvas = val ? this.tvas.filter(item => item.taux == val) : this.tvas
             this.editedItem.taux_tva = val
             if (val && this.editedItem.montant_ttc) {
                 // this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (val / 100))).toFixed(2)

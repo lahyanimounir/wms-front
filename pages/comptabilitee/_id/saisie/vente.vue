@@ -124,9 +124,18 @@
                         </v-autocomplete>
                     </v-col>
 
+                    <v-col cols="1" class="px-1 ">
+                        <label for="">Taux TVA</label>
+                        <v-text-field v-model="editedItem.taux_tva" type="number" outlined
+                            dense>
+                            <template v-slot:append>
+                            <span class="font-weight-bold" style="padding:5px 0">%</span>
+                        </template>
+                        </v-text-field>
+                    </v-col>
                     <v-col cols="3" class="px-1 ">
                         <label for="">Code TVA</label>
-                        <v-autocomplete  v-model="editedItem.code_tva" return-object :items="tvas" :rules="obligationRule" outlined dense placeholder="Code TVA"
+                        <v-autocomplete  v-model="editedItem.code_tva" return-object :items="filteredTvas" :rules="obligationRule" outlined dense placeholder="Code TVA"
                             item-text="id" item-value="code">
                             <template slot="item" slot-scope="{ item }">
                                 {{ item.code }} - {{ item.intitulee }}
@@ -135,11 +144,6 @@
                                 {{item.code}} - {{ item.intitulee.length > 20 ? item.intitulee.substring(0, charsNumberTva) + '...' : item.intitulee }}
                             </template>
                         </v-autocomplete>
-                    </v-col>
-                    <v-col cols="1" class="px-1 ">
-                        <label for="">Taux TVA</label>
-                        <v-text-field :disabled="true" :filled="true" v-model="editedItem.taux_tva" type="number" outlined
-                            dense></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row class="mx-0 mt-0" style="justify-content:end">
@@ -353,6 +357,8 @@ export default {
         snackbar: false,
         timeout: 3000,
         text: '',
+        filteredTvas: [],
+
     }),
     computed:{
         computedDateFormatted() {
@@ -396,42 +402,55 @@ export default {
             this.someCredit = this.someCredit.toFixed(2)
             this.someDebit = this.someDebit.toFixed(2)
         },
-        'editedItem.montant_ht'(val){
-            if (val && this.editedItem.taux_tva) {
-                this.editedItem.montant_tva = (val * (this.editedItem.taux_tva / 100)).toFixed(2)
+        // 'editedItem.montant_ht'(val){
+        //     if (val && this.editedItem.taux_tva) {
+        //         this.editedItem.montant_tva = (val * (this.editedItem.taux_tva / 100)).toFixed(2)
+        //     }
+        // },
+        // 'editedItem.montant_tva'(val){
+        //     if (val && this.editedItem.taux_tva) {
+        //         this.editedItem.montant_ht = (val / (this.editedItem.taux_tva / 100)).toFixed(2)
+        //     }
+        // },
+        'editedItem.montant_ht'(val) {
+            if (val && this.editedItem.taux_tva && this.editedItem.montant_ttc) {
+                this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
             }
         },
-        'editedItem.montant_tva'(val){
+        'editedItem.montant_tva'(val) {
             if (val && this.editedItem.taux_tva) {
-                this.editedItem.montant_ht = (val / (this.editedItem.taux_tva / 100)).toFixed(2)
+                this.editedItem.montant_ht = (this.editedItem.montant_ttc - this.editedItem.montant_tva).toFixed(2)
+                
             }
         },
         'editedItem.taux_tva'(val) {
+            this.filteredTvas = val ? this.tvas.filter(item => item.taux == val) : this.tvas
+            this.editedItem.taux_tva = val
             if (val && this.editedItem.montant_ttc) {
-                this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (val / 100))).toFixed(2)
+                // this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (val / 100))).toFixed(2)
+                // this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
+                this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
                 this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
             }
         },
         'editedItem.montant_ttc'(val) {
-            // this.editedItem.montant_ht = val / (1 + (this.editedItem.taux_tva / 100))
-            // this.editedItem.montant_tva = val - this.editedItem.montant_ht
-            // val can't be null or 0
-            if(val == 0 || val == null) {
+            if (val == 0 || val == null) {
                 this.editedItem.montant_ht = ''
                 this.editedItem.montant_tva = ''
                 return
             }
-            if (val && this.editedItem.taux_tva) {
-                // add 2 decimals to the value
-                if(val.toString().split('.').length == 1) {
+            if (val && this.editedItem.taux_tva && !this.isUpdate) {
+                if (val.toString().split('.').length == 1) {
                     val = val + '.00'
                 }
-                else if(val.toString().split('.')[1].length == 1) {
+                else if (val.toString().split('.')[1].length == 1) {
                     val = val + '0'
                 }
-                this.editedItem.montant_ht = (val / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
+
+                this.editedItem.montant_ht = (val * 100 / (100 + this.editedItem.taux_tva)).toFixed(2)
                 this.editedItem.montant_tva = (val - this.editedItem.montant_ht).toFixed(2)
             }
+            this.isUpdate = false
         },
         'editedItem.code_tva'(val){
             let tva = this.tvas.find(item => item.id == val.id)
@@ -508,6 +527,7 @@ export default {
             this.collectif = exercice.collectif;
             this.contreparties = contreparties;
             this.tvas = tvas;
+            this.filteredTvas = tvas;
             this.du = this.exercice.du
             this.au = this.exercice.au
             // this.editedItem.date = this.exercice.du
@@ -573,6 +593,8 @@ export default {
                     credit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_tva : ''
                     debit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_tva : '';
                 }
+                credit = Math.abs(credit)
+                debit = Math.abs(debit)
                 this.tempEcritures[this.tempEcritures.length-1].credit = credit
                 this.tempEcritures[this.tempEcritures.length-1].debit = debit
                 let row = {

@@ -86,7 +86,7 @@
                     <v-col cols="2" class="pl-3 pr-1 ">
                         <label for="">Plan comptable *</label>
 
-                        <v-autocomplete v-model="editedItem.plan_comptable" return-object :rules="obligationRule"
+                        <v-autocomplete :filter="getList" v-model="editedItem.plan_comptable" return-object :rules="obligationRule"
                             :items="collectif" outlined dense placeholder="Plan comptable" item-text="numero_compte"
                             item-value="id" style="font-size:16px">
                             <template slot="selection" slot-scope="{ item }">
@@ -125,7 +125,7 @@
                     <v-col cols="3" class="pl-3 pr-1 ">
                         <label for="">Compte contrepartie *</label>
 
-                        <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule"
+                        <v-autocomplete :filter="getList" v-model="editedItem.compte" return-object :rules="obligationRule"
                             :items="contreparties" outlined dense placeholder="compte de contrepartie"
                             item-text="numero_compte" item-value="id">
                             <template slot="selection" slot-scope="{ item }">
@@ -137,10 +137,20 @@
                             </template>
                         </v-autocomplete>
                     </v-col>
-
+                    
+                    <v-col cols="1" class="px-1 ">
+                        <label for="">Taux TVA</label>
+                        <v-text-field v-model="editedItem.taux_tva" type="number" outlined
+                            dense>
+                        <!-- add percentage icon inside centered vertically and horizontally -->
+                        <template v-slot:append>
+                            <span class="font-weight-bold" style="padding:5px 0">%</span>
+                        </template>
+                        </v-text-field>
+                    </v-col>
                     <v-col cols="3" class="px-1 ">
-                        <label for="">Code TVA</label>
-                        <v-autocomplete v-model="editedItem.code_tva" return-object :items="tvas" :rules="obligationRule"
+                        <label  for="">Code TVA</label>
+                        <v-autocomplete  v-model="editedItem.code_tva" return-object :items="filteredTvas" :rules="obligationRule"
                             outlined dense placeholder="Code TVA" item-text="id" item-value="code">
                             <template slot="item" slot-scope="{ item }">
                                 {{ item.code }} - {{ item.intitulee }}
@@ -150,11 +160,6 @@
                                     + '...' : item.intitulee }}
                             </template>
                         </v-autocomplete>
-                    </v-col>
-                    <v-col cols="1" class="px-1 ">
-                        <label for="">Taux TVA</label>
-                        <v-text-field v-model="editedItem.taux_tva" type="number" outlined
-                            dense></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row class="mx-0 mt-0" style="justify-content:end">
@@ -346,6 +351,7 @@ export default {
         snackbar: false,
         timeout: 3000,
         text: '',
+        filteredTvas: [],
 
     }),
     computed:{
@@ -392,11 +398,13 @@ export default {
             }
         },
         'editedItem.taux_tva'(val) {
+            this.filteredTvas = this.tvas.filter(item => item.taux == val)
+            this.editedItem.taux_tva = val
             if (val && this.editedItem.montant_ttc) {
                 // this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (val / 100))).toFixed(2)
                 // this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
-                this.editedItem.montant_ht = (val * 100 / (100 + this.editedItem.taux_tva)).toFixed(2)
-                this.editedItem.montant_tva = (val - this.editedItem.montant_ht).toFixed(2)
+                this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
+                this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
             }
         },
         'editedItem.montant_ttc'(val) {
@@ -421,7 +429,6 @@ export default {
         'editedItem.code_tva'(val) {
             let tva = this.tvas.find(item => item.id == val.id)
             this.editedItem.taux_tva = tva?.taux
-            this.selectedTva = tva
             this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
             this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
         },
@@ -492,6 +499,7 @@ export default {
             this.collectif = exercice.collectif;
             this.contreparties = contreparties;
             this.tvas = tvas;
+            this.filteredTvas = tvas;
             this.du = this.exercice.du
             this.au = this.exercice.au
             // this.editedItem.date = this.exercice.du
@@ -870,6 +878,9 @@ export default {
             this.snackbar = true
 
         },
+        getList(item, queryText, itemText) {
+            return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())
+        }
 
     }
 

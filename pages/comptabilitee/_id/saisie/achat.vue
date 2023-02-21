@@ -757,7 +757,8 @@ export default {
 
         },
         deleteEcriture(item) {
-            console.log('item :',item)
+            this.newEcritures.splice(item[0],3)
+            this.tempEcritures.splice(item[0],3)
         },
         resetEcriture() {
             this.editedItem = this.previousEditedItem

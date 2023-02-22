@@ -106,7 +106,7 @@
                     <v-col cols="3" class="pl-3 pr-1 ">
                         <label for="">Compte *</label>
 
-                        <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
+                        <v-autocomplete :filter="getList" v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
                             outlined dense placeholder="compte de contrepartie" item-text="numero_compte" item-value="id">
                             <template slot="selection" slot-scope="{ item }">
                                 {{ item.numero_compte }} - {{ item.intitulee }}
@@ -645,6 +645,9 @@ export default {
             this.snackbar = true
 
         },
+        getList(item, queryText, itemText) {
+            return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())
+        }
     }
 
 }

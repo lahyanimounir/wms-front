@@ -46,7 +46,9 @@
                     <label for="">Compte *</label>
 
                     <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
-                        outlined dense placeholder="compte de contrepartie" item-text="numero_compte" item-value="id">
+                        outlined dense placeholder="compte de contrepartie" item-text="numero_compte" item-value="id"
+                        :filter="getList"
+                        >
                         <template slot="selection" slot-scope="{ item }">
                             {{ item.numero_compte }} - {{ item.intitulee }}
                         </template>
@@ -60,7 +62,8 @@
                     <v-autocomplete v-model="editedItem.tiers" color="red"
                         :disabled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" 
                         :filled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" :items="test" outlined
-                        dense placeholder="Tiers" item-text="denomination" item-value="id">
+                        dense placeholder="Tiers" item-text="denomination" item-value="id"
+                        >
                         <template slot="selection" slot-scope="{ item }">
                             {{ item.denomination }}
                         </template>
@@ -370,6 +373,9 @@ export default {
             this.editedItem.tiers = {}
             this.editedItem.compte = {}
         },
+        getList(item, queryText, itemText) {
+            return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())
+        }
     }
 
 }

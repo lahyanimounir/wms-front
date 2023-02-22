@@ -87,7 +87,9 @@
 
                         <v-autocomplete v-model="editedItem.plan_comptable" return-object :rules="obligationRule"
                             :items="collectif" outlined dense placeholder="Plan comptable" item-text="numero_compte"
-                            item-value="id" style="font-size:16px">
+                            item-value="id" style="font-size:16px"
+                            :filter="getList"
+                            >
                             <template slot="selection" slot-scope="{ item }">
                                 {{ item.numero_compte }} - {{ item.intitulee.length > 5 && charsNumberCollectif != -1 ?item.intitulee.substring(0, charsNumberCollectif) + '...' : item.intitulee }}
                             </template>
@@ -114,7 +116,9 @@
 
                         <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule"
                             :items="contreparties" outlined dense placeholder="compte de contrepartie"
-                            item-text="numero_compte" item-value="id">
+                            item-text="numero_compte" item-value="id"
+                            :filter="getList"
+                            >
                             <template slot="selection" slot-scope="{ item }">
                                 {{ item.numero_compte }} - {{ item.intitulee.length ? item.intitulee.substring(0, charsNumberContreparties) + '...' : item.intitulee }}
                             </template>
@@ -889,6 +893,9 @@ export default {
             this.someCredit = this.someCredit.toFixed(2)
             this.someDebit = this.someDebit.toFixed(2)
         },
+        getList(item, queryText, itemText) {
+            return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())
+        }
 
     }
 

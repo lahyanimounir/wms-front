@@ -200,7 +200,7 @@
                             <th class="subtitle-2">Libelle</th>
                             <th class="subtitle-2">Debit</th>
                             <th class="subtitle-2">Credit</th>
-                            <th class="subtitle-2 text-center">Action</th>
+                            <th class="subtitle-2 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -421,8 +421,8 @@ export default {
                     val = val + '0'
                 }
 
-                this.editedItem.montant_ht = (val * 100 / (100 + this.editedItem.taux_tva)).toFixed(2)
-                this.editedItem.montant_tva = (val - this.editedItem.montant_ht).toFixed(2)
+                this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
+                this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
             }
             this.isUpdate = false
         },
@@ -562,6 +562,8 @@ export default {
                         compte: compte,
                         tiers: this.editedItem.tiers.denomination,
                         libelle: this.editedItem.libelle,
+                        taux_tva : this.editedItem.taux_tva
+
                     }
                     this.tempEcritures[this.editedItems[i]] = editedEcriture
                     let debit,credit;
@@ -591,6 +593,7 @@ export default {
                         tiers: this.editedItem.tiers.id,
                         debit: debit,
                         credit: credit,
+                        taux_tva : this.editedItem.taux_tva
                     }
                     this.newEcritures[this.editedItems[i]] = row
                 }

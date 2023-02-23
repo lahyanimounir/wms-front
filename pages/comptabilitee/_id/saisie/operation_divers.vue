@@ -7,7 +7,7 @@
 
                 <div style="font-size:18px">
                     Dossier :<b> {{ dossier && dossier.d_denomination }} </b>-<b> {{ dossier && dossier.d_activitee }} </b>|
-                    Exercice du : <b>{{ du }}</b> au <b>{{ au }}</b>
+                    Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
                     <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
                 </div>
                 <div class="font-weight-bold" style="font-size:18px;">Saisie operations diverses :</div>
@@ -299,7 +299,7 @@ export default {
         },
         computedDateFormatted() {
             return this.formatDate(this.date)
-        },
+        }
 
     },
     watch: {
@@ -417,6 +417,9 @@ export default {
 
     },
     methods: {
+        formatDate(date){
+            return moment(date).format('DD/MM/YYYY')
+        },
         async allValid() {
             this.dialogConfirmation = true
             // this.id = this.$route.params.id

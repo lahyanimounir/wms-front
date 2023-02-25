@@ -6,7 +6,7 @@
             <div class=" py-5 px-3">
 
                 <div style="font-size:18px">
-                    Dossier :<b> {{ dossier && dossier.d_denomination }} </b>-<b> {{ dossier && dossier.d_activitee }} </b>|
+                    Dossier :<b> {{ dossier && dossier.d_denomination }} </b>|
                     Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
                     <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
                 </div>

@@ -3,10 +3,12 @@
         <v-card elevation="0" style="border:1px solid #ddd">
             <div class=" py-5 px-3">
 
-                <div class="subtitle-2 ">
-                    Dossier : {{ dossier && dossier.d_denomination }} - {{ dossier && dossier.d_activitee }}
+                <div style="font-size:18px">
+                    Dossier :<b> {{ dossier && dossier.d_denomination }} </b>| Exercice du : <b>{{ du }}</b> au <b>{{ au }}</b>
+                    <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
                 </div>
-                <div class="text--secondary">saisie operation de tresorerie</div>
+                <div class="font-weight-bold" style="font-size:18px">Saisie operation de tresorerie</div>
+                <!-- <div class="text--secondary"></div> -->
             </div>
             <v-form ref="ecritureForm">
             <v-row class="mx-0">
@@ -93,7 +95,7 @@
 
         <v-card elevation="0" class="mt-3 px-3 py-3" style="border:1px solid #ddd">
             <div class="subtitle-2 ">
-                Exercice du : {{ du }} au {{ au }}
+                Ecritures :
             </div>
             <div class="pt-3">
                 <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
@@ -281,6 +283,8 @@ export default {
             this.items = planComptable
             // this.items = exercice.collectif;
             this.ecritures = exercice.data.ecritures;
+            this.du = this.exercice.du
+            this.au = this.exercice.au
         }
     },
     methods: {

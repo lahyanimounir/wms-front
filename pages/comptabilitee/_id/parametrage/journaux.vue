@@ -64,13 +64,13 @@
 
 
                                         
-                                        <v-autocomplete   v-model="editedItem.id_compte_contrepartie" :items="items2" outlined dense 
-                                            placeholder="compte de contrepartie" item-text="intitulee" item-value="id">
-                                            <!-- <template slot="selection" slot-scope="{ item }">
-                                                {{  item.numero_compte}} -  {{ item.intitulee }} 
-                                        </template> -->
-                                        <template slot="item" slot-scope="{ item }">
-                                            {{  item.numero_compte}} -  {{ item.intitulee }} 
+                                        <v-autocomplete :filter="getList"  v-model="editedItem.id_compte_contrepartie" :items="items2" outlined dense 
+                                            placeholder="compte de contrepartie" item-text="numero_compte" item-value="id">
+                                            <template slot="selection" slot-scope="{ item }">
+                                                {{ item.numero_compte }} - {{ item.intitulee }}
+                                            </template>
+                                            <template slot="item" slot-scope="{ item }">
+                                                {{ item.numero_compte }} - {{ item.intitulee }}
                                             </template>
                                         </v-autocomplete>
                                     </v-col>
@@ -189,6 +189,9 @@ export default {
     fetch() {
     },
     methods: {
+        getList(item, queryText, itemText) {
+            return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())
+        },
         async initialize() {
             this.id = this.$route.params.id
             let url = process.env.Name_api + "/planComptables";

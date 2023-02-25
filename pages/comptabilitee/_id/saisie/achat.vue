@@ -205,18 +205,20 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in tempEcritures" :key="index">
-                            <td>{{ index%3 == 0 ? item.date.split('-').reverse().join('/'):'-' }}</td>
+                            <td>{{ item.isNewOne ? item.date.split('-').reverse().join('/'):'-' }}</td>
                             <td>{{ item.compte }}</td>
-                            <td>{{ index %3 ==0 ?item.tiers:'-'}}</td>
-                            <td>{{ index %3 ==0 ?item.libelle:'-' }}</td>
+                            <td>{{ item.isNewOne ? item.tiers:'-'}}</td>
+                            <td>{{ item.isNewOne ? item.libelle:'-' }}</td>
                             <td>{{ item.debit }}</td>
                             <td>{{ item.credit }}</td>
+                      
                             <td  class="text-center">
-                                <v-btn v-if="index%3 == 0" icon @click="deleteEcriture([ ...Array(3).keys() ].map( i => i+index))">
+                                <v-btn v-if="item.isNewOne" icon @click="deleteEcriture([ ...Array(item.nbrEcriture).keys() ].map( i => i+index))">
                                     <v-icon>mdi-delete</v-icon>
                                 </v-btn>
-                                <v-btn v-if="index%3 == 0" icon @click="editEcriture([ ...Array(3).keys() ].map( i => i+index))">
-                                    <v-icon>mdi-pencil</v-icon>
+                                <v-btn v-if="item.isNewOne" icon @click="editEcriture([ ...Array(item.nbrEcriture).keys() ].map( i => i+index))">
+                                    <v-icon>mdi-pencil </v-icon>
+                                    {{ [ ...Array(item.nbrEcriture).keys() ].map( i => i+index) }}
                                 </v-btn>
                             </td>
                         </tr>
@@ -278,6 +280,7 @@ export default {
     data: (vm) => ({
         date: new Date().toISOString().substr(0, 10),
         dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+        nbrEcriture:3,
         menu1: false,
         someDebit: 0,
         someCredit: 0,
@@ -545,8 +548,8 @@ export default {
             console.log(this.du)
         },
         async addEcriture() {
-            let nbrEcriture = this.editedItem.montant_ttc ? 3 : 2 
-            let index =  nbrEcriture == 3 ? 0 : 1
+            this.nbrEcriture = this.editedItem.montant_ttc ? 3 : 2 
+            let index =  this.nbrEcriture == 3 ? 0 : 1
             if (!this.$refs.ecritureForm.validate()) {
                 return
             }
@@ -610,7 +613,7 @@ export default {
                 this.editedItems = []
             }
             else{
-               
+               let isNewOne = true;
             for (let i = index ; i < 3; i++) {
                 let compte, compteObj;
                 if (i == 0) {
@@ -630,7 +633,9 @@ export default {
                     compte: compte,
                     tiers: `${this.editedItem?.tiers?.denomination}`,
                     libelle: this.editedItem?.libelle,
-                    taux_tva:this.editedItem?.taux_tva
+                    taux_tva:this.editedItem?.taux_tva,
+                    nbrEcriture: this.nbrEcriture,
+                    isNewOne: isNewOne
                 })
                 let debit;
                 let credit;
@@ -677,7 +682,10 @@ export default {
                 }
                 console.log('row', row)
                 this.newEcritures.push(row)
+                isNewOne = false
             }
+            console.log('this.tempEcriture', this.tempEcritures)
+
             }
             localStorage.removeItem('ecriture')
             this.$refs.ecritureForm.resetValidation()

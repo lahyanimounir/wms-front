@@ -86,7 +86,7 @@
                     <v-col cols="2" class="pl-3 pr-1 ">
                         <label for="">Plan comptable *</label>
 
-                        <v-autocomplete :filter="getList" v-model="editedItem.plan_comptable" return-object :rules="obligationRule"
+                        <v-autocomplete :filter="getList" v-model="editedItem.plan_comptable" return-object :rules="editedItem.montant_ttc ? obligationRule : []"
                             :items="collectif" outlined dense placeholder="Plan comptable" item-text="numero_compte"
                             item-value="id" style="font-size:16px">
                             <template slot="selection" slot-scope="{ item }">
@@ -104,6 +104,7 @@
                             <v-autocomplete v-model="editedItem.tiers" color="red" return-object
                                 :disabled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
                                 :filled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
+                                :rules="editedItem.plan_comptable ? obligationRule : []"
                                 :items="tiersShow" outlined dense placeholder="Tiers" item-text="denomination" item-value="id">
                                 <template slot="selection" slot-scope="{ item }">
                                     {{ item.denomination }}
@@ -218,7 +219,7 @@
                                 </v-btn>
                                 <v-btn v-if="item.isNewOne" icon @click="editEcriture([ ...Array(item.nbrEcriture).keys() ].map( i => i+index))">
                                     <v-icon>mdi-pencil </v-icon>
-                                    {{ [ ...Array(item.nbrEcriture).keys() ].map( i => i+index) }}
+                                    <!-- {{ [ ...Array(item.nbrEcriture).keys() ].map( i => i+index) }} -->
                                 </v-btn>
                             </td>
                         </tr>
@@ -445,7 +446,7 @@ export default {
             this.tiersShow = this.tiers.filter(item => item.compte_tiers?.id == val?.id)
         },
         'editedItem.tiers'(val) {
-            this.selectedTiers = this.tiers.find(item => item.id == val.id)
+            this.selectedTiers = this.tiers.find(item => item.id == val?.id)
             this.editedItem.echeance = this.calculateEcheance()
         },
         'editedItem.reference_facture'(val) {
@@ -553,7 +554,7 @@ export default {
         async addEcriture() {
             this.nbrEcriture = this.editedItem.montant_ttc ? 3 : 2 
             let index =  this.nbrEcriture == 3 ? 0 : 1
-            if (!this.$refs.ecritureForm.validate()) {
+            if (!this.$refs.ecritureForm.validate() || (this.editedItem.montant_ht == 0 && this.editedItem.montant_ttc == 0)) {
                 return
             }
             if(this.isEdit){
@@ -574,27 +575,40 @@ export default {
                     let editedEcriture = {
                         date:this.date,
                         compte: compte,
-                        tiers: this.editedItem.tiers.denomination,
-                        libelle: this.editedItem.libelle,
-                        taux_tva : this.editedItem.taux_tva
-
+                        tiers: this.editedItem.tiers?.denomination,
+                        libelle: this.editedItem?.libelle,
+                        taux_tva: this.editedItem?.taux_tva,
+                        nbrEcriture: this.nbrEcriture,
+                        isNewOne: i-index == 0 ? true : false,
                     }
-                    this.tempEcritures[this.editedItems[i]] = editedEcriture
-                    let debit,credit;
+                    this.tempEcritures[this.editedItems[i - index]] = editedEcriture
+                    let debit, credit;
                     if (i == 0) {
                         credit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ttc : '';
                         debit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ttc : '';
                     } else if (i == 1) {
-                        debit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ht : ''
-                        credit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ht : '';
+                        if (this.editedItem.montant_ttc) {
+
+                            debit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ht : ''
+                            credit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ht : '';
+                        } else {
+                            debit = this.editedItem.montant_ht > 0 ? this.editedItem.montant_ht : ''
+                            credit = this.editedItem.montant_ht < 0 ? this.editedItem.montant_ht : '';
+                        }
+
                     } else {
-                        debit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_tva : ''
-                        credit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_tva : '';
+                        if (this.editedItem.montant_ttc) {
+                            debit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_tva : ''
+                            credit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_tva : '';
+                        } else {
+                            debit = this.editedItem.montant_tva > 0 ? this.editedItem.montant_tva : ''
+                            credit = this.editedItem.montant_tva < 0 ? this.editedItem.montant_tva : '';
+                        }
                     }
                     credit = Math.abs(credit)
                     debit = Math.abs(debit)
-                    this.tempEcritures[this.editedItems[i]].debit = debit
-                    this.tempEcritures[this.editedItems[i]].credit = credit
+                    this.tempEcritures[this.editedItems[i - index]].debit = debit
+                    this.tempEcritures[this.editedItems[i - index]].credit = credit
 
                     let row = {
                         num_pieces: this.editedItem.num_pieces,
@@ -609,9 +623,9 @@ export default {
                         credit: credit,
                         taux_tva : this.editedItem.taux_tva
                     }
-                    this.newEcritures[this.editedItems[i]] = row
+                    this.newEcritures[this.editedItems[i -  index]] = row
                 }
-                this.editedItem = this.previousEditedItem
+                // this.editedItem = this.previousEditedItem
                 this.isEdit = false
                 this.editedItems = []
             }
@@ -660,8 +674,8 @@ export default {
                         debit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_tva : ''
                         credit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_tva : '';
                     }else{
-                        debit = this.editedItem.montant_ht > 0 ? this.editedItem.montant_ht : ''
-                        credit = this.editedItem.montant_ht < 0 ? this.editedItem.montant_ht : '';
+                        debit = this.editedItem.montant_tva > 0 ? this.editedItem.montant_tva : ''
+                        credit = this.editedItem.montant_tva < 0 ? this.editedItem.montant_tva : '';
                     }
                 }
                 credit = Math.abs(credit)
@@ -823,6 +837,26 @@ export default {
             this.isEdit = true
             this.editedItems = item
             console.log('new Ecr', this.newEcritures)
+            if(item.length < 3){
+                let ecriture1 = this.newEcritures[item[0]]
+                let ecriture2 = this.newEcritures[item[1]]
+                console.log('ecriture1', ecriture1)
+                console.log('ecriture2', ecriture2)
+                this.editedItem.journal = this.journaux.find(i=>i.id == ecriture1.journal?.id)
+                this.date = ecriture1.date
+                this.editedItem.tiers = this.tiers.find(i=>i.id == ecriture1.tiers)
+                this.editedItem.libelle = ecriture1.libelle
+                this.editedItem.reference_facture = ecriture1.reference_facture
+                this.editedItem.taux_tva = ecriture1.taux_tva
+                this.editedItem.compte = ecriture1.compte
+                this.editedItem.code_tva = this.tvas.find(i=>i.compte?.id == ecriture2.compte?.id)
+                this.editedItem.echeance = ecriture1.echeance
+                this.editedItem.montant_ht = ecriture1.debit != 0 ? ecriture1.debit : ecriture1.credit *-1
+                this.editedItem.montant_tva = ecriture2.debit != 0 ? ecriture2.debit*-1 : ecriture2.credit*-1
+
+            }
+            else{
+                console.log('here edit > 3')
             item.forEach((i,index)=>{
                 let ecriture = this.newEcritures[i]
                 if(index == 0){
@@ -833,6 +867,7 @@ export default {
                     this.editedItem.taux_tva = ecriture.taux_tva
                     this.editedItem.plan_comptable = ecriture.compte
                     this.editedItem.montant_ttc = ecriture.debit != 0 ? ecriture.debit *-1 : ecriture.credit
+                    this.editedItem.journal = this.journaux.find(i=>i.id == ecriture.journal.id)
 
                 }
                 else if (index == 1){
@@ -844,14 +879,15 @@ export default {
                     this.editedItem.code_tva = this.tvas.find(i=>i.compte?.id == ecriture.compte?.id)
                 }
             })
+        }
             // this.editedIndex = this.ecritures.indexOf(item)
             // this.editedItem = Object.assign({}, item)
             // this.dialog = true
 
         },
         deleteEcriture(item) {
-            this.newEcritures.splice(item[0],3)
-            this.tempEcritures.splice(item[0],3)
+            this.newEcritures.splice(item[0],item.length)
+            this.tempEcritures.splice(item[0],item.length)
         },
         resetEcriture() {
             this.editedItem = this.previousEditedItem

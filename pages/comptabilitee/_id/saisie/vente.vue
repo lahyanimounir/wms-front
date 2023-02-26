@@ -100,15 +100,24 @@
                     </v-col>
                     <v-col cols="2" class="pl-3 pr-1 ">
                         <label for="">Tiers</label>
-                        <v-autocomplete v-model="editedItem.tiers" color="red"
-                            return-object
-                            :disabled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
-                            :filled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')" :items="tiersShow"
-                            outlined dense placeholder="Tiers" item-text="denomination" item-value="id">
-                            <template slot="selection" slot-scope="{ item }">
-                                {{ item.denomination }}
-                            </template>
-                        </v-autocomplete>
+                        <div class="d-flex">
+                            <v-autocomplete v-model="editedItem.tiers" color="red"
+                                return-object
+                                :disabled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
+                                :filled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')" :items="tiersShow"
+                                outlined dense placeholder="Tiers" item-text="denomination" item-value="id">
+                                <template slot="selection" slot-scope="{ item }">
+                                    {{ item.denomination }}
+                                </template>
+                            </v-autocomplete>
+                            <div style="color: #5092f3;cursor: pointer;margin-left: 0.5rem;" @click="addTiers()" class="">
+                            <div class="d-inline-block px-2"
+                                style="border: 2px dotted; height: 38px; line-height: 36px; #5092f3;border-radius: 5px;cursor: pointer;">
+                                <i class="fal fa-plus"></i>
+
+                            </div>
+                        </div>
+                        </div>
                     </v-col>
                     
                     <v-col cols="3" class="pl-3 pr-1 ">
@@ -541,11 +550,28 @@ export default {
             this.ecritures = exercice.data.ecritures;
             this.date = this.du
             
+            let query = this.$route.query
+            let ecriture = localStorage.getItem('ecriture')
+            this.date = this.du
+            if (ecriture != null && query.hasOwnProperty('message') && Object.keys(query).length){
+                let ec = JSON.parse(ecriture)
+                console.log('ec', ec);
+                this.editedItem = ec
+                // this.editedItem.tiers = ec.tiers
+                // this.editedItem.plan_comptable = ec.plan_comptable
+            }
+            
             // this.items = exercice.data.planComptable;
         }
 
     },
     methods: {
+        addTiers(){
+            // save edited item in local storage and redirect to tiers page
+            localStorage.setItem('ecriture', JSON.stringify(this.editedItem))
+            this.$router.push({path:'/settings/tiers', query:{exerciceId:this.id,previousMenu:'vente'}})
+
+        },
         formatDate(date){
             return moment(date).format('DD/MM/YYYY')
         },

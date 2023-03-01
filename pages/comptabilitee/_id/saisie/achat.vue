@@ -219,7 +219,6 @@
                                 </v-btn>
                                 <v-btn v-if="item.isNewOne" icon @click="editEcriture([ ...Array(item.nbrEcriture).keys() ].map( i => i+index))">
                                     <v-icon>mdi-pencil </v-icon>
-                                    <!-- {{ [ ...Array(item.nbrEcriture).keys() ].map( i => i+index) }} -->
                                 </v-btn>
                             </td>
                         </tr>
@@ -436,18 +435,19 @@ export default {
             // }
             this.isUpdate = false
         },
-        // 'editedItem.code_tva'(val) {
-        //     let tva = this.tvas.find(item => item.id == val.id)
-        //     this.editedItem.taux_tva = tva?.taux
-        //     this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
-        //     this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
-        // },
+        'editedItem.code_tva'(val) {
+            let tva = this.tvas.find(item => item.id == val?.id)
+            this.editedItem.taux_tva = tva?.taux
+        },
         'editedItem.plan_comptable'(val) {
             this.tiersShow = this.tiers.filter(item => item.compte_tiers?.id == val?.id)
         },
         'editedItem.tiers'(val) {
+            console.log('val : ', val)
             this.selectedTiers = this.tiers.find(item => item.id == val?.id)
             this.editedItem.echeance = this.calculateEcheance()
+            this.editedItem.compte = this.selectedTiers?.compte_contrepartie
+            this.editedItem.code_tva = this.selectedTiers?.tva
         },
         'editedItem.reference_facture'(val) {
             this.editedItem.libelle = this.editedItem.reference_facture + ' ' + (this.editedItem.compte?.intitulee ? this.editedItem.compte.intitulee : '')
@@ -852,7 +852,7 @@ export default {
                 this.editedItem.code_tva = this.tvas.find(i=>i.compte?.id == ecriture2.compte?.id)
                 this.editedItem.echeance = ecriture1.echeance
                 this.editedItem.montant_ht = ecriture1.debit != 0 ? ecriture1.debit : ecriture1.credit *-1
-                this.editedItem.montant_tva = ecriture2.debit != 0 ? ecriture2.debit*-1 : ecriture2.credit*-1
+                this.editedItem.montant_tva = ecriture2.debit != 0 ? ecriture2.debit : ecriture2.credit*-1
 
             }
             else{
@@ -888,6 +888,7 @@ export default {
         deleteEcriture(item) {
             this.newEcritures.splice(item[0],item.length)
             this.tempEcritures.splice(item[0],item.length)
+            this.isEdit = false
         },
         resetEcriture() {
             this.editedItem = this.previousEditedItem

@@ -162,8 +162,8 @@
                 <v-row class="mx-0 mt-0" style="justify-content:end">
                     <v-col cols="2" class="px-1 ">
                         <label for="">MONTANT TTC</label>
-                        <v-text-field :rules="obligationRule" @blur="addDecimals()" v-model="editedItem.montant_ttc" @keyup="positive()" type="number" outlined
-                            dense></v-text-field>
+                        <v-text-field  @blur="addDecimals()" v-model="editedItem.montant_ttc"
+                            @keyup="positive()" type="number" outlined dense></v-text-field>
                     </v-col>
                     <v-col cols="2" class="px-1 ">
                         <label for="">MONTANT HT</label>
@@ -202,47 +202,24 @@
                             <th class="subtitle-2 text-center">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                     <tbody>
                         <tr v-for="(item, index) in tempEcritures" :key="index">
-                            <td>{{ index%3 == 0 ? item.date.split('-').reverse().join('/'):'-' }}</td>
+                            <td>{{ item.isNewOne ? item.date.split('-').reverse().join('/'):'-' }}</td>
                             <td>{{ item.compte }}</td>
-                            <td>{{ index %3 ==0 ?item.tiers:'-'}}</td>
-                            <td>{{ index %3 ==0 ?item.libelle:'-' }}</td>
+                            <td>{{ item.isNewOne ? item.tiers:'-'}}</td>
+                            <td>{{ item.isNewOne ? item.libelle:'-' }}</td>
                             <td>{{ item.debit }}</td>
                             <td>{{ item.credit }}</td>
+                      
                             <td  class="text-center">
-                                <v-btn v-if="index%3 == 0" icon @click="deleteEcriture([ ...Array(3).keys() ].map( i => i+index))">
+                                <v-btn v-if="item.isNewOne" icon @click="deleteEcriture([ ...Array(item.nbrEcriture).keys() ].map( i => i+index))">
                                     <v-icon>mdi-delete</v-icon>
                                 </v-btn>
-                                <v-btn v-if="index%3 == 0" icon @click="editEcriture([ ...Array(3).keys() ].map( i => i+index))">
-                                    <v-icon>mdi-pencil</v-icon>
+                                <v-btn v-if="item.isNewOne" icon @click="editEcriture([ ...Array(item.nbrEcriture).keys() ].map( i => i+index))">
+                                    <v-icon>mdi-pencil </v-icon>
                                 </v-btn>
                             </td>
                         </tr>
-                        <!-- <tr>
-                            <td >01/01/2020</td>
-                            <td>21117500 - Compte de l'exploitant</td>
-                            <td>STE DROGUERIE</td>
-                            <td>510 Compte de l'exploitant</td>
-                            <td></td>
-                            <td>544.00</td>
-                        </tr>
-                        <tr>
-                            <td ></td>
-                            <td>1111-Actionnaires, capital souscrit-non appelé</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>453.33</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td ></td>
-                            <td>83-Opérations de crédit-bail</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>90.67</td>
-                            <td></td>
-                        </tr> -->
                     </tbody>
                     <tfoot>
                         <tr>
@@ -364,7 +341,7 @@ export default {
         ],
         menu3: false,
         journaux: [],
-        journal: 'AC',
+        journal: 'VE',
         month: '',
         ecritures: [],
         dialogConfirmation: false,
@@ -385,6 +362,7 @@ export default {
         isEdit:false,
         previousEditedItem:{},
         editedItems:[],
+        nbrEcriture:3,
 
     }),
     computed:{
@@ -418,28 +396,26 @@ export default {
         editedItems(val){
             this.updateTotal()
         },
-        // 'editedItem.montant_ht'(val){
-        //     if (val && this.editedItem.taux_tva) {
-        //         this.editedItem.montant_tva = (val * (this.editedItem.taux_tva / 100)).toFixed(2)
-        //     }
-        // },
-        // 'editedItem.montant_tva'(val){
-        //     if (val && this.editedItem.taux_tva) {
-        //         this.editedItem.montant_ht = (val / (this.editedItem.taux_tva / 100)).toFixed(2)
+        // 'editedItem.montant_ht'(val) {
+        //     if (val && this.editedItem.taux_tva && this.editedItem.montant_ttc) {
+        //         this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
         //     }
         // },
         'editedItem.montant_ht'(val) {
             if (val && this.editedItem.taux_tva && this.editedItem.montant_ttc) {
-                this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
-            }
+                // this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
+             }else if(val && this.editedItem.taux_tva ){
+               
+                this.editedItem.montant_tva = (this.editedItem.montant_ht * this.editedItem.taux_tva) / 100
+             }
         },
-        'editedItem.montant_tva'(val) {
-            if (val && this.editedItem.taux_tva) {
-                this.editedItem.montant_ht = (this.editedItem.montant_ttc - this.editedItem.montant_tva).toFixed(2)
+        // 'editedItem.montant_tva'(val) {
+        //     if (val && this.editedItem.taux_tva) {
+        //         this.editedItem.montant_ht = (this.editedItem.montant_ttc - this.editedItem.montant_tva).toFixed(2)
                 
-            }
-        },
-        'editedItem.taux_tva'(val) {
+        //     }
+        // },
+       'editedItem.taux_tva'(val) {
             this.filteredTvas = val ? this.tvas.filter(item => item.taux == val) : this.tvas
             this.editedItem.taux_tva = val
             if (val && this.editedItem.montant_ttc) {
@@ -447,33 +423,33 @@ export default {
                 // this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
                 this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
                 this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
+            }else if(val && this.editedItem.montant_ht){
+                this.editedItem.montant_tva = (this.editedItem.montant_ht * this.editedItem.taux_tva) / 100
+
             }
         },
         'editedItem.montant_ttc'(val) {
-            if (val == 0 || val == null) {
-                this.editedItem.montant_ht = ''
-                this.editedItem.montant_tva = ''
-                return
-            }
-            if (val && this.editedItem.taux_tva && !this.isUpdate) {
-                if (val.toString().split('.').length == 1) {
-                    val = val + '.00'
-                }
-                else if (val.toString().split('.')[1].length == 1) {
-                    val = val + '0'
-                }
+            // if (val == 0 || val == null) {
+            //     this.editedItem.montant_ht = ''
+            //     this.editedItem.montant_tva = ''
+            //     return
+            // }
+            // if (val && this.editedItem.taux_tva && !this.isUpdate) {
+            //     if (val.toString().split('.').length == 1) {
+            //         val = val + '.00'
+            //     }
+            //     else if (val.toString().split('.')[1].length == 1) {
+            //         val = val + '0'
+            //     }
 
                 this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
                 this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
-            }
+            // }
             this.isUpdate = false
         },
         'editedItem.code_tva'(val){
-            let tva = this.tvas.find(item => item.id == val.id)
+            let tva = this.tvas.find(item => item.id == val?.id)
             this.editedItem.taux_tva = tva?.taux
-            this.selectedTva = tva
-            this.editedItem.montant_ht = (this.editedItem.montant_ttc / (1 + (this.editedItem.taux_tva / 100))).toFixed(2)
-            this.editedItem.montant_tva = (this.editedItem.montant_ttc - this.editedItem.montant_ht).toFixed(2)
         },
         'editedItem.plan_comptable'(val){
             this.tiersShow = this.tiers.filter(item => item.compte_tiers?.id == val?.id)
@@ -481,6 +457,8 @@ export default {
         'editedItem.tiers'(val){
             this.selectedTiers = this.tiers.find(item => item.id == val.id)
             this.editedItem.echeance = this.calculateEcheance()
+            this.editedItem.compte = this.selectedTiers?.compte_contrepartie
+            this.editedItem.code_tva = this.selectedTiers?.tva
         },
         'editedItem.reference_facture'(val) {
             this.editedItem.libelle = this.editedItem.reference_facture + ' ' + (this.editedItem.compte?.intitulee ? this.editedItem.compte.intitulee : '')
@@ -594,11 +572,13 @@ export default {
             console.log(this.du)
         },
         async addEcriture() {
-            if (!this.$refs.ecritureForm.validate()) {
+            this.nbrEcriture = this.editedItem.montant_ttc ? 3 : 2 
+            let index =  this.nbrEcriture == 3 ? 0 : 1
+            if (!this.$refs.ecritureForm.validate() || (this.editedItem.montant_ht == 0 && this.editedItem.montant_ttc == 0)) {
                 return
             }
             if(this.isEdit){
-                for(let i =0; i < 3 ; i++){
+                for(let i = index; i < 3 ; i++){
                     let compte, compteObj;
                     if(i == 0){
                         compte = `${this.editedItem?.plan_comptable?.numero_compte} - ${this.editedItem?.plan_comptable?.intitulee}`
@@ -615,26 +595,40 @@ export default {
                     let editedEcriture = {
                         date:this.date,
                         compte: compte,
-                        tiers: this.editedItem.tiers.denomination,
-                        libelle: this.editedItem.libelle,
-                        taux_tva:this.editedItem.taux_tva
+                        tiers: this.editedItem.tiers?.denomination,
+                        libelle: this.editedItem?.libelle,
+                        taux_tva: this.editedItem?.taux_tva,
+                        nbrEcriture: this.nbrEcriture,
+                        isNewOne: i-index == 0 ? true : false,
                     }
-                    this.tempEcritures[this.editedItems[i]] = editedEcriture
-                    let debit,credit;
+                    this.tempEcritures[this.editedItems[i - index]] = editedEcriture
+                    let debit, credit;
                     if (i == 0) {
                         credit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ttc : '';
                         debit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ttc : '';
                     } else if (i == 1) {
-                        debit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ht : ''
-                        credit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ht : '';
+                        if (this.editedItem.montant_ttc) {
+
+                            debit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ht : ''
+                            credit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ht : '';
+                        } else {
+                            debit = this.editedItem.montant_ht < 0 ? this.editedItem.montant_ht : ''
+                            credit = this.editedItem.montant_ht > 0 ? this.editedItem.montant_ht : '';
+                        }
+
                     } else {
-                        debit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_tva : ''
-                        credit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_tva : '';
+                        if (this.editedItem.montant_ttc) {
+                            debit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_tva : ''
+                            credit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_tva : '';
+                        } else {
+                            debit = this.editedItem.montant_tva < 0 ? this.editedItem.montant_tva : ''
+                            credit = this.editedItem.montant_tva > 0 ? this.editedItem.montant_tva : '';
+                        }
                     }
                     credit = Math.abs(credit)
                     debit = Math.abs(debit)
-                    this.tempEcritures[this.editedItems[i]].debit = debit
-                    this.tempEcritures[this.editedItems[i]].credit = credit
+                    this.tempEcritures[this.editedItems[i - index]].debit = debit
+                    this.tempEcritures[this.editedItems[i - index]].credit = credit
 
                     let row = {
                         num_pieces: this.editedItem.num_pieces,
@@ -645,54 +639,70 @@ export default {
                         libelle: this.editedItem.libelle,
                         compte: compteObj,
                         tiers: this.editedItem.tiers.id,
-                        taux_tva: this.editedItem.taux_tva,
                         debit: debit,
                         credit: credit,
+                        taux_tva : this.editedItem.taux_tva
                     }
-                    this.newEcritures[this.editedItems[i]] = row
+                    this.newEcritures[this.editedItems[i -  index]] = row
                 }
-                this.editedItem = this.previousEditedItem
+                // this.editedItem = this.previousEditedItem
                 this.isEdit = false
                 this.editedItems = []
             }
             else{
-            for(let i = 0; i < 3; i++){
-                let compte,compteObj;
-                if(i==0){
-                    compte =  `${this.editedItem?.plan_comptable?.numero_compte} - ${this.editedItem?.plan_comptable?.intitulee}`
+               let isNewOne = true;
+            for (let i = index ; i < 3; i++) {
+                let compte, compteObj;
+                if (i == 0) {
+                    compte = `${this.editedItem?.plan_comptable?.numero_compte} - ${this.editedItem?.plan_comptable?.intitulee}`
                     compteObj = this.editedItem?.plan_comptable
                 }
-                else if (i==1){
-                    compte =  `${this.editedItem?.compte?.numero_compte} - ${this.editedItem?.compte?.intitulee}`
+                else if (i == 1) {
+                    compte = `${this.editedItem?.compte?.numero_compte} - ${this.editedItem?.compte?.intitulee}`
                     compteObj = this.editedItem?.compte
                 }
-                else{
+                else {
                     compte = `${this.editedItem.code_tva.compte?.numero_compte} - ${this.editedItem.code_tva.compte?.intitulee}`
                     compteObj = this.editedItem.code_tva?.compte
                 }
-                this.tempEcritures.push({ 
-                    date: this.date, 
-                    compte: compte, 
-                    tiers: `${this.editedItem?.tiers?.denomination}`, 
+                this.tempEcritures.push({
+                    date: this.date,
+                    compte: compte,
+                    tiers: `${this.editedItem?.tiers?.denomination}`,
                     libelle: this.editedItem?.libelle,
-                    taux_tva:this.editedItem?.taux_tva
+                    taux_tva:this.editedItem?.taux_tva,
+                    nbrEcriture: this.nbrEcriture,
+                    isNewOne: isNewOne
                 })
                 let debit;
                 let credit;
-                if(i == 0){
+                if (i == 0) {
+                    credit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ttc : '';
                     debit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ttc : '';
-                    credit = this.editedItem.montant_ttc < 0 ?  this.editedItem.montant_ttc: '';
-                }else if(i == 1){
-                    credit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ht : ''
-                    debit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ht : '';
-                }else{
-                    credit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_tva : ''
-                    debit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_tva : '';
+                } else if (i == 1) {
+                    if(this.editedItem.montant_ttc){
+
+                        debit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_ht : ''
+                        credit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_ht : '';
+                    }else{
+                        debit = this.editedItem.montant_ht < 0 ? this.editedItem.montant_ht : ''
+                        credit = this.editedItem.montant_ht > 0 ? this.editedItem.montant_ht : '';
+                    }
+                
+                } else {
+                    if(this.editedItem.montant_ttc){
+                        debit = this.editedItem.montant_ttc < 0 ? this.editedItem.montant_tva : ''
+                        credit = this.editedItem.montant_ttc > 0 ? this.editedItem.montant_tva : '';
+                    }else{
+                        debit = this.editedItem.montant_tva < 0 ? this.editedItem.montant_tva : ''
+                        credit = this.editedItem.montant_tva > 0 ? this.editedItem.montant_tva : '';
+                    }
                 }
                 credit = Math.abs(credit)
                 debit = Math.abs(debit)
-                this.tempEcritures[this.tempEcritures.length-1].credit = credit
-                this.tempEcritures[this.tempEcritures.length-1].debit = debit
+                this.tempEcritures[this.tempEcritures.length - 1].credit = credit
+                this.tempEcritures[this.tempEcritures.length - 1].debit = debit
+                console.log('this edited item', this.editedItem)
                 let row = {
                     num_pieces: this.editedItem.num_pieces,
                     journal: this.editedItem.journal,
@@ -707,13 +717,22 @@ export default {
                     credit: credit,
 
                 }
+                console.log('row', row)
                 this.newEcritures.push(row)
+                isNewOne = false
             }
+            console.log('this.tempEcriture', this.tempEcritures)
+
             }
+            localStorage.removeItem('ecriture')
             this.$refs.ecritureForm.resetValidation()
             this.editedItem.montant_ht = ''
             this.editedItem.montant_tva = ''
             this.editedItem.montant_ttc = ''
+
+
+
+
         },
         async betweenDate() {
             if (!this.editedItem.du || !this.editedItem.au) {
@@ -863,8 +882,9 @@ export default {
 
         },
         deleteEcriture(item) {
-            this.newEcritures.splice(item[0],3)
-            this.tempEcritures.splice(item[0],3)
+            this.newEcritures.splice(item[0],item.length)
+            this.tempEcritures.splice(item[0],item.length)
+            this.isEdit = false
         },
         editEcriture(item) {
             window.scrollTo({top: 0, behavior: 'smooth'});
@@ -873,9 +893,28 @@ export default {
             this.isEdit = true
             this.editedItems = item
             console.log('new Ecr', this.newEcritures)
+            if(item.length < 3){
+                let ecriture1 = this.newEcritures[item[0]]
+                let ecriture2 = this.newEcritures[item[1]]
+                console.log('ecriture1', ecriture1)
+                console.log('ecriture2', ecriture2)
+                this.editedItem.journal = this.journaux.find(i=>i.id == ecriture1.journal?.id)
+                this.date = ecriture1.date
+                this.editedItem.tiers = this.tiers.find(i=>i.id == ecriture1.tiers)
+                this.editedItem.libelle = ecriture1.libelle
+                this.editedItem.reference_facture = ecriture1.reference_facture
+                this.editedItem.taux_tva = ecriture1.taux_tva
+                this.editedItem.compte = ecriture1.compte
+                this.editedItem.code_tva = this.tvas.find(i=>i.compte?.id == ecriture2.compte?.id)
+                this.editedItem.echeance = ecriture1.echeance
+                this.editedItem.montant_ht = ecriture1.debit != 0 ? ecriture1.debit *-1 : ecriture1.credit 
+                this.editedItem.montant_tva = ecriture2.debit != 0 ? ecriture2.debit*-1 : ecriture2.credit
+
+            }
+            else{
+                console.log('here edit > 3')
             item.forEach((i,index)=>{
                 let ecriture = this.newEcritures[i]
-                console.log('ecriture', ecriture)
                 if(index == 0){
                     this.date = ecriture.date
                     this.editedItem.tiers = this.tiers.find(i=>i.id == ecriture.tiers)
@@ -883,7 +922,8 @@ export default {
                     this.editedItem.reference_facture = ecriture.reference_facture
                     this.editedItem.taux_tva = ecriture.taux_tva
                     this.editedItem.plan_comptable = ecriture.compte
-                    this.editedItem.montant_ttc = ecriture.debit != 0 ? ecriture.debit : ecriture.credit *-1
+                    this.editedItem.montant_ttc = ecriture.debit != 0 ? ecriture.debit  : ecriture.credit *-1
+                    this.editedItem.journal = this.journaux.find(i=>i.id == ecriture.journal.id)
 
                 }
                 else if (index == 1){
@@ -895,6 +935,7 @@ export default {
                     this.editedItem.code_tva = this.tvas.find(i=>i.compte?.id == ecriture.compte?.id)
                 }
             })
+        }
             // this.editedIndex = this.ecritures.indexOf(item)
             // this.editedItem = Object.assign({}, item)
             // this.dialog = true

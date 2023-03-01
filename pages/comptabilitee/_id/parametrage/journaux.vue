@@ -196,10 +196,10 @@ export default {
             this.id = this.$route.params.id
             let url = process.env.Name_api + "/planComptables";
            this.items2 = await this.$myService.get(url)
-            url = process.env.Name_api + "/journaux";
-            this.rows = await this.$myService.get(url)
-            url = process.env.Name_api + "/exercice/" + this.id+"?params=journaux";
-            const res  = await this.$myService.get(url)
+           url = process.env.Name_api + "/exercice/" + this.id+"?params=journaux";
+           const res  = await this.$myService.get(url)
+           url = process.env.Name_api + "/journaux";
+           this.rows = await this.$myService.get(url)
             this.items3 = res[0].journaux
             // this.test = exercice.journaux
         },

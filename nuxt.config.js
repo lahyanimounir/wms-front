@@ -46,6 +46,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
+    '@nuxtjs/auth',
   ],
   plugins: [
     '~/plugins/axios.js',
@@ -53,7 +54,39 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/'
+    // baseURL: '/'
+    baseURL: process.env.Name_api
+    
+  },
+  auth: {
+    localStorage: false,
+    watchLoggedIn : true,
+    strategies: {
+      local: {
+        scheme: 'refresh',
+        token: {
+          property: 'token',
+          maxAge: 1800,
+          global: true,
+          // type: 'Bearer'
+        },
+        // user: {
+        //   property: false,
+        //   autoFetch: false
+        // },
+        // refreshToken: {
+        //   property: 'refresh_token',
+        //   data: 'refresh_token',
+        //   maxAge: 60 * 60 * 24 * 30
+        // },
+        endpoints: {
+          login: { url: '/login_check', method: 'post', propertyName: 'token' },
+          //user: { url: 'profile', method: 'get' },
+          //refresh: { url: 'auth/refresh', method: 'post', propertyName: 'refresh_token' },
+          logout: false
+        }
+      }
+    }
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -113,7 +146,8 @@ export default {
             blueGrey: colors.blueGrey,
           },
         }
-      }
+      },
+      
     }
   },
 

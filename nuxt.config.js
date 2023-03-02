@@ -81,7 +81,7 @@ export default {
         // },
         endpoints: {
           login: { url: '/login_check', method: 'post', propertyName: 'token' },
-          //user: { url: 'profile', method: 'get' },
+          user: { url: 'profile', method: 'get' },
           //refresh: { url: 'auth/refresh', method: 'post', propertyName: 'refresh_token' },
           logout: false
         }

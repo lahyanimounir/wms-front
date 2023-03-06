@@ -3,15 +3,33 @@
 
 
         <v-card elevation="0" style="border:1px solid #ddd">
-            <div class=" py-5 px-3">
+            <div class=" py-5 px-3 pb-0 d-flex" style="justify-content: space-between;">
 
                 <div style="font-size:18px">
                     Dossier :<b> {{ dossier && dossier.d_denomination }} </b>|
                     Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
                     <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
                 </div>
-                <div class="font-weight-bold" style="font-size:18px;">Saisie operations diverses :</div>
+                <!-- <v-btn color="primary" style="position:absolute;top:20px;right:12px" @click="afficherEcritures()">
+                        <v-icon>mdi-folder-open</v-icon>
+                        Afficher ecritures
+                </v-btn> -->
+                <div>
+                    <v-btn color="#BBDEFB" small class="py-5"  @click="afficherEcritures()">
+                            <v-icon class="mr-3">mdi-folder-open</v-icon>
+                            Afficher ecritures
+                    </v-btn>
+                    <v-btn color="#C5CAE9" small class="py-5"  @click="interrogationCompte()">
+                            <v-icon class="mr-3">mdi-folder-open</v-icon>
+                            Interrogation comptes
+                    </v-btn>
+                    <v-btn color="#D1C4E9" small class="py-5"  @click="serieComptes()">
+                            <v-icon class="mr-3">mdi-folder-open</v-icon>
+                            Interrogation series comptes
+                    </v-btn>
+                </div>
             </div>
+            <div class="font-weight-bold py-5 px-3 pt-0" style="font-size:18px;">Saisie operations diverses :</div>
             <v-snackbar v-model="snackbar" :timeout="timeout">
                 {{ text }}
 
@@ -162,7 +180,7 @@
 
         <v-card elevation="0" class="mt-3 px-3 py-3" style="border:1px solid #ddd">
             <div class="pt-3">
-                <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
+                <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows" >
                     <template v-slot:item.compte="{ item }">
                         <span>{{ item && item.compte && item.compte.intitulee }}</span>
                     </template>
@@ -347,11 +365,11 @@ export default {
 
         // },
         'editedItem.journal'(val) {
-            if (val.type.split(' ').length == 1) {
-                this.journal = val.type.split(' ')[0].substring(0, 2).toUpperCase()
-            } else {
-                this.journal = val.type.split(' ')[0].substring(0, 1).toUpperCase() + val.type.split(' ')[1].substring(0, 1).toUpperCase()
-            }
+            // if (val.type?.split(' ').length == 1) {
+            //     this.journal = val.type.split(' ')[0].substring(0, 2).toUpperCase()
+            // } else {
+            //     this.journal = val.type.split(' ')[0].substring(0, 1).toUpperCase() + val.type.split(' ')[1].substring(0, 1).toUpperCase()
+            // }
             let incr
             let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
             if (aaa.length > 0) {
@@ -386,6 +404,18 @@ export default {
             this.editedItem.date = this.du
             this.date = this.du
         }
+        console.log("this router query", this.$route.query)
+        let num_pieces = this.$route.query.num_pieces
+        console.log("num_pieces", num_pieces)
+        if(num_pieces){
+            let url = process.env.Name_api + "/exercice/" + this.id + "/getEcritures?num_pieces=" + num_pieces;
+            let ecritures = await this.$myService.get(url)
+            this.rows = ecritures
+            this.ecritures = ecritures
+            console.log("ecritures", ecritures)
+            console.log("this.rows", this.rows)
+            // console.log("ecritures", ecritures)
+        }
         //  this.exercice = exercice
         //  this.journaux = exercice.data.journaux;
         //  this.tiers = exercice.data.tiers;
@@ -417,9 +447,6 @@ export default {
 
     },
     methods: {
-        formatDate(date){
-            return moment(date).format('DD/MM/YYYY')
-        },
         async allValid() {
             this.dialogConfirmation = true
             // this.id = this.$route.params.id
@@ -454,8 +481,8 @@ export default {
                 Object.assign(this.rows[this.editedIndex], this.editedItem)
                 console.log('this rows after : ',this.rows)
                 this.editedIndex = -1
-                this.editedItem = Object.assign({}, this.previousEditedItem)
                 this.isEdit = false
+                this.editedItem.id = null
                 this.updateTotal()
 
 
@@ -650,7 +677,16 @@ export default {
         },
         getList(item, queryText, itemText) {
             return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())
-        }
+        },
+        afficherEcritures(){
+            this.$router.push({ path: '/comptabilitee/' + this.id + '/lists/ecritures' , query: { previousMenu : this.$route.path, selectedJournal : this.editedItem.journal.id }})
+        },
+        interrogationCompte(){
+            this.$router.push({ path: '/comptabilitee/' + this.id + '/lists/interrogationComptes' })
+        },
+        serieComptes(){
+            this.$router.push({ path: '/comptabilitee/' + this.id + '/lists/serieComptes' })
+        },
     }
 
 }

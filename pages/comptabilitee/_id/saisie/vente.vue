@@ -550,9 +550,6 @@ export default {
             this.$router.push({path:'/settings/tiers', query:{exerciceId:this.id,previousMenu:'vente'}})
 
         },
-        formatDate(date){
-            return moment(date).format('DD/MM/YYYY')
-        },
         async allValid() {
             if(this.someCredit == this.someCredit && this.newEcritures.length > 0){
                 this.dialogConfirmation = true

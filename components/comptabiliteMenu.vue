@@ -259,7 +259,7 @@
 
 
 
-                <v-list-item class="pl-6 pr-0" link 
+                <!-- <v-list-item class="pl-6 pr-0" link 
                 @click="$router.push({ path: '/comptabilitee/' + id + '/saisie/ANouveau' })"
                 >
                     <v-list-item-icon>
@@ -269,7 +269,7 @@
                     <v-list-item-title class="pl-3">
                         SAISIE A NOUVEAU
                     </v-list-item-title>
-                </v-list-item>
+                </v-list-item> -->
 
                 <v-list-item class="pl-6 pr-0" link 
                 @click="$router.push({ path: '/comptabilitee/' + id + '/saisie/budget' })">

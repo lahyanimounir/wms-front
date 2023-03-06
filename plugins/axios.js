@@ -4,9 +4,9 @@ export default function ({ $axios }, inject) {
 
   
   const myService = {
-     get (apiName) {
+     get (apiName,params=null) {
       console.log('ici axios', apiName)
-      return  $axios.$get(apiName)
+      return  $axios.$get(apiName, {params})
     },
     delete(apiName) {
       return $axios.$delete(apiName)

@@ -530,9 +530,6 @@ export default {
 
     },
     methods: {
-        formatDate(date){
-            return moment(date).format('DD/MM/YYYY')
-        },
         async allValid() {
             if (this.someCredit == this.someCredit && this.newEcritures.length > 0) {
                 this.dialogConfirmation = true

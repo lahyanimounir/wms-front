@@ -4,117 +4,138 @@
             <div class=" py-5 px-3">
 
                 <div style="font-size:18px">
-                    Dossier :<b> {{ dossier && dossier.d_denomination }} </b>| Exercice du : <b>{{ du }}</b> au <b>{{ au }}</b>
+                    Dossier :<b> {{ dossier && dossier.d_denomination }} </b>|
+                    Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
+
                     <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
                 </div>
                 <div class="font-weight-bold" style="font-size:18px">Saisie operation de tresorerie</div>
                 <!-- <div class="text--secondary"></div> -->
             </div>
+            <v-snackbar v-model="snackbar" :timeout="timeout">
+                {{ text }}
+
+                <template v-slot:action="{ attrs }">
+                    <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+                        Close
+                    </v-btn>
+                </template>
+            </v-snackbar>
             <v-form ref="ecritureForm">
-            <v-row class="mx-0">
-                <v-col cols="2">
-                    <label for="">Journal *</label>
+                <v-row class="mx-0">
+                    <v-col cols="2">
+                        <label for="">Journal *</label>
 
-                    <v-autocomplete hide-details v-model="editedItem.journal" return-object :rules="obligationRule"
-                        :items="journaux" outlined dense placeholder="Journaux" item-text="nom" item-value="id">
+                        <v-autocomplete hide-details v-model="editedItem.journal" return-object :rules="obligationRule"
+                            :items="journaux" outlined dense placeholder="Journaux" item-text="nom" item-value="id">
 
-                    </v-autocomplete>
-                </v-col>
-                <v-col cols="2">
-                    <label for="">N° de piece</label>
-                    <v-text-field :disabled="true" :filled="true" v-model="editedItem.num_pieces" hide-details outlined
-                        dense></v-text-field>
+                        </v-autocomplete>
+                    </v-col>
+                    <v-col hidden cols="2">
+                        <label for="">N° de piece</label>
+                        <v-text-field :disabled="true" :filled="true" v-model="editedItem.num_pieces" hide-details outlined
+                            dense></v-text-field>
 
-                </v-col>
-                <v-col cols="2">
-                    <label for="">Date *</label>
-                    <v-menu ref="menu" v-model="menu3" :close-on-content-click="false" transition="scale-transition"
-                            offset-y min-width="auto">
+                    </v-col>
+                    <v-col cols="2">
+                        <label for="">Date *</label>
+                        <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition"
+                            offset-y max-width="290px" min-width="290px">
                             <template v-slot:activator="{ on, attrs }">
-                                <v-text-field v-model="editedItem.date" outlined dense hide-details prepend-icon="mdi-calendar"
-                                    v-bind="attrs" v-on="on"></v-text-field>
+                                <v-text-field v-model="dateFormatted" persistent-hint v-bind="attrs"
+                                    hint="JJ/MM/AAAA format" prepend-icon="mdi-calendar" outlined dense
+                                    :format="'DD/MM/AAAA'" :rules="obligationRule" @blur="date = parseDate(dateFormatted)"
+                                    v-on="on"></v-text-field>
                             </template>
-                            <v-date-picker v-model="editedItem.date" ></v-date-picker>
+                            <v-date-picker v-model="date" no-title @input="menu1 = false" :min="du"
+                                :max="au"></v-date-picker>
                         </v-menu>
-                </v-col>
-                <v-col cols="6">
-                    <label for="">Référence *</label>
-                    <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details outlined dense></v-text-field>
-                </v-col>
-            </v-row>
+                    </v-col>
+                    <v-col cols="6">
+                        <label for="">Référence *</label>
+                        <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details outlined
+                            dense></v-text-field>
+                    </v-col>
+                </v-row>
 
-            <v-row class="mx-0">
-                <v-col cols="3" class="pl-3 pr-1 ">
-                    <label for="">Compte *</label>
+                <v-row class="mx-0">
+                    <v-col cols="3" class="pl-3 pr-1 ">
+                        <label for="">Compte *</label>
 
-                    <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
-                        outlined dense placeholder="compte de contrepartie" item-text="numero_compte" item-value="id"
-                        :filter="getList"
-                        >
-                        <template slot="selection" slot-scope="{ item }">
-                            {{ item.numero_compte }} - {{ item.intitulee }}
-                        </template>
-                        <template slot="item" slot-scope="{ item }">
-                            {{ item.numero_compte }} - {{ item.intitulee }}
-                        </template>
-                    </v-autocomplete>
-                </v-col>
-                <v-col cols="2" class="pl-3 pr-1 ">
-                    <label for="">Tiers</label>
-                    <v-autocomplete v-model="editedItem.tiers" color="red"
-                        :disabled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" 
-                        :filled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" :items="test" outlined
-                        dense placeholder="Tiers" item-text="denomination" item-value="id"
-                        >
-                        <template slot="selection" slot-scope="{ item }">
-                            {{ item.denomination }}
-                        </template>
-                    </v-autocomplete>
-                </v-col>
-                <v-col cols="4" class="px-1 ">
-                    <label for="">Libellé *</label>
-                    <v-text-field v-model="editedItem.libelle" outlined dense></v-text-field>
-                </v-col>
-                <v-col cols="1" class="px-1 ">
-                    <label for="">Débit</label>
-                    <v-text-field v-model="editedItem.debit" @keyup="positive('d')" type="number" outlined
-                        dense></v-text-field>
-                </v-col>
-                <v-col cols="1" class="px-1 ">
-                    <label for="">Credit</label>
-                    <v-text-field v-model="editedItem.credit" @keyup="positive('c')" type="number" outlined
-                        dense></v-text-field>
-                </v-col>
-                <v-col cols="1" class="px-1 ">
-                    <v-btn color="primary" small class="mt-6 py-5" @click="addEcriture()">Ajouter</v-btn>
-                </v-col>
-            </v-row>
-        </v-form>
+                        <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
+                            outlined dense placeholder="compte de contrepartie" item-text="numero_compte" item-value="id"
+                            :filter="getList">
+                            <template slot="selection" slot-scope="{ item }">
+                                {{ item.numero_compte }} - {{ item.intitulee }}
+                            </template>
+                            <template slot="item" slot-scope="{ item }">
+                                {{ item.numero_compte }} - {{ item.intitulee }}
+                            </template>
+                        </v-autocomplete>
+                    </v-col>
+                    <v-col cols="2" class="pl-3 pr-1 ">
+                        <label for="">Tiers</label>
+                        <v-autocomplete v-model="editedItem.tiers" color="red" return-object
+                            :disabled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')"
+                            :filled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" :items="test" outlined
+                            dense placeholder="Tiers" item-text="denomination" item-value="id">
+                            <template slot="selection" slot-scope="{ item }">
+                                {{ item.denomination }}
+                            </template>
+                        </v-autocomplete>
+                    </v-col>
+                    <v-col cols="3" class="px-1 ">
+                        <label for="">Libellé *</label>
+                        <v-text-field v-model="editedItem.libelle" outlined dense></v-text-field>
+                    </v-col>
+                    <v-col cols="1" class="px-1 ">
+                        <label for="">Débit</label>
+                        <v-text-field v-model="editedItem.debit" @keyup="positive('d')" type="number" outlined
+                            dense></v-text-field>
+                    </v-col>
+                    <v-col cols="1" class="px-1 ">
+                        <label for="">Credit</label>
+                        <v-text-field v-model="editedItem.credit" @keyup="positive('c')" type="number" outlined
+                            dense></v-text-field>
+                    </v-col>
+                    <v-col cols="1" class="px-1 d-flex">
+                        <v-btn v-if="isEdit" color="#EF9A9A" class="mt-5 py-5" @click="cancelEdit()">Annuler</v-btn>
+                        <v-btn color="primary" small class="mt-5 py-5 ml-3" @click="addEcriture()">{{ btnText }}</v-btn>
+                    </v-col>
+                </v-row>
+            </v-form>
         </v-card>
 
 
         <v-card elevation="0" class="mt-3 px-3 py-3" style="border:1px solid #ddd">
-            <div class="subtitle-2 ">
-                Ecritures :
-            </div>
             <div class="pt-3">
                 <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
                     <template v-slot:item.compte="{ item }">
-                        <span>{{ item && item.compte && item.compte.intitulee}}</span>
+                        <span>{{ item && item.compte && item.compte.intitulee }}</span>
                     </template>
                     <template v-slot:item.tiers="{ item }">
-                        <span>{{ item.denomination }}</span>
+                        <span>{{ item.tiers?.denomination }}</span>
                     </template>
+                    <template v-slot:item.actions="{ item, index }">
+                        <v-icon size="small" class="me-2" @click="editItem(item, index)">
+                            mdi-pencil
+                        </v-icon>
+                        <v-icon size="small" @click="deleteItem(item, index)">
+                            mdi-delete
+                        </v-icon>
+                    </template>
+                    <template slot="body.append">
+                        <tr class="">
+                            <th class="title">Total</th>
+                            <th class=""></th>
+                            <th class=""></th>
+                            <th class="" style="font-size:1rem">{{ someDebit }}</th>
+                            <th class="" style="font-size:1rem">{{ someCredit }}</th>
+                            <th class=""></th>
+                        </tr>
+                    </template>
+
                 </v-data-table>
-                <div style="display: flex;justify-content: space-between;">
-                    <div style="width: 67%;" class="subtitle-2">
-                        Total
-                    </div>
-                    <div style="width: 33%;display: flex;justify-content: space-around;">
-                        <div class="subtitle-2">{{ someDebit }}</div>
-                        <div class="subtitle-2">{{ someCredit }}</div>
-                    </div>
-                </div>
 
                 <v-alert class="mt-3" dense outlined v-if="someDebit != someCredit" type="error">
                     Les champs Débit total et Crédit doivent être égaux.
@@ -137,13 +158,15 @@
             </v-card>
         </v-dialog>
     </div>
-
 </template>
 
 
 <script>
 export default {
-    data: () => ({
+    data: (vm) => ({
+        date: new Date().toISOString().substr(0, 10),
+        dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+        menu1: false,
         someDebit: 0,
         someCredit: 0,
         du: null,
@@ -154,21 +177,21 @@ export default {
         editedItem: {
             debit: '',
             credit: '',
-            tiers: {},
-            compte: {},
+            tiers: '',
+            compte: '',
             libelle: '',
             reference_facture: '',
-            journal: {},
+            journal: '',
             date: '',
         },
         defaultItem: {
             debit: '',
             credit: '',
-            tiers: {},
-            compte: {},
+            tiers: '',
+            compte: '',
             libelle: '',
             reference_facture: '',
-            journal: {},
+            journal: '',
             date: '',
         },
         exerciceId: '',
@@ -183,6 +206,8 @@ export default {
             { text: 'Libellé', value: 'libelle' },
             { text: 'Débit', value: 'debit' },
             { text: 'Crédit', value: 'credit' },
+            { text: 'Actions', value: 'actions', sortable: false },
+
         ],
         rows: [],
         obligationRule: [
@@ -190,15 +215,46 @@ export default {
         ],
         menu3: false,
         journaux: [],
-        journal: '',
+        journal: 'TR',
         month: '',
         ecritures: [],
         dialogConfirmation: false,
         test: [],
         dossier: {},
+        snackbar: false,
+        timeout: 3000,
+        text: '',
+        isEdit: false,
+        previousEditedItem: {},
+        editedIndex: -1,
 
     }),
+    computed: {
+        btnText() {
+            return this.isEdit ? 'Modifier' : 'Ajouter'
+        },
+        computedDateFormatted() {
+            return this.formatDate(this.date)
+        }
+
+    },
     watch: {
+        date(val) {
+            this.dateFormatted = this.formatDate(this.date)
+            if (isNaN(new Date(val))) return
+            this.month = new Date(val).getMonth() + 1
+            let incr
+            let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
+            if (aaa.length > 0) {
+                incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
+                incr = this.zeroPad(parseInt(incr) + 1, 5)
+                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            }
+            else {
+                incr = this.zeroPad(1, 5)
+                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            }
+        },
         rows(val) {
             this.someDebit = 0
             this.someCredit = 0
@@ -276,7 +332,7 @@ export default {
         let url2 = process.env.Name_api + "/planComptables";
         let planComptable = await this.$myService.get(url2)
         if (exercice && exercice.data != null) {
-            this.dossier = {d_id:exercice.d_id,d_activitee:exercice.d_activitee,d_denomination:exercice.d_denomination}
+            this.dossier = { d_id: exercice.d_id, d_activitee: exercice.d_activitee, d_denomination: exercice.d_denomination }
             this.exercice = exercice.data
             this.journaux = exercice.data.journaux
             this.tiers = exercice.data.tiers;
@@ -285,6 +341,7 @@ export default {
             this.ecritures = exercice.data.ecritures;
             this.du = this.exercice.du
             this.au = this.exercice.au
+            this.date = this.du
         }
     },
     methods: {
@@ -302,10 +359,56 @@ export default {
         },
         async addEcriture() {
 
-            if(!this.$refs.ecritureForm.validate() || (this.editedItem.debit == 0 && this.editedItem.credit == 0)){
+            if (!this.$refs.ecritureForm.validate() || (this.editedItem.debit == 0 && this.editedItem.credit == 0)) {
                 return
             }
-            this.rows.push(JSON.parse(JSON.stringify(this.editedItem)))
+            if (this.editedIndex > -1) {
+                console.log('edit')
+                this.editedItem.date = this.date
+                console.log('this edited item : ', this.editedItem)
+                let copy = JSON.parse(JSON.stringify(this.rows))
+                console.log('this rows before : ', copy)
+                console.log('this edited index : ', this.editedIndex)
+                Object.assign(this.rows[this.editedIndex], this.editedItem)
+                console.log('this rows after : ', this.rows)
+                this.editedIndex = -1
+                this.editedItem = Object.assign({}, this.previousEditedItem)
+                this.isEdit = false
+                this.updateTotal()
+
+
+            } else {
+                console.log('add')
+                this.editedItem.date = this.date
+                console.log('this edited item : ', this.editedItem)
+                this.rows.push(JSON.parse(JSON.stringify(this.editedItem)))
+            }
+            //     let url = process.env.Name_api + "/ecriture/"+this.exercice.data.id;
+
+            //     if(typeof this.editedItem.journal === 'object' && this.editedItem.journal !== null){
+            //         this.editedItem.journal = this.editedItem.journal.id
+            //     }
+
+            //     if(typeof this.editedItem.compte === 'object' && this.editedItem.compte !== null){
+            //         this.editedItem.compte = this.editedItem.compte.id
+            //     }
+
+            //     this.editedItem.dossier = this.exercice.d_id
+
+
+            //    const aa = await this.$myService.post(url,this.editedItem);
+            //    if(this.editedItem.debit){
+            //        this.editedItem.credit = this.editedItem.debit
+            //        console.log(this.editedItem)
+            //        console.log('some debit : ',this.someCredit)
+            //     this.editedItem.debit = ''
+            //    } else{
+            //     this.editedItem.debit = this.editedItem.credit
+
+            //     this.editedItem.credit = ''
+            //    }
+
+            //    this.rows.push(aa.data)
         },
         async betweenDate() {
             if (!this.editedItem.du || !this.editedItem.au) {
@@ -347,14 +450,19 @@ export default {
         },
         async confimEcriture() {
             let url = process.env.Name_api + "/ecriture/" + this.exercice.id;
-            const aa = await this.$myService.post(url, this.rows);
+            let data = JSON.parse(JSON.stringify(this.rows))
+            data.forEach(item => {
+                item.tiers = item?.tiers?.id
+            })
+            const aa = await this.$myService.post(url, data);
             this.ecritures = [...this.ecritures, ...this.rows]
             this.rows = []
             this.dialogConfirmation = false
-            console.log('ecriture', this.ecritures);
             this.incrementSuffix()
             this.clearInputs()
             this.$refs.ecritureForm.resetValidation()
+
+
         },
         incrementSuffix() {
             let incr
@@ -374,8 +482,64 @@ export default {
             this.editedItem.libelle = ''
             this.editedItem.debit = ''
             this.editedItem.credit = ''
-            this.editedItem.tiers = {}
-            this.editedItem.compte = {}
+            this.editedItem.tiers = ''
+            this.editedItem.compte = ''
+        },
+        editItem(item, index) {
+            console.log('item : ', item)
+            console.log('index : ', index)
+            Object.assign(this.previousEditedItem, this.editedItem)
+            Object.assign(this.editedItem, item)
+            this.date = this.editedItem.date
+            this.editedIndex = index
+            this.isEdit = true
+        },
+        deleteItem(item, index) {
+            this.editedIndex = index
+            this.rows.splice(this.editedIndex, 1)
+            this.editedIndex = -1
+        },
+        cancelEdit() {
+            this.isEdit = false
+            this.editedItem = this.previousEditedItem
+        },
+        formatDate(date) {
+            if (!date) return null
+
+            const [year, month, day] = date.split('-')
+            return `${day}/${month}/${year}`
+        },
+        parseDate(date) {
+            if (!date) return null
+            if (!(/^\d{2}\/\d{2}\/\d{4}$/.test(date)) && date !== null) {
+                this.showToast('Invalide date (jj/mm/aaaa)')
+                return null
+            }
+            if (!(/(^0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(\d{4}$)/.test(date))) {
+                this.showToast('Invalide date')
+                return null
+            }
+            // date should not be greate than this.au or less than this.du
+            let d = new Date(this.parseDateToISO(date))
+            let du = new Date((this.du))
+            let au = new Date((this.au))
+            console.log(d, du, au)
+            if (d > au || d < du && date !== null) {
+                this.showToast('La date doit être comprise entre ' + this.formatDate(this.du) + ' et ' + this.formatDate(this.au))
+                return null
+            }
+            const [day, month, year] = date.split('/')
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        },
+        parseDateToISO(date) {
+            if (!date) return null
+            const [day, month, year] = date.split('/')
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        },
+        showToast(message) {
+            this.text = message
+            this.snackbar = true
+
         },
         getList(item, queryText, itemText) {
             return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())

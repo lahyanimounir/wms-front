@@ -309,6 +309,7 @@ export default {
         snackbar: false,
         timeout: 3000,
         text: '',
+        editMode: false,
 
     }),
     computed: {
@@ -326,6 +327,10 @@ export default {
             if (isNaN(new Date(val))) return
             this.month = new Date(val).getMonth() + 1
             let incr
+
+            // if we're in edit mode we don't want to increment the number of num_pieces
+            if (this.editMode) return
+
             let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
             if (aaa.length > 0) {
                 incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
@@ -370,6 +375,8 @@ export default {
             // } else {
             //     this.journal = val.type.split(' ')[0].substring(0, 1).toUpperCase() + val.type.split(' ')[1].substring(0, 1).toUpperCase()
             // }
+            // if we're in edit mode we don't want to increment the number of num_pieces
+            if (this.editMode) return
             let incr
             let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
             if (aaa.length > 0) {
@@ -406,8 +413,11 @@ export default {
         }
         console.log("this router query", this.$route.query)
         let num_pieces = this.$route.query.num_pieces
+        let mode = this.$route.query.mode
         console.log("num_pieces", num_pieces)
-        if(num_pieces){
+        if(num_pieces && mode == 'edit'){
+            this.editMode = true
+            this.editedItem.num_pieces = num_pieces
             let url = process.env.Name_api + "/exercice/" + this.id + "/getEcritures?num_pieces=" + num_pieces;
             let ecritures = await this.$myService.get(url)
             this.rows = ecritures
@@ -482,7 +492,7 @@ export default {
                 console.log('this rows after : ',this.rows)
                 this.editedIndex = -1
                 this.isEdit = false
-                this.editedItem.id = null
+                if (this.editMode) this.editedItem.id = null
                 this.updateTotal()
 
 
@@ -558,12 +568,22 @@ export default {
             this.dialogDelete = false
         },
         async confimEcriture() {
-            let url = process.env.Name_api + "/ecriture/" + this.exercice.id;
+            let url;
             let data = JSON.parse(JSON.stringify(this.rows))
             data.forEach(item => {
                 item.tiers = item?.tiers?.id
             })
-            const aa = await this.$myService.post(url, data);
+
+            if(this.editMode){
+                url = process.env.Name_api + "/ecriture/" + this.exercice.id ;
+                const aa = await this.$myService.update(url, data);
+                this.$router.go(-1)
+            }
+            else {
+                url = process.env.Name_api + "/ecriture/" + this.exercice.id;
+                const aa = await this.$myService.post(url, data);
+            }
+
             this.ecritures = [...this.ecritures, ...this.rows]
             this.rows = []
             this.dialogConfirmation = false
@@ -682,7 +702,7 @@ export default {
             this.$router.push({ path: '/comptabilitee/' + this.id + '/lists/ecritures' , query: { previousMenu : this.$route.path, selectedJournal : this.editedItem.journal.id }})
         },
         interrogationCompte(){
-            this.$router.push({ path: '/comptabilitee/' + this.id + '/lists/interrogationComptes' })
+            this.$router.push({ path: '/comptabilitee/' + this.id + '/lists/interrogationComptes', query: { previousMenu : this.$route.path, selectedJournal : this.editedItem.journal.id} })
         },
         serieComptes(){
             this.$router.push({ path: '/comptabilitee/' + this.id + '/lists/serieComptes' })

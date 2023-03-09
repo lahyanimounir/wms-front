@@ -1,17 +1,17 @@
 <template>
-       <div style="position: relative;">
+       <div >
             <div class="container">
                 <v-row>
-                    <v-col xl="7" lg="10" sm="12" xs="12" class="offset-xl-3 offset-lg-1 px-0 ">
+                
+                    <v-col cols="8" class="pt-10"  style="margin: auto;padding-top: 60px;">
                         <v-card>
                             <v-card-text>
 
                                 <v-row style="margin-top:-16px;margin-bottom: -16px;margin-right: -16px;">
-                                    <v-col cols="12" md="7" class="pt-7 px-10 pb-15" style="font-family: 'Quicksand', sans-serif;">
+                                    <v-col cols="12" md="12" class="pt-7 px-10 pb-15" style="font-family: 'Quicksand', sans-serif;">
                                         <v-row>
                                             <v-col>
-                                                <h3 style="font-family: 'Quicksand', sans-serif;color: #000;font-size: 1.2rem;">Se connecter avec
-                                                    votre adresse mail :</h3>
+                                                <h3 style="font-family: 'Quicksand', sans-serif;color: #000;font-size: 1.2rem;">Se connecter a WMS :</h3>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -32,21 +32,7 @@
                                         </v-row>
 
                                     </v-col>
-                                    <v-col cols="12" md="5" class="px-8 pt-8"
-                                        style="background-color: #000;color: #fff;height: auto;">
-                                        <v-row>
-                                            <v-col>
-                                                <h2 style="font-family: 'Quicksand', sans-serif;">Mon espace Candidat
-                                                    :</h2>
-                                            </v-col>
-                                        </v-row>
-
-                                        <div class="mt-10 d-flex">
-                                            <p style="font-size: 1rem;line-height: 30px;font-family: 'Poppins', sans-serif;">Connectez-vous à votre espace personnel pour pouvoir postuler au offres.Si vous n'êtes pas encore membre, veuillez vous inscrire !</p>
-                                        </div>
-
-                                    
-                                    </v-col>
+                            
 
                                 </v-row>
                             </v-card-text>
@@ -84,19 +70,11 @@ export default {
                             password: this.password
                         }
                     })
-
                     this.$router.push('/')
                 } catch (e) {
 
-                    // console.log(e)
-                    if (e.response.data.error == "user") {
-                        this.error = "Le compte est inexistant."
-                    }
-                    else if (e.response.data.error == "password") {
-                        this.error = "Mot de passe est incorrect"
-                    } else {
-                        this.error = e.response.data.message
-                    }
+                    console.log(e)
+               
 
                 }
             }

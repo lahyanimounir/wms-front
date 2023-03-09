@@ -46,7 +46,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
-    '@nuxtjs/auth',
+    '@nuxtjs/auth-next',
   ],
   plugins: [
     '~/plugins/axios.js',
@@ -59,31 +59,21 @@ export default {
     
   },
   auth: {
-    localStorage: false,
-    watchLoggedIn : true,
     strategies: {
       local: {
-        scheme: 'refresh',
         token: {
           property: 'token',
-          maxAge: 1800,
           global: true,
+          // required: true,
           // type: 'Bearer'
         },
-        // user: {
-        //   property: false,
-        //   autoFetch: false
-        // },
-        // refreshToken: {
-        //   property: 'refresh_token',
-        //   data: 'refresh_token',
-        //   maxAge: 60 * 60 * 24 * 30
-        // },
+        user: {
+          property: 'user',
+          // autoFetch: true
+        },
         endpoints: {
-          login: { url: '/login_check', method: 'post', propertyName: 'token' },
-          user: { url: 'profile', method: 'get' },
-          //refresh: { url: 'auth/refresh', method: 'post', propertyName: 'refresh_token' },
-          logout: false
+          login: { url: '/login_check', method: 'post' },
+          user: { url: '/profile', method: 'get' }
         }
       }
     }

@@ -96,6 +96,7 @@
 
   <script>
   export default{
+    middleware: ['auth'],
     data: () => ({
       iconUrl: require('../assets/images/LogoWMS.png'),
     }),

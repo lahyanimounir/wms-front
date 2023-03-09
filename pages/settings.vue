@@ -16,6 +16,7 @@
     <script>
     import CutomMenu from '../components/menu'
     export default {
+        middleware: ['auth'],
         components: {
             CutomMenu
         },

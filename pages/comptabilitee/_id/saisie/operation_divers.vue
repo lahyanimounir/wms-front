@@ -699,13 +699,13 @@ export default {
             return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())
         },
         afficherEcritures(){
-            this.$router.push({ path: '/comptabilitee/' + this.id + '/lists/ecritures' , query: { previousMenu : this.$route.path, selectedJournal : this.editedItem.journal.id }})
+            this.$router.push({ path: '/comptabilitee/' + this.id + '/saisie/lists/ecritures' , query: { previousMenu : this.$route.path, selectedJournal : this.editedItem.journal.id }})
         },
         interrogationCompte(){
-            this.$router.push({ path: '/comptabilitee/' + this.id + '/lists/interrogationComptes', query: { previousMenu : this.$route.path, selectedJournal : this.editedItem.journal.id} })
+            this.$router.push({ path: '/comptabilitee/' + this.id + '/saisie/lists/interrogationComptes', query: { previousMenu : this.$route.path, selectedJournal : this.editedItem.journal.id} })
         },
         serieComptes(){
-            this.$router.push({ path: '/comptabilitee/' + this.id + '/lists/serieComptes' })
+            this.$router.push({ path: '/comptabilitee/' + this.id + '/saisie/lists/serieComptes' })
         },
     }
 

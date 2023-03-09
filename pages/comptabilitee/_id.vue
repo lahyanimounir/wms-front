@@ -2,9 +2,11 @@
     <v-app>
       
 
-        <comptabilite-menu :id="id" />
+        <!-- <comptabilite-menu :id="id" /> -->
+        <TopBar/>
+        <NavBar :id="id"/>
 
-        <v-container class="py-8 px-6" fluid style="background-color: #f9f9f9;min-height: 100vh;" >    
+        <v-container class="pb-8 px-6" fluid style="background-color: #f9f9f9;min-height: 100vh;padding:0px" >    
             <nuxt-child/>
         </v-container>
    
@@ -13,10 +15,14 @@
   
     <script>
 import ComptabiliteMenu from '~/components/comptabiliteMenu.vue'
+import TopBar from '~/components/TopBar.vue'
+import NavBar from '~/components/Navbar.vue'
     export default {
         components: {
          
-                ComptabiliteMenu
+                ComptabiliteMenu,
+                TopBar,
+                NavBar
         },
         data: () => ({
             id:'',

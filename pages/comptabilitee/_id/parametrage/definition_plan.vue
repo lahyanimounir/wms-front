@@ -1,5 +1,6 @@
 <template>
     <div>
+        
         <v-snackbar v-model="snackbar" :timeout="timeout">
             {{ text }}
         
@@ -9,7 +10,8 @@
                 </v-btn>
             </template>
         </v-snackbar>
-        <div class="d-flex" style="justify-content: space-between;">
+        <v-card elevation="0" style="border:1px solid #ddd">
+        <div class=" py-5 px-3 pb-0 d-flex" style="justify-content: space-between;">
             <p class="" style="font-size:2rem">Definition des types des plans comptables</p>
             <div class="d-flex flex-row-reverse">
                 <v-btn color="primary" dark @click="enableTypeCompta">
@@ -17,7 +19,7 @@
                 </v-btn>
             </div>
         </div>
-        <p>
+        <p class=" py-5 px-3 pb-0">
             Selectionnez les types des plans comptables que vous souhaitez utiliser dans cet exercice
         </p>
         <v-data-table :single-select="true" :headers="headers" :items="rows" class="elevation-1 px-5 pl-comptable mt-6" v-model="selected"
@@ -34,6 +36,7 @@
                 </td>
             </template> -->
         </v-data-table>
+        </v-card>
     </div>
 </template>
 

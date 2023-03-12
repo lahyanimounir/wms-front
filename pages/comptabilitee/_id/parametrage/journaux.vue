@@ -1,4 +1,6 @@
 <template>
+    <div>
+    <v-card elevation="0" style="border:1px solid #ddd">
     <v-data-table :headers="headers" :items="items3" sort-by="calories" class="elevation-1 px-5">
         <template v-slot:top>
             <v-snackbar v-model="snackbar" :timeout="timeout">
@@ -115,6 +117,8 @@
             {{ item.id_compte_contrepartie ? item.id_compte_contrepartie.intitulee : '-' }}
         </template>
     </v-data-table>
+    </v-card>
+</div>
 </template>
 
 

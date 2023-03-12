@@ -1,16 +1,18 @@
 <template>
     <div>
-        <v-card style="border:1px solid #ddd">
+        
         <v-snackbar v-model="snackbar" :timeout="timeout">
             {{ text }}
-        
+            
             <template v-slot:action="{ attrs }">
                 <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
                     Close
                 </v-btn>
             </template>
         </v-snackbar>
-        <div class="d-flex" style="justify-content: space-between;">
+        
+        <v-card elevation="0" style="border:1px solid #ddd">
+        <div class=" py-5 px-3 pb-0 d-flex" style="justify-content: space-between;">
             <p class="" style="font-size:2rem">Choix des tiers</p>
             <div class="d-flex flex-row-reverse">
                 <v-btn color="primary" dark  @click="enableTiers">
@@ -18,7 +20,7 @@
                 </v-btn>
             </div>
         </div>
-        <p>
+        <p class=" py-5 px-3 pb-0">
             Selectionnez les tiers que vous souhaitez utiliser dans cet exercice
         </p>
 

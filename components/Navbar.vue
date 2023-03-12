@@ -2,6 +2,7 @@
     <div>
     <div class="navbar" style="height:73px;background-color: #65B891;">
         <ul class="navbar-items">
+            <li><i style="cursor:pointer;color:white;font-size:18px;font-weight:bold;" class="fal fa-arrow-left mr-3" link @click="$router.push({ path: '/comptabilitee' })"></i></li>
             <li v-for="link in linksArray" :key="link.id">
                 <a @click="linkClicked(link)" style="color:white;font-size:18px;font-weight:bold;">
                     {{link.title}}

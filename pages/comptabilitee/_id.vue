@@ -6,7 +6,7 @@
         <TopBar/>
         <NavBar :id="id"/>
 
-        <v-container class="pb-8 px-6" fluid style="background-color: #f9f9f9;min-height: 100vh;padding:0px" >    
+        <v-container class="pb-8 px-6" fluid style="min-height: 100vh;padding:0px" >    
             <nuxt-child/>
         </v-container>
    

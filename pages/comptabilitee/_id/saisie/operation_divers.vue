@@ -584,8 +584,6 @@ export default {
                 console.log('data : ',data) 
                 url = process.env.Name_api + "/ecriture/" + this.exercice.id ;
                 const aa = await this.$myService.update(url, data);
-                console.log('data : ',data)
-                return
                 this.$router.go(-1)
             }
             else {
@@ -712,7 +710,7 @@ export default {
             this.$router.push({ path: '/comptabilitee/' + this.id + '/saisie/lists/ecritures' , query: { previousMenu : this.$route.path, selectedJournal : this.editedItem.journal.id }})
         },
         interrogationCompte(){
-            this.$router.push({ path: '/comptabilitee/' + this.id + '/saisie/lists/interrogationComptes', query: { previousMenu : this.$route.path, selectedJournal : this.editedItem.journal.id} })
+            this.$router.push({ path: '/comptabilitee/' + this.id + '/saisie/lists/interrogationComptes', query: { previousMenu : this.$route.path }})
         },
         serieComptes(){
             this.$router.push({ path: '/comptabilitee/' + this.id + '/saisie/lists/serieComptes' })

@@ -90,11 +90,11 @@ const links = (id) => {
                 icon: 'mdi-folder',
                 path: '/comptabilitee/' + id + '/saisie/desANouveau' 
             },
-            {
-                title: 'SAISIE SIMPLIFIE',
-                icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/saisie/simplifier'
-            },
+            // {
+            //     title: 'SAISIE SIMPLIFIE',
+            //     icon: 'mdi-folder',
+            //     path: '/comptabilitee/' + id + '/saisie/simplifier'
+            // },
             {
                 title: 'SAISIE BUDGET',
                 icon: 'mdi-folder',
@@ -111,7 +111,7 @@ const links = (id) => {
                 path: '/comptabilitee/' + id + '/saisie/prjImmobilier'
             },
             {
-                title: 'SAISIE CONTRATS (COPIE DU CONTRAT JOINTE)',
+                title: 'SAISIE CONTRATS',
                 icon: 'mdi-folder',
                 path: '/comptabilitee/' + id + '/saisie/contrat'
             },

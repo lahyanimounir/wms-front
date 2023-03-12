@@ -382,6 +382,10 @@ export default {
                 this.editedItem.date = this.date
                 console.log('this edited item : ', this.editedItem)
                 this.rows.push(JSON.parse(JSON.stringify(this.editedItem)))
+                let compte_id = this.editedItem.journal?.id_compte_contrepartie.id
+                if(compte_id){
+                    this.editedItem.compte = this.items.find(item => item.id == compte_id)
+                }
             }
             //     let url = process.env.Name_api + "/ecriture/"+this.exercice.data.id;
 

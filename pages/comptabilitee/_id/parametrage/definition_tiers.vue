@@ -1,5 +1,6 @@
 <template>
     <div>
+        <v-card style="border:1px solid #ddd">
         <v-snackbar v-model="snackbar" :timeout="timeout">
             {{ text }}
         
@@ -23,17 +24,8 @@
 
         <v-data-table :headers="headers" :items="tiers" class="elevation-1 px-5 pl-comptable mt-6" v-model="selected"
         item-key="id" show-select>
-            <template v-slot:item.logo="{ item }">
-                <!-- <td>
-                    <img alt="logo" :src="defaultImage" style="width: 50px; height: 50px">
-                </td> -->
-            </template>
-            <!-- <template v-slot:item.active="{ item }">
-                <td>
-                    <v-checkbox v-model="checkbox" color="primary" ></v-checkbox>
-                </td>
-            </template> -->
         </v-data-table>
+        </v-card>
     </div>
 </template>
 
@@ -80,12 +72,12 @@ export default {
         timeout: 3000,
         text: '',
         headers: [
-            {
-                text: 'Logo',
-                align: 'start',
-                sortable: false,
-                value: 'logo',
-            },
+            // {
+            //     text: 'Logo',
+            //     align: 'start',
+            //     sortable: false,
+            //     value: 'logo',
+            // },
             { text: 'Denomination', value: 'denomination' },
             { text: 'Identifiant fiscale', value: 'immf' },
         ],

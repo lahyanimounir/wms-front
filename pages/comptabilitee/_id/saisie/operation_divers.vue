@@ -292,6 +292,7 @@ export default {
 
         ],
         rows: [],
+        deletedIds: [],
         obligationRule: [
             v => !!v || 'Ce domaine est obligatoire.',
         ],
@@ -575,8 +576,16 @@ export default {
             })
 
             if(this.editMode){
+                // make data an object of data and deleted ids array
+                data = {
+                    data,
+                    deletedIds: this.deletedIds
+                }
+                console.log('data : ',data) 
                 url = process.env.Name_api + "/ecriture/" + this.exercice.id ;
                 const aa = await this.$myService.update(url, data);
+                console.log('data : ',data)
+                return
                 this.$router.go(-1)
             }
             else {
@@ -626,6 +635,7 @@ export default {
         deleteItem(item, index) {
             this.editedIndex = index
             this.rows.splice(this.editedIndex, 1)
+            if(this.editMode && item.id) this.deletedIds.push(item.id)
             this.editedIndex = -1
         },
         cancelEdit() {

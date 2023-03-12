@@ -111,8 +111,8 @@
                 <template v-slot:item.date="{ item }">
                     {{ formatDate(item.date) }}
                 </template>
-                <template v-slot:item.compte="{ item }">
-                    {{ item.compte.numero_compte }} - {{ item.compte.intitulee }}
+                <template v-slot:item.journal="{ item }">
+                    {{ item.journal.type }} - {{ item.journal.nom }}
                 </template>
                 <!-- make debit color green and credit color red -->
                 <template v-slot:item.debit="{ item }">
@@ -146,7 +146,6 @@ export default {
     data: (vm) => ({
         dateDebut: '',
         dateFin: '',
-        journal: '',
         compte: '',
         headers: [
             { text: 'Date', value: 'date' },
@@ -172,7 +171,6 @@ export default {
         ],
         id: null,
         ecritures: [],
-        journaux: [],
         comptes: [],
         dossier: {},
         displayedRows: [],
@@ -184,7 +182,6 @@ export default {
         pageNum: 1,
         rowsPerPage: 5,
         previousMenu: null,
-        selectedJournal: null,
         dialog: false,
         valid: false,
         format:null,
@@ -196,19 +193,11 @@ export default {
         let info = await this.$myService.get(url)
         console.log('info : ', info)
         this.dossier = info.dossier
-        this.journaux = info.journaux
         this.dateDu = this.date1 = info.du
         this.dateAu = this.date2 = info.au
-        this.journal = Number(this.$route.query?.selectedJournal)
         this.previousMenu = this.$route.query?.previousMenu
         url = process.env.Name_api + "/planComptables";
         this.comptes = await this.$myService.get(url)
-
-        // if journal is selected and date1 and date2 are not null then get ecritures
-        if (this.journal && this.date1 && this.date2) {
-            console.log(this.$refs.searchForm.validate())
-            await this.getEcritures()
-        }
 
     },
     watch: {
@@ -229,11 +218,11 @@ export default {
                 return
             }
 
-            let url = process.env.Name_api + "/exercice/" + this.id + "/getEcritures";
+            let url = process.env.Name_api + "/exercice/" + this.id + "/getEcrituresByCompte";
             let params = {
                 dateDebut: this.date1,
                 dateFin: this.date2,
-                journal: this.journal
+                compte:this.compte.id
             }
             const res = await this.$myService.get(url, params)
             this.ecritures = res
@@ -302,7 +291,7 @@ export default {
             this.displayedRows = newCurrentItems
         },
         goBack() {
-            this.previousMenu !== null ? this.$router.push({ path: this.previousMenu }) : null
+            this.previousMenu ? this.$router.push({ path: this.previousMenu }) : this.$router.go(-1)
         },
         printEcritures() {
             this.dialog = true
@@ -317,8 +306,26 @@ export default {
             // this.$myService.download(url, params)
         },
         editEcriture(item) {
-            console.log('item : ', item)
-            this.$router.push({path:this.previousMenu, query:{num_pieces:item.num_pieces,mode:'edit'}})
+            let menu;
+            switch(item.journal.type){
+                case 'Achat':
+                    menu = 'achat'
+                    break
+                case 'Vente':
+                    menu = 'vente'
+                    break
+                case 'Tresorerie':
+                    menu = 'tresorerie'
+                    break
+                case 'OPERATIONS DIVERS':
+                    menu = 'operation_divers'
+                    break
+                case 'A NOUVEAU':
+                    menu = 'desANouveau'
+                    break
+            }
+            const url = `/comptabilitee/${this.id}/saisie/${menu}`
+            this.$router.push({path:url, query:{num_pieces:item.num_pieces,mode:'edit'}})
         },
         getList(item, queryText, itemText) {
             return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())

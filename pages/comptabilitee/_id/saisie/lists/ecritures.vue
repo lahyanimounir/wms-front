@@ -289,7 +289,7 @@ export default {
             this.displayedRows = newCurrentItems
         },
         goBack() {
-            this.previousMenu !== null ? this.$router.push({ path: this.previousMenu }) : null
+            this.previousMenu ? this.$router.push({ path: this.previousMenu }) : this.$router.go(-1)
         },
         printEcritures() {
             this.dialog = true
@@ -305,7 +305,27 @@ export default {
         },
         editEcriture(item) {
             console.log('item : ', item)
-            this.$router.push({path:this.previousMenu, query:{num_pieces:item.num_pieces,mode:'edit'}})
+            // this.$router.push({path:this.previousMenu, query:{num_pieces:item.num_pieces,mode:'edit'}})
+            let menu;
+            switch(item.journal.type){
+                case 'Achat':
+                    menu = 'achat'
+                    break
+                case 'Vente':
+                    menu = 'vente'
+                    break
+                case 'Tresorerie':
+                    menu = 'tresorerie'
+                    break
+                case 'OPERATIONS DIVERS':
+                    menu = 'operation_divers'
+                    break
+                case 'A NOUVEAU':
+                    menu = 'desANouveau'
+                    break
+            }
+            const url = `/comptabilitee/${this.id}/saisie/${menu}`
+            this.$router.push({path:url, query:{num_pieces:item.num_pieces,mode:'edit'}})
         },
     },
 

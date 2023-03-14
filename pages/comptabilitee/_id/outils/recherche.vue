@@ -1,0 +1,1 @@
+<template><p>Recherche</p></template>

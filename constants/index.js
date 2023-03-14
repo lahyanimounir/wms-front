@@ -119,6 +119,7 @@ const links = (id) => {
     },
     {
         title:"MENU TRAITEMENT",
+        path:'traitement',
         childs: [
             {
                 title: 'LETTRAGE',
@@ -128,92 +129,94 @@ const links = (id) => {
             {
                 title: 'RAPPROCHEMENT BANCAIRE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/traitement/rapprochement'
+                // path: '/comptabilitee/' + id + '/traitement/rapprochement'
             },
             {
                 title: 'RELANCE TIERS',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/traitement/relance'
+                // path: '/comptabilitee/' + id + '/traitement/relance'
             },
             {
                 title: 'PAIEMENT TIERS',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/traitement/paiement'
+                // path: '/comptabilitee/' + id + '/traitement/paiement'
             },
             {
                 title: 'VERROUILLAGE PERIODIQUE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/traitement/verrouillage'
+                // path: '/comptabilitee/' + id + '/traitement/verrouillage'
             }
         ] 
     },
     {
         title: 'OUTILS',
+        path:'outils',
         childs: [
             {
                 title: 'RECHERCHE MULTICRITERE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/outils/recherche'
+                // path: '/comptabilitee/' + id + '/outils/recherche'
             },
             {
                 title: 'MODIFIER COMPTE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/outils/modifier'
+                // path: '/comptabilitee/' + id + '/outils/modifier'
             },
             {
                 title: 'MODIFIER JOURNAL',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/outils/modifierJournal'
+                // path: '/comptabilitee/' + id + '/outils/modifierJournal'
             },
             {
                 title: 'SUPPRESSION GROUPEE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/outils/suppression'
+                // path: '/comptabilitee/' + id + '/outils/suppression'
             },
             {
                 title: 'EXTOURNER ECRITURE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/outils/extourner'
+                // path: '/comptabilitee/' + id + '/outils/extourner'
             }
         ]
     },
     {
         title:'EDITIONS COMPTABLES',
+        path:'edition_comptable',
         childs:[
             {
                 title:'BALANCES',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/edition/balances'
+                path: '/comptabilitee/' + id + '/edition_comptable/balances'
             },
             {
                 title:'GRANDS LIVRES',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/edition/grandlivre'
+                // path: '/comptabilitee/' + id + '/edition_comptable/grandlivre'
             },
             {
                 title:'JOURNAUX',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/edition/journaux'
+                // path: '/comptabilitee/' + id + '/edition_comptable/journaux'
             },
             {
                 title:'EDITION GLOBALE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/edition/edition'
+                // path: '/comptabilitee/' + id + '/edition_comptable/edition'
             },
             {
                 title:'EDITION BUDGET VS ACTUEL',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/edition/budget'
+                // path: '/comptabilitee/' + id + '/edition_comptable/budget'
             },
             {
                 title:'ETAT SUIVIT PROJET IMMOBILIER',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/edition/etat'
+                // path: '/comptabilitee/' + id + '/edition_comptable/etat'
             },
             {
                 title:'RAPPORT ACTIVITEE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/edition/rapport'
+                // path: '/comptabilitee/' + id + '/edition_comptable/rapport'
             },
 
             
@@ -221,106 +224,108 @@ const links = (id) => {
     },
     {
         title:'EDITIONS FISCALES',
+        path:'edition_fiscale',
         childs:[
             {
                 title:'DECLARATION TVA',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/tva'
+                path: '/comptabilitee/' + id + '/edition_fiscale/tva'
             },
             {
                 title:'DROIT DE TIMBRE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/timbre'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/timbre'
             },
             {
                 title:'PAIEMENT RETENUE A LA SOURCE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/paiement'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/paiement'
             },
             {
                 title:'TAXES SUR LES DIVIDENDES DISTRIBUES',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/taxes'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/taxes'
             },
             {
                 title:'DECLARATION DU CHIFFRE D AFFAIRE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/declaration'
+                // path: '/comptabilitee/' + id + '/editionFiscales/declaration'
             },
             {
                 title:'CALCUL ET PAIEMENT IS (ACOMPTE REGULA ET COT MIN)',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/calcul'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/calcul'
             },
             {
                 title:'CALCUL IR PROFESSIONNEL ET COTISATION MINIMALE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/calculir'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/calculir'
             },
             {
                 title:'PAIEMENT CONTRIBUTION SOCIALE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/paiement'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/paiement'
             },
             {
                 title:'ETAT DES CARBURANTS',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/etat'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/etat'
             },
             {
                 title:'DECLARATION POUR LA TAXE PROFESSIONNELLE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/declaration'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/declaration'
             },
             {
                 title:'ETAT DES HONORAIRES',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/etat'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/etat'
             },
             {
                 title:'ETAT DES HONORAIRES MEDECINS',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/etat'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/etat'
             },
             {
                 title:'DECLARATION RAS REVENU FONCIER',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/declaration'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/declaration'
             },
             {
                 title:'DECLARATION RAS HONORAIRES ET RENUMERATIONS',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/declaration'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/declaration'
             },
             {
                 title:'ETAT DES DIVIDENDES DISTRIBUES',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/etat'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/etat'
             },
             {
                 title:'DECLARATION DU FONCIERS',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/declaration'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/declaration'
             },
             {
                 title:'DECLARATION PRORATA TVA',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/declaration'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/declaration'
             },
             {
                 title:'BILAN ET ETIC',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/bilan'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/bilan'
             },
             {
                 title:'RAPPORT D\'ACTIVITE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/editionFiscales/rapport'
+                // path: '/comptabilitee/' + id + '/edition_fiscale/rapport'
             }
         ]
     },
     {
         title:'AUDIT ET CONTRÔLE',
+        path:'audit',
         childs:[
             {
                 title:'COMPTE NON PREVU DANS LA LIASSE FISCALE',
@@ -330,37 +335,37 @@ const links = (id) => {
             {
                 title:'SIGNE COMPTE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/audit/signe'
+                // path: '/comptabilitee/' + id + '/audit/signe'
             },
             {
                 title:'CAISSES',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/audit/caisses'
+                // path: '/comptabilitee/' + id + '/audit/caisses'
             },
             {
                 title:'CONTRÔLE TABLEAU TVA',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/audit/controle'
+                // path: '/comptabilitee/' + id + '/audit/controle'
             },
             {
                 title:'CONTRÔLE TABLEAU TVA',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/audit/controle'
+                // path: '/comptabilitee/' + id + '/audit/controle'
             },
             {
                 title:'CONTRÔLE SOLDE TVA ET SOLDE COMPTABLE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/audit/controle'
+                // path: '/comptabilitee/' + id + '/audit/controle'
             },
             {
                 title:'FORMULE DE COHERENCE',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/audit/formule'
+                // path: '/comptabilitee/' + id + '/audit/formule'
             },
             {
                 title:'CONTRÔLE  COHERENCE DECLARATION',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/audit/controle'
+                // path: '/comptabilitee/' + id + '/audit/controle'
             },
             
         ]

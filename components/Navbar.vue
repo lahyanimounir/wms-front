@@ -28,7 +28,7 @@
         v-for="link in childs"
         :key="link.id"
         :to="link.path"
-        style="color:black;font-size:15px;font-weight:bold;"
+        style="color:black;font-size:14px;"
       >
         {{ link.title }}
       </v-tab>

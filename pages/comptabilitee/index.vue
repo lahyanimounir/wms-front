@@ -321,7 +321,7 @@ export default {
             this.$refs.exerciceForm.resetValidation()
         },
         actionHandle(item) {
-            this.$router.push('/comptabilitee/' + item.id)
+            this.$router.push('/comptabilitee/' + item.id+'/parametrage/definition_plan')
 
         },
         showToast(message) {

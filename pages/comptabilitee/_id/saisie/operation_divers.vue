@@ -264,6 +264,7 @@ export default {
             reference_facture: '',
             journal: '',
             date: '',
+            num_pieces: '',
         },
         defaultItem: {
             debit: '',
@@ -274,6 +275,7 @@ export default {
             reference_facture: '',
             journal: '',
             date: '',
+            num_pieces: '',
         },
         exerciceId: '',
         exercice: {},
@@ -331,17 +333,18 @@ export default {
 
             // if we're in edit mode we don't want to increment the number of num_pieces
             if (this.editMode) return
+            this.getNumPiece()
 
-            let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
-            if (aaa.length > 0) {
-                incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
-                incr = this.zeroPad(parseInt(incr) + 1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
-            else {
-                incr = this.zeroPad(1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
+            // let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
+            // if (aaa.length > 0) {
+            //     incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
+            //     incr = this.zeroPad(parseInt(incr) + 1, 5)
+            //     this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            // }
+            // else {
+            //     incr = this.zeroPad(1, 5)
+            //     this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            // }
         },
         rows(val) {
             this.updateTotal()
@@ -378,17 +381,17 @@ export default {
             // }
             // if we're in edit mode we don't want to increment the number of num_pieces
             if (this.editMode) return
-            let incr
-            let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
-            if (aaa.length > 0) {
-                incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
-                incr = this.zeroPad(parseInt(incr) + 1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
-            else {
-                incr = this.zeroPad(1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
+            // let incr
+            // let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
+            // if (aaa.length > 0) {
+            //     incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
+            //     incr = this.zeroPad(parseInt(incr) + 1, 5)
+            //     this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            // }
+            // else {
+            //     incr = this.zeroPad(1, 5)
+            //     this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            // }
 
 
         },
@@ -411,6 +414,7 @@ export default {
             this.au = this.exercice.au
             this.editedItem.date = this.du
             this.date = this.du
+            this.getNumPiece()
         }
         console.log("this router query", this.$route.query)
         let num_pieces = this.$route.query.num_pieces
@@ -458,6 +462,16 @@ export default {
 
     },
     methods: {
+        async getNumPiece(){
+            let url = process.env.Name_api + "/exercice/" + this.id + "/getNumPiece";
+            let params = {
+                date: this.date,
+                journal: 'OPERATIONS DIVERS'
+            }
+            let res = await this.$myService.get(url, params)
+            this.editedItem.num_pieces = res.num_pieces
+            
+        },
         async allValid() {
             this.dialogConfirmation = true
             // this.id = this.$route.params.id

@@ -90,7 +90,7 @@
                                                                 <v-text-field v-model="dateFormatted" label="Du"
                                                                     hint="JJ/MM/AAAA format" persistent-hint v-bind="attrs"
                                                                     :format="'DD/MM/AAAA'" :rules="obligationRule"
-                                                                    @blur="date = parseDate(dateFormatted)"
+                                                                    prepend-icon="mdi-calendar" @blur="date = parseDate(dateFormatted)"
                                                                     v-on="on"></v-text-field>
                                                             </template>
                                                             <v-date-picker v-model="date" no-title :min="minDateDu"
@@ -107,7 +107,7 @@
                                                                 <v-text-field v-model="dateFormattedAu" label="Au"
                                                                     hint="JJ/MM/AAAA format" persistent-hint v-bind="attrs"
                                                                     :format="'DD/MM/YYYY'" :rules="obligationRule"
-                                                                    @blur="dateAu = parseDateAu(dateFormattedAu)"
+                                                                    prepend-icon="mdi-calendar" @blur="dateAu = parseDateAu(dateFormattedAu)"
                                                                     v-on="on"></v-text-field>
                                                             </template>
                                                             <v-date-picker v-model="dateAu" no-title :min="minDateAu"

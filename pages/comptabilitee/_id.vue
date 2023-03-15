@@ -18,6 +18,7 @@ import ComptabiliteMenu from '~/components/comptabiliteMenu.vue'
 import TopBar from '~/components/TopBar.vue'
 import NavBar from '~/components/Navbar.vue'
     export default {
+        middleware: ['auth'],
         components: {
          
                 ComptabiliteMenu,

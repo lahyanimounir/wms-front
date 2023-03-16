@@ -70,11 +70,14 @@
 
                                         <v-col lg="6" cols="12" class="py-0">
                                             <label for="">COMPTE TIERS *</label>
-                                            <v-autocomplete v-model="editedItem.compte_tiers" :items="collectifs"
+                                            <v-autocomplete v-model="editedItem.compte_tiers" :items="collectifs" :filter="getList"
                                                 outlined dense :disabled="addClicked" :filled="addClicked" :rules="obligationRule"
-                                                placeholder="compte de contrepartie" item-text="intitulee"
+                                                placeholder="compte de contrepartie" item-text="numero_compte"
                                                 item-value="id">
 
+                                                <template slot="selection" slot-scope="{ item }">
+                                                    {{ item.numero_compte }} - {{ item.intitulee }}
+                                                </template>
                                                 <template slot="item" slot-scope="{ item }">
                                                     {{ item.numero_compte }} - {{ item.intitulee }}
                                                 </template>
@@ -223,15 +226,16 @@
                                         <v-col lg="4" cols="12" class="py-0">
                                             <label for="">COMPTE DE CONTREPARTIE</label>
                                             <v-autocomplete v-model="editedItem.compte_contrepartie" :items="items2"
+                                                :filter="getList"
                                                 outlined dense :disabled="addClicked" :filled="addClicked"
-                                                placeholder="COMPTE DE CONTREPARTIE" item-text="intitulee"
+                                                placeholder="COMPTE DE CONTREPARTIE" item-text="numero_compte"
                                                 item-value="id">
                                                 <template slot="selection" slot-scope="{ item }">
                                                     {{ item.numero_compte }} - {{ item.intitulee }}
                                                 </template>
                                                 <template slot="item" slot-scope="{ item }">
                                                     {{ item.numero_compte }} - {{ item.intitulee }}
-                                                </template>
+                                                </template>z
                                             </v-autocomplete>
                                         </v-col>
 
@@ -501,6 +505,9 @@ export default {
     fetch() {
     },
     methods: {
+        getList(item, queryText, itemText) {
+            return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())
+        },
         async getTiers(){
             let url = `${this.Name_api}/tiers?offset=${this.offset}&limit=${this.limit}`
             let res = await this.$myService.get(url)

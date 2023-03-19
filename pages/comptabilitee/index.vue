@@ -12,7 +12,47 @@
                 <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
                     hide-details></v-text-field>
             </v-card-title>
-
+            <v-dialog v-model="confirmArchiveDialog" max-width="350">
+                <v-card>
+                    <v-card-title class="headline">Confirmation</v-card-title>
+                    <v-card-text>Voulez-vous vraiment archiver ce dossier ?</v-card-text>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="red darken-1" text @click="confirmArchiveDialog = false">Annuler</v-btn>
+                    <v-btn color="blue darken-1" text @click="archiverExercice">Archiver</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <v-dialog v-model="confirmDeleteDialog" max-width="350">
+                <v-card>
+                    <v-card-title class="headline">Confirmation</v-card-title>
+                    <v-card-text>Voulez-vous vraiment supprimer ce dossier ?</v-card-text>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="red darken-1" text @click="confirmDeleteDialog = false">Annuler</v-btn>
+                    <v-btn color="blue darken-1" text @click="deleteDossier">Supprimer</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <v-dialog v-model="confirmDuplicateDialog" max-width="650">
+                <v-card>
+                    <v-card-title class="headline">Dupliquer dossier</v-card-title>
+                    <v-card-text>Veuillez saisir le nom pour le nouveau dossier :
+                        <v-form ref="duplicateForm" class="mt-3">
+                            <label for="">Dénomination dossier</label>
+                            <v-text-field
+                                counter maxlength="60" :rules="obligationRule"
+                                v-model="duplicatedName" outlined dense
+                                placeholder="Dénomination"></v-text-field>
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="red darken-1" text @click="confirmDuplicateDialog = false">Annuler</v-btn>
+                    <v-btn color="blue darken-1" text @click="duplicateDossier">Dupliquer</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
 
             <v-data-table :search="search" :headers="headers" :items="rows" sort-by="calories" class="elevation-1 px-5">
 
@@ -91,10 +131,11 @@
                                                                     hint="JJ/MM/AAAA format" persistent-hint v-bind="attrs"
                                                                     :format="'DD/MM/AAAA'" :rules="obligationRule"
                                                                     prepend-icon="mdi-calendar" @blur="date = parseDate(dateFormatted)"
-                                                                    v-on="on"></v-text-field>
+                                                                    ></v-text-field>
+                                                                    <!--v-on="on"  -->
                                                             </template>
-                                                            <v-date-picker v-model="date" no-title :min="minDateDu"
-                                                                @input="menu1 = false"></v-date-picker>
+                                                            <!-- <v-date-picker v-model="date" no-title :min="minDateDu"
+                                                                @input="menu1 = false"></v-date-picker> -->
                                                         </v-menu>
                                                     </v-col>
                                                 </v-col>
@@ -108,10 +149,11 @@
                                                                     hint="JJ/MM/AAAA format" persistent-hint v-bind="attrs"
                                                                     :format="'DD/MM/YYYY'" :rules="obligationRule"
                                                                     prepend-icon="mdi-calendar" @blur="dateAu = parseDateAu(dateFormattedAu)"
-                                                                    v-on="on"></v-text-field>
+                                                                    ></v-text-field>
+                                                                    <!-- v-on="on" -->
                                                             </template>
-                                                            <v-date-picker v-model="dateAu" no-title :min="minDateAu"
-                                                                @input="menu2 = false"></v-date-picker>
+                                                            <!-- <v-date-picker v-model="dateAu" no-title :min="minDateAu"
+                                                                @input="menu2 = false"></v-date-picker> -->
                                                         </v-menu>
                                                     </v-col>
                                                 </v-col>
@@ -159,7 +201,19 @@
                 <template v-slot:item.action="{ item }">
 
                     <v-btn text color="primary" @click="startExercice(item)">
-                        Ouvrir
+                        OUVRIR
+                    </v-btn>
+                    <v-btn text color="#616161" @click="handleDuplicateClick(item)">
+                        DUPLIQUER
+                    </v-btn>
+                    <v-btn text color="#26A69A" @click="handleArchiverClick(item)">
+                        ARCHIVER
+                    </v-btn>
+                    <v-btn text color="#FFA726" @click="modifyDossier(item)">
+                        MODIFIER
+                    </v-btn>
+                    <v-btn text color="#D32F2F" @click="handleDeleteClick(item)">
+                        SUPPRIMER
                     </v-btn>
 
                 </template>
@@ -169,6 +223,7 @@
 </template>
 <script>
 export default {
+    middleware: ['auth'],
     data: (vm) => ({
         date: new Date().toISOString().substr(0, 10),
         dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
@@ -186,6 +241,12 @@ export default {
         rows: [],
         menu: false,
         menu2: false,
+        confirmArchiveDialog: false,
+        confirmDeleteDialog: false,
+        confirmDuplicateDialog:false,
+        clickedItem: {},
+        editedIndex:-1,
+        duplicatedName:"",
         editedItem: {
             du: '',
             au: '',
@@ -218,7 +279,7 @@ export default {
             { text: 'rc', value: 'rc' },
             { text: 'Mobile', value: 'telephone_mobile' },
             { text: 'Email', value: 'email' },
-            { text: 'Action', value: 'action' },
+            { text: 'Actions', value: 'action' },
         ],
         Exerciceheaders: [
             {
@@ -400,6 +461,56 @@ export default {
             iso3.setDate(iso3.getDate())
             iso3 = iso3.toISOString().substr(0, 10)
             this.minDateAu = iso3
+        },
+        handleArchiverClick(item) {
+            this.confirmArchiveDialog = true
+            this.clickedItem = item
+        },
+        archiverExercice() {
+            console.log('clicked item :', this.clickedItem)
+           console.log('archiver !!')
+        },
+        handleDeleteClick(item) {
+            this.confirmDeleteDialog = true
+            this.clickedItem = item
+            this.editedIndex = this.rows.indexOf(item)
+        },
+        async deleteDossier() {
+            console.log('clicked item :', this.clickedItem)
+            let url = process.env.Name_api + "/dossiers/" + this.clickedItem.id;
+            const aaaa = await this.$myService.delete(url, this.clickedItem)
+            this.rows.splice(this.editedIndex, 1)
+            this.editedIndex = -1
+            this.confirmDeleteDialog = false
+            console.log('delete !!')
+        },
+        handleDuplicateClick(item){
+            this.confirmDuplicateDialog = true
+            this.clickedItem = item
+            this.duplicatedName = item.denomination + " (Copie)"
+
+        },
+        async duplicateDossier(){
+            console.log('duplicate : ')
+            if(this.$refs.duplicateForm.validate()){
+                // let url = process.env.Name_api + "/dossiers/" + this.clickedItem.id+"/duplicate";
+                let url = process.env.Name_api + "/dossiers/" + this.clickedItem.id+"/duplicate";
+                let data ={name:this.duplicatedName}
+                const res = await this.$myService.post(url,data)
+                console.log('res :',res)
+                let duplicated = JSON.parse(JSON.stringify(this.clickedItem))
+                duplicated.id = res.data.id
+                duplicated.denomination = res.data.denomination
+                this.rows.push(duplicated)
+                this.confirmDuplicateDialog = false
+                console.log('duplicated : ',duplicated)
+                // this.rows.push(duplicated)
+            }
+            else{
+            }
+        },
+        modifyDossier(item){
+            this.$router.push({path:'/settings/dossiers',query:{editDossier:item.id}})
         }
     },
 

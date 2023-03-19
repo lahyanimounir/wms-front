@@ -712,6 +712,7 @@ export default {
         typeComptabilitees: [],
         editedIndex: -1,
         isUpdate: false,
+        isEditDossier:false,
         loader: null,
         loading: false,
         snackbar: false,
@@ -836,7 +837,7 @@ export default {
             intitulee:'',
             code_postal:''
         },
-        offset:1,
+        offset:0,
         limit:10,
         totalItems:500,
     }),
@@ -868,16 +869,23 @@ export default {
 
     },
 
-    created() {
+    async created() {
 
         this.initialize();
         this.getDossiers();
+        let query = this.$route.query
+        if(query.hasOwnProperty('editDossier')){
+            console.log('query : ',query)
+            console.log('item :',this.rows)
+            this.isEditDossier = true
+            this.editItem({id:query.editDossier})
+        }
     },
     fetch() {
     },
     methods: {
         async getDossiers(){
-            let url = process.env.Name_api + `/dossiers${this.offset ? `?offset=${this.offset}` : ''}${this.limit ? `&limit=${this.limit}` : ''}`;
+            let url = process.env.Name_api + `/dossiers?offset=${this.offset}&limit=${this.limit}`;
             const res = await this.$myService.get(url)
             this.rows = res
         },
@@ -1030,7 +1038,13 @@ export default {
                 this.editedItem = Object.assign({}, this.defaultItem)
                 this.editedIndex = -1
                 // this.$refs.form.resetValidation()
+                // remove the query params from the url when closing the dialog
+                const currentUrl = window.location.href;
+                window.history.replaceState({}, '', currentUrl.split('?')[0]);
+                // then reset the editedItem
+                this.isEditDossier = false
             })
+
         },
         closeAssocie() {
             this.dialogGerant = false
@@ -1050,8 +1064,8 @@ export default {
         },
 
         save() {
-
-            if (this.editedIndex > -1) {
+            console.log('edited index', this.editedIndex)
+            if (this.editedIndex > -1 || this.isEditDossier) {
                 this.update()
             } else {
                 this.add();
@@ -1185,6 +1199,10 @@ export default {
                 const aaaa = await this.$myService.post(url, formData, true)
                 // const skil =this.rows.find(item=> item.id == this.editedItem.id)
                 // Object.assign(skil, this.editedItem);
+                if(this.isEditDossier){
+                    this.$router.push({path:'/comptabilitee'})
+                    this.isEditDossier = false
+                }
                 Object.assign(this.rows[this.editedIndex], this.editedItem)
                 this.resetForms()
                 this.close()

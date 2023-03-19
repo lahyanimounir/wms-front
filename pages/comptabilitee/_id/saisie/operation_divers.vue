@@ -605,10 +605,11 @@ export default {
                 const aa = await this.$myService.post(url, data);
             }
 
-            this.ecritures = [...this.ecritures, ...this.rows]
+            // this.ecritures = [...this.ecritures, ...this.rows]
             this.rows = []
             this.dialogConfirmation = false
-            this.incrementSuffix()
+            // this.incrementSuffix()
+            this.getNumPiece()
             this.clearInputs()
             this.$refs.ecritureForm.resetValidation()
 

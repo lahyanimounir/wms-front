@@ -1,16 +1,16 @@
 const links = (id) => {
     return[
     {
-        title: 'Parametrage dossier',
+        title: 'PARAMETRAGE DOSSIER',
         path:'parametrage',
         childs: [
             {
-                title: 'Definition types plans comptables',
+                title: 'Définition types plans comptables',
                 icon: 'mdi-folder',
                 path: '/comptabilitee/' + id + '/parametrage/definition_plan' 
             },
             {
-                title: 'Defiinition Tiers',
+                title: 'Définition Tiers',
                 icon: 'mdi-account',
                 path: '/comptabilitee/' + id + '/parametrage/definition_tiers'
             },
@@ -24,21 +24,21 @@ const links = (id) => {
                 icon: 'mdi-book',
                 path: '/comptabilitee/' + id + '/parametrage/journaux'
             },
-            {
-                title: 'DUPLIQUER DOSSIER',
-                icon: 'mdi-book',
-                path: '/comptabilitee/' + id + '/parametrage/journaux'
-            },
-            {
-                title: 'SUPPRESSION DOSSIER',
-                icon: 'mdi-book',
-                path: '/comptabilitee/' + id + '/parametrage/journaux'
-            },
-            {
-                title: 'ARCHIVER',
-                icon: 'mdi-book',
-                path: '/comptabilitee/' + id + '/parametrage/journaux'
-            },
+            // {
+            //     title: 'DUPLIQUER DOSSIER',
+            //     icon: 'mdi-book',
+            //     path: '/comptabilitee/' + id + '/parametrage/journaux'
+            // },
+            // {
+            //     title: 'SUPPRESSION DOSSIER',
+            //     icon: 'mdi-book',
+            //     path: '/comptabilitee/' + id + '/parametrage/journaux'
+            // },
+            // {
+            //     title: 'ARCHIVER',
+            //     icon: 'mdi-book',
+            //     path: '/comptabilitee/' + id + '/parametrage/journaux'
+            // },
             {
                 title: 'IMPORTATION ECRITURE',
                 icon: 'mdi-book',
@@ -62,7 +62,7 @@ const links = (id) => {
         ]
     },  
     {
-        title: 'Menu Saisie',
+        title: 'MENU SAISSIE',
         path:'saisie',
         childs: [
             {
@@ -252,7 +252,7 @@ const links = (id) => {
                 // path: '/comptabilitee/' + id + '/editionFiscales/declaration'
             },
             {
-                title:'CALCUL ET PAIEMENT IS (ACOMPTE REGULA ET COT MIN)',
+                title:'CALCUL ET PAIEMENT IS',
                 icon: 'mdi-folder',
                 // path: '/comptabilitee/' + id + '/edition_fiscale/calcul'
             },

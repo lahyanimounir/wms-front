@@ -12,7 +12,7 @@
         </v-snackbar>
         <v-card elevation="0" style="border:1px solid #ddd">
         <div class=" py-5 px-3 pb-0 d-flex" style="justify-content: space-between;">
-            <p class="" style="font-size:2rem">Definition des types des plans comptables</p>
+            <p class="" style="font-size:2rem">Définition des types des plans comptables</p>
             <div class="d-flex flex-row-reverse">
                 <v-btn color="primary" dark @click="enableTypeCompta">
                     Valider

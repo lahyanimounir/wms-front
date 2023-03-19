@@ -34,7 +34,7 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="12" class="pb-0">
-                                        <label for="">Numero de compte *</label>
+                                        <label for="">Code *</label>
                                         <v-text-field  counter data-maxlength="3"  :rules="obligationRule" v-model="editedItem.code"  outlined dense
                                             placeholder="3" type="number" oninput="this.value=this.value.slice(0,this.dataset.maxlength)"></v-text-field>
                                     </v-col>

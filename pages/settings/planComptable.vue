@@ -46,11 +46,11 @@
                 <v-dialog v-model="dialog" max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn elevation="1" color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-                            Ajouter Plan Comptable
+                            Ajouter Compte
                         </v-btn>
                         <v-autocomplete counter maxlength="100" :items="itemsComptabilitee"
                             auto-select-first
-                            v-model="selectedComptaType" outlined dense item-text="intitulee" item-value="intitulee"
+                            v-model="selectedComptaType" outlined dense item-text="intitulee" item-value="intitulee" return-object
                             @change="getPlanComptable"
                             placeholder="Type comptabilite"
                             class="ml-4 mt-5"
@@ -71,7 +71,7 @@
                                 <v-btn icon dark @click="close()">
                                     <v-icon>mdi-close</v-icon>
                                 </v-btn>
-                                <v-toolbar-title> Ajouter Plan Comptable</v-toolbar-title>
+                                <v-toolbar-title> Ajouter Compte</v-toolbar-title>
                         
                             </v-toolbar>
                             <v-card>
@@ -82,9 +82,9 @@
                                     <v-row>
                                         <v-col cols="12" class="pb-0">
                                             <label for="">Numero de compte *</label>
-                                            <v-text-field counter data-maxlength="8" :rules="numeroCompteRule"
+                                            <v-text-field data-maxlength="8" :rules="numeroCompteRule"
                                                 v-model="editedItem.numero_compte" outlined dense
-                                                placeholder="Numero de compte" type="number"
+                                                placeholder="Numero de compte"
                                                 oninput="this.value=this.value.slice(0,this.dataset.maxlength)"></v-text-field>
                                         </v-col>
                                         <v-col cols="12" class="py-0">
@@ -172,9 +172,11 @@ export default {
         ],
         numeroCompteRule: [
             v => !!v || 'Ce domaine est obligatoire.',
-            v => v.length == 8 || 'Le nombre de caractères doit être égal à 8.',
+            // v => v.length < 8 || 'Le nombre de caractères doit être égal à 8.',
+            // v=> v.length === 8 ||  !v ||  'Le nombre de caractères doit être égal à 8.',
+
         ],
-        typeComptaRule: [
+        typeComptaRule: [   
             v => !!v || 'Type de comptabilité est obligatoire.',
         ],
         headers: [
@@ -201,6 +203,7 @@ export default {
             type_compte: '',
             c_g: '',
             type_comptabilitee_id:'',
+            type_comptabilitee: {},
 
         },
         defaultItem: {
@@ -210,6 +213,7 @@ export default {
             type_compte: '',
             c_g: '',
             type_comptabilitee_id:'',
+            type_comptabilitee: {},
 
         },
         selectedComptaType: '',
@@ -242,20 +246,21 @@ export default {
     },
     methods: {
         async getPlanComptable() {
-            let url = process.env.Name_api + "/planComptables" + "?limit=" + this.limit + "&offset=" + this.offset + "&type=" + this.selectedComptaType;
+            let url = process.env.Name_api + "/planComptables" + "?limit=" + this.limit + "&offset=" + this.offset + "&type=" + this.selectedComptaType.intitulee;
             this.rows = await this.$myService.get(url)
         },
         async initialize() {
           
             let url2 = process.env.Name_api + "/typeComptabilitees";
             this.itemsComptabilitee = await this.$myService.get(url2)
-            this.selectedComptaType =  this.itemsComptabilitee[0].intitulee;
+            this.selectedComptaType =  this.itemsComptabilitee[0];
             this.getPlanComptable();
         },
 
         editItem(item) {
             this.editedIndex = this.rows.indexOf(item)
             this.editedItem = Object.assign({}, item)
+            console.log('here :',this.editedItem)
             this.dialog = true
             this.$nextTick(() => {
                 this.$refs.form.resetValidation()
@@ -306,9 +311,11 @@ export default {
         async add() {
             try {
                 let url = process.env.Name_api + "/planComptables";
-                this.editedItem.type_comptabilitee_id = this.selectedComptaType.id
+                this.editedItem.type_comptabilitee_id = this.selectedComptaType.id;
                 const aaaa = await this.$myService.post(url, this.editedItem)
-                this.rows.push(aaaa.data)
+                this.editedItem.id = aaaa.data.id
+                this.editedItem.type_comptabilitee = this.selectedComptaType.intitulee
+                this.rows.push(this.editedItem)
                 this.close()
             } catch (errors) {
                 this.$global.makeToast(this.$toast.error, this.$global.getErrorMsg(errors).message, 'fal fa-exclamation-triangle')
@@ -324,6 +331,7 @@ export default {
                 const aaaa = await this.$myService.update(url, this.editedItem)
                 // const skil =this.rows.find(item=> item.id == this.editedItem.id)
                 // Object.assign(skil, this.editedItem);
+                this.editedItem.type_comptabilitee = aaaa.type_comptabilitee.intitulee
                 Object.assign(this.rows[this.editedIndex], this.editedItem)
                 this.close()
             } catch (errors) {

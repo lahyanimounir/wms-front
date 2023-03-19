@@ -521,8 +521,10 @@ export default {
         },
         async serachByIf() {
 
-            let url = `https://maroc.welipro.com/recherche?q=${this.editedItem.immf}&type=idf&rs=&cp=1&cp_max=2035272260000&et=&v=`;
-            let res = await this.$myService.get(url)
+            // let url = `https://maroc.welipro.com/recherche?q=${this.editedItem.immf}&type=idf&rs=&cp=1&cp_max=2035272260000&et=&v=`;
+            // let res = await this.$myService.get(url)
+            let url = process.env.Name_api + `/dossiers/searchByIf?if=${this.editedItem.immf}`;
+            const res = await this.$myService.get(url)
             let doc = new DOMParser().parseFromString(res, "text/html")
             let card = doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0')
             this.editedItem.denomination = doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 a') ? doc.querySelector('.card.border-bottom-1.border-bottom-success.rounded-bottom-0 a').outerText.trim() : '';

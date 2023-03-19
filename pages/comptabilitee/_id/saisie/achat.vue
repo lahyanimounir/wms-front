@@ -303,6 +303,8 @@ export default {
             journal: '',
             plan_comptable: '',
             date: '',
+            num_pieces: '',
+
         },
         defaultItem: {
             montant_tva: '',
@@ -318,6 +320,8 @@ export default {
             journal: {},
             plan_comptable: {},
             date: '',
+            num_pieces: '',
+
         },
         exerciceId: '',
         exercice: {},
@@ -369,18 +373,20 @@ export default {
         date(val) {
             this.dateFormatted = this.formatDate(this.date)
             if (isNaN(new Date(val))) return
-            this.month = new Date(val).getMonth() + 1
-            let incr
-            let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
-            if (aaa.length > 0) {
-                incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
-                incr = this.zeroPad(parseInt(incr) + 1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
-            else {
-                incr = this.zeroPad(1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
+            // this.month = new Date(val).getMonth() + 1
+            // let incr
+            // let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
+            // if (aaa.length > 0) {
+            //     incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
+            //     incr = this.zeroPad(parseInt(incr) + 1, 5)
+            //     this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            // }
+            // else {
+            //     incr = this.zeroPad(1, 5)
+            //     this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            // }
+            // if (this.editMode) return
+            this.getNumPiece()
             this.editedItem.echeance = this.calculateEcheance()
         },
         newEcritures(val) {
@@ -473,22 +479,22 @@ export default {
         //     this.editedItem.echeance = this.calculateEcheance()
 
         // },
-        'editedItem.journal'(val) {
-            let incr
-            let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
-            if (aaa.length > 0) {
-                incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
-                incr = this.zeroPad(parseInt(incr) + 1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
-            else {
-                incr = this.zeroPad(1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
-            console.log('aaa', aaa);
+        // 'editedItem.journal'(val) {
+        //     let incr
+        //     let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
+        //     if (aaa.length > 0) {
+        //         incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
+        //         incr = this.zeroPad(parseInt(incr) + 1, 5)
+        //         this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+        //     }
+        //     else {
+        //         incr = this.zeroPad(1, 5)
+        //         this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+        //     }
+        //     console.log('aaa', aaa);
 
 
-        },
+        // },
 
     },
 
@@ -517,6 +523,7 @@ export default {
             let query = this.$route.query
             let ecriture = localStorage.getItem('ecriture')
             this.date = this.du
+
             if (ecriture != null && query.hasOwnProperty('message') && Object.keys(query).length){
                 let ec = JSON.parse(ecriture)
                 console.log('ec', ec);
@@ -524,12 +531,37 @@ export default {
                 // this.editedItem.tiers = ec.tiers
                 // this.editedItem.plan_comptable = ec.plan_comptable
             }
+            let num_pieces = this.$route.query.num_pieces
+            let mode = this.$route.query.mode
+            if(num_pieces && mode == 'edit'){
+                this.editMode = true
+                this.editedItem.num_pieces = num_pieces
+                let url = process.env.Name_api + "/exercice/" + this.id + "/getEcritures?num_pieces=" + num_pieces;
+                let ecritures = await this.$myService.get(url)
+                // this.rows = ecritures
+                // this.ecritures = ecritures
+                console.log("ecritures", ecritures)
+                // console.log("this.rows", this.rows)
+                // console.log("ecritures", ecritures)
+            }
 
             // this.items = exercice.data.planComptable;
         }
 
+
     },
     methods: {
+        async getNumPiece(){
+            let url = process.env.Name_api + "/exercice/" + this.id + "/getNumPiece";
+            let params = {
+                date: this.date,
+                journal: 'Achat'
+            }
+            let res = await this.$myService.get(url, params)
+            this.editedItem.num_pieces = res.num_pieces
+            console.log('this edited item', this.editedItem);
+            
+        },
         async allValid() {
             if (this.someCredit == this.someCredit && this.newEcritures.length > 0) {
                 this.dialogConfirmation = true
@@ -739,11 +771,12 @@ export default {
             let url = process.env.Name_api + "/ecriture/" + this.exercice.id;
             const aa = await this.$myService.post(url, this.newEcritures);
             console.log('aa', aa)
-            this.ecritures = [...this.ecritures, ...this.newEcritures]
+            // this.ecritures = [...this.ecritures, ...this.newEcritures]
             this.newEcritures = []
             this.dialogConfirmation = false
             console.log('ecriture', this.ecritures);
-            this.incrementSuffix()
+            // this.incrementSuffix()
+            this.getNumPiece()
             this.tempEcritures = []
             this.clearInputs()
             this.$refs.ecritureForm.resetValidation()

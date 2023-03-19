@@ -310,6 +310,8 @@ export default {
             journal: '',
             plan_comptable: '',
             date: '',
+            num_pieces: '',
+
         },
         defaultItem: {
             montant_tva: '',
@@ -325,6 +327,8 @@ export default {
             journal: {},
             plan_comptable: {},
             date: '',
+            num_pieces: '',
+
         },
         exerciceId: '',
         exercice: {},
@@ -375,19 +379,21 @@ export default {
         date(val) {
             this.dateFormatted = this.formatDate(this.date)
             if (isNaN(new Date(val))) return
-            this.month = new Date(val).getMonth() + 1
-            let incr
-            let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
-            console.log('here ',aaa)    
-            if (aaa.length > 0) {
-                incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
-                incr = this.zeroPad(parseInt(incr) + 1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
-            else {
-                incr = this.zeroPad(1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
+            // this.month = new Date(val).getMonth() + 1
+            // let incr
+            // let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
+            // console.log('here ',aaa)    
+            // if (aaa.length > 0) {
+            //     incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
+            //     incr = this.zeroPad(parseInt(incr) + 1, 5)
+            //     this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            // }
+            // else {
+            //     incr = this.zeroPad(1, 5)
+            //     this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            // }
+            // if (this.editMode) return
+            this.getNumPiece()
             this.editedItem.echeance = this.calculateEcheance()
         },
         newEcritures(val) {
@@ -485,22 +491,22 @@ export default {
         //     this.editedItem.echeance = this.calculateEcheance()
 
         // },
-        'editedItem.journal'(val) {
-            let incr
-            let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
-            if (aaa.length > 0) {
-                incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
-                incr = this.zeroPad(parseInt(incr) + 1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
-            else {
-                incr = this.zeroPad(1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
-            console.log('aaa', aaa);
+        // 'editedItem.journal'(val) {
+        //     let incr
+        //     let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
+        //     if (aaa.length > 0) {
+        //         incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
+        //         incr = this.zeroPad(parseInt(incr) + 1, 5)
+        //         this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+        //     }
+        //     else {
+        //         incr = this.zeroPad(1, 5)
+        //         this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+        //     }
+        //     console.log('aaa', aaa);
 
 
-        },
+        // },
 
     },
 
@@ -544,6 +550,17 @@ export default {
 
     },
     methods: {
+        async getNumPiece(){
+            let url = process.env.Name_api + "/exercice/" + this.id + "/getNumPiece";
+            let params = {
+                date: this.date,
+                journal: 'Vente'
+            }
+            let res = await this.$myService.get(url, params)
+            this.editedItem.num_pieces = res.num_pieces
+            console.log('this edited item', this.editedItem);
+            
+        },
         addTiers(){
             // save edited item in local storage and redirect to tiers page
             localStorage.setItem('ecriture', JSON.stringify(this.editedItem))
@@ -761,11 +778,12 @@ export default {
             let url = process.env.Name_api + "/ecriture/" + this.exercice.id;
             const aa = await this.$myService.post(url, this.newEcritures);
             console.log('aa', aa)
-            this.ecritures = [...this.ecritures, ...this.newEcritures]
+            // this.ecritures = [...this.ecritures, ...this.newEcritures]
             this.newEcritures = []
             this.dialogConfirmation = false
             console.log('ecriture', this.ecritures);
-            this.incrementSuffix()
+            // this.incrementSuffix()
+            this.getNumPiece()
             this.tempEcritures = []
             this.clearInputs()
             this.$refs.ecritureForm.resetValidation()

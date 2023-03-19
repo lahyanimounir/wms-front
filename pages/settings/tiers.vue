@@ -566,17 +566,18 @@ export default {
             url = process.env.Name_api + "/villes";
             this.villes = await this.$myService.get(url)
 
-            url = process.env.Name_api + "/banques";
-            this.banques = await this.$myService.get(url)
-
+            
             url = process.env.Name_api + "/echeances";
             this.echeances = await this.$myService.get(url)
-
+            
             url = process.env.Name_api + "/tva";
             this.tvas = await this.$myService.get(url)
-
+            
             url = process.env.Name_api + "/tiers";
             this.rows = await this.$myService.get(url)
+            
+            url = process.env.Name_api + "/banques";
+            this.banques = await this.$myService.get(url)
 
         },
 

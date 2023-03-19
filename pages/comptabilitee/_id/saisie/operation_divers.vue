@@ -328,8 +328,8 @@ export default {
         date(val) {
             this.dateFormatted = this.formatDate(this.date)
             if (isNaN(new Date(val))) return
-            this.month = new Date(val).getMonth() + 1
-            let incr
+            // this.month = new Date(val).getMonth() + 1
+            // let incr
 
             // if we're in edit mode we don't want to increment the number of num_pieces
             if (this.editMode) return
@@ -414,7 +414,6 @@ export default {
             this.au = this.exercice.au
             this.editedItem.date = this.du
             this.date = this.du
-            this.getNumPiece()
         }
         console.log("this router query", this.$route.query)
         let num_pieces = this.$route.query.num_pieces

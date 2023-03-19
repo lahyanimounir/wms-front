@@ -3,14 +3,27 @@
 
 
         <v-card elevation="0" style="border:1px solid #ddd">
-            <div class=" py-5 px-3">
+            <div class=" py-5 px-3 pb-0 d-flex" style="justify-content: space-between;">
 
-                <div style="font-size:18px">
-                    Dossier :<b> {{ dossier && dossier.d_denomination }} </b>|
-                    Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
-                    <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
-                </div>
-                <div class="font-weight-bold" style="font-size:18px;">Saisie des A Nouveau :</div>
+            <div style="font-size:18px">
+                Dossier :<b> {{ dossier && dossier.d_denomination }} </b>|
+                Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
+                <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
+            </div>
+            <div>
+                <v-btn color="#BBDEFB" small class="py-5"  @click="afficherEcritures()">
+                        <v-icon class="mr-3">mdi-folder-open</v-icon>
+                        Afficher ecritures
+                </v-btn>
+                <v-btn color="#C5CAE9" small class="py-5"  @click="interrogationCompte()">
+                        <v-icon class="mr-3">mdi-folder-open</v-icon>
+                        Interrogation comptes
+                </v-btn>
+                <v-btn color="#D1C4E9" small class="py-5"  @click="serieComptes()">
+                        <v-icon class="mr-3">mdi-folder-open</v-icon>
+                        Interrogation series comptes
+                </v-btn>
+            </div>
             </div>
             <v-snackbar v-model="snackbar" :timeout="timeout">
                 {{ text }}
@@ -184,6 +197,7 @@ export default {
             reference_facture: '',
             journal: '',
             date: '',
+            num_pieces: '',
         },
         defaultItem: {
             debit: '',
@@ -194,6 +208,7 @@ export default {
             reference_facture: '',
             journal: '',
             date: '',
+            num_pieces: '',
         },
         exerciceId: '',
         exercice: {},
@@ -229,6 +244,8 @@ export default {
         snackbar: false,
         timeout: 3000,
         text: '',
+        editMode: false,
+
 
     }),
     computed: {
@@ -244,18 +261,21 @@ export default {
         date(val) {
             this.dateFormatted = this.formatDate(this.date)
             if (isNaN(new Date(val))) return
-            this.month = new Date(val).getMonth() + 1
-            let incr
-            let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
-            if (aaa.length > 0) {
-                incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
-                incr = this.zeroPad(parseInt(incr) + 1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
-            else {
-                incr = this.zeroPad(1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
+            // this.month = new Date(val).getMonth() + 1
+            // let incr
+            // let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
+            // if (aaa.length > 0) {
+            //     incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
+            //     incr = this.zeroPad(parseInt(incr) + 1, 5)
+            //     this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            // }
+            // else {
+            //     incr = this.zeroPad(1, 5)
+            //     this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+            // }
+            if (this.editMode) return
+            this.getNumPiece()
+
         },
         rows(val) {
             this.updateTotal()
@@ -268,26 +288,26 @@ export default {
             this.test = this.tiers.filter(item => item.compte_tiers?.id == val?.id)
             if (this.test.length == 0) this.editedItem.tiers = ''
         },
-        'editedItem.journal'(val) {
-            if (val.type.split(' ').length == 1) {
-                this.journal = val.type.split(' ')[0].substring(0, 2).toUpperCase()
-            } else {
-                this.journal = val.type.split(' ')[0].substring(0, 1).toUpperCase() + val.type.split(' ')[1].substring(0, 1).toUpperCase()
-            }
-            let incr
-            let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
-            if (aaa.length > 0) {
-                incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
-                incr = this.zeroPad(parseInt(incr) + 1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
-            else {
-                incr = this.zeroPad(1, 5)
-                this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
-            }
+        // 'editedItem.journal'(val) {
+        //     if (val.type.split(' ').length == 1) {
+        //         this.journal = val.type.split(' ')[0].substring(0, 2).toUpperCase()
+        //     } else {
+        //         this.journal = val.type.split(' ')[0].substring(0, 1).toUpperCase() + val.type.split(' ')[1].substring(0, 1).toUpperCase()
+        //     }
+        //     let incr
+        //     let aaa = this.ecritures.filter(item => item.num_pieces.split('/')[0] == this.journal && new Date(item.date).getMonth() + 1 == this.month)
+        //     if (aaa.length > 0) {
+        //         incr = aaa[aaa.length - 1].num_pieces.split('/')[2]
+        //         incr = this.zeroPad(parseInt(incr) + 1, 5)
+        //         this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+        //     }
+        //     else {
+        //         incr = this.zeroPad(1, 5)
+        //         this.editedItem.num_pieces = this.journal + '/' + this.month + '/' + incr
+        //     }
 
 
-        },
+        // },
 
     },
 
@@ -308,9 +328,33 @@ export default {
             this.editedItem.date = this.du
             this.date = this.du
         }
+        let num_pieces = this.$route.query.num_pieces
+        let mode = this.$route.query.mode
+        console.log("num_pieces", num_pieces)
+        if(num_pieces && mode == 'edit'){
+            this.editMode = true
+            this.editedItem.num_pieces = num_pieces
+            let url = process.env.Name_api + "/exercice/" + this.id + "/getEcritures?num_pieces=" + num_pieces;
+            let ecritures = await this.$myService.get(url)
+            this.rows = ecritures
+            this.ecritures = ecritures
+            console.log("ecritures", ecritures)
+            console.log("this.rows", this.rows)
+            // console.log("ecritures", ecritures)
+        }
 
     },
     methods: {
+        async getNumPiece(){
+            let url = process.env.Name_api + "/exercice/" + this.id + "/getNumPiece";
+            let params = {
+                date: this.date,
+                journal: 'A NOUVEAU'
+            }
+            let res = await this.$myService.get(url, params)
+            this.editedItem.num_pieces = res.num_pieces
+            
+        },
         async allValid() {
             this.dialogConfirmation = true
         },
@@ -339,6 +383,7 @@ export default {
                 this.editedIndex = -1
                 this.editedItem = Object.assign({}, this.previousEditedItem)
                 this.isEdit = false
+                if (this.editMode) this.editedItem.id = null
                 this.updateTotal()
 
 
@@ -347,6 +392,7 @@ export default {
                 this.editedItem.date = this.date
                 console.log('this edited item : ',this.editedItem)
                 this.rows.push(JSON.parse(JSON.stringify(this.editedItem)))
+                this.editedItem.compte = this.items.find(item => item.id == this.editedItem.journal.id_compte_contrepartie?.id)
             }
         },
         async betweenDate() {
@@ -388,16 +434,33 @@ export default {
             this.dialogDelete = false
         },
         async confimEcriture() {
-            let url = process.env.Name_api + "/ecriture/" + this.exercice.id;
+            let url;
             let data = JSON.parse(JSON.stringify(this.rows))
             data.forEach(item => {
                 item.tiers = item?.tiers?.id
             })
-            const aa = await this.$myService.post(url, data);
-            this.ecritures = [...this.ecritures, ...this.rows]
+
+            if(this.editMode){
+                // make data an object of data and deleted ids array
+                data = {
+                    data,
+                    deletedIds: this.deletedIds
+                }
+                console.log('data : ',data) 
+                url = process.env.Name_api + "/ecriture/" + this.exercice.id ;
+                const aa = await this.$myService.update(url, data);
+                this.$router.go(-1)
+            }
+            else {
+                url = process.env.Name_api + "/ecriture/" + this.exercice.id;
+                const aa = await this.$myService.post(url, data);
+            }
+
+            // this.ecritures = [...this.ecritures, ...this.rows]
             this.rows = []
             this.dialogConfirmation = false
-            this.incrementSuffix()
+            // this.incrementSuffix()
+            this.getNumPiece()
             this.clearInputs()
             this.$refs.ecritureForm.resetValidation()
 
@@ -436,6 +499,7 @@ export default {
         deleteItem(item, index) {
             this.editedIndex = index
             this.rows.splice(this.editedIndex, 1)
+            if(this.editMode && item.id) this.deletedIds.push(item.id)
             this.editedIndex = -1
         },
         cancelEdit() {
@@ -507,7 +571,16 @@ export default {
         },
         getList(item, queryText, itemText) {
             return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())
-        }
+        },
+        afficherEcritures(){
+            this.$router.push({ path: '/comptabilitee/' + this.id + '/saisie/lists/ecritures' , query: { previousMenu : this.$route.path, selectedJournal : this.editedItem.journal.id }})
+        },
+        interrogationCompte(){
+            this.$router.push({ path: '/comptabilitee/' + this.id + '/saisie/lists/interrogationComptes', query: { previousMenu : this.$route.path }})
+        },
+        serieComptes(){
+            this.$router.push({ path: '/comptabilitee/' + this.id + '/saisie/lists/serieComptes' })
+        },
     }
 
 }

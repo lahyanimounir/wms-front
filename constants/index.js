@@ -19,11 +19,11 @@ const links = (id) => {
                 icon: 'mdi-book',
                 path: '/comptabilitee/' + id + '/parametrage/journaux'
             },
-            {
-                title: 'UTILISATEURS',
-                icon: 'mdi-book',
-                path: '/comptabilitee/' + id + '/parametrage/journaux'
-            },
+            // {
+            //     title: 'UTILISATEURS',
+            //     icon: 'mdi-book',
+            //     path: '/comptabilitee/' + id + '/parametrage/journaux'
+            // },
             // {
             //     title: 'DUPLIQUER DOSSIER',
             //     icon: 'mdi-book',
@@ -40,24 +40,24 @@ const links = (id) => {
             //     path: '/comptabilitee/' + id + '/parametrage/journaux'
             // },
             {
-                title: 'IMPORTATION ECRITURE',
-                icon: 'mdi-book',
-                path: '/comptabilitee/' + id + '/parametrage/journaux'
-            },
-            {
                 title: 'DEFINITION CODE TVA',
                 icon: 'mdi-book',
-                path: '/comptabilitee/' + id + '/parametrage/journaux'
+                path: '/comptabilitee/' + id + '/parametrage/definition_codeTVA'
+            },
+            {
+                title: 'IMPORTATION ECRITURE',
+                icon: 'mdi-book',
+                // path: '/comptabilitee/' + id + '/parametrage/journaux'
             },
             {
                 title: 'RE CLOTURER',
                 icon: 'mdi-book',
-                path: '/comptabilitee/' + id + '/parametrage/journaux'
+                // path: '/comptabilitee/' + id + '/parametrage/journaux'
             },
             {
                 title: 'PRORATA TVA ',
                 icon: 'mdi-book',
-                path: '/comptabilitee/' + id + '/parametrage/journaux'
+                // path: '/comptabilitee/' + id + '/parametrage/journaux'
             },
         ]
     },  

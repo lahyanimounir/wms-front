@@ -26,7 +26,15 @@ export default function ({ $axios }, inject) {
       }else{
         return $axios.post(apiName,  data )
       }
-    }
+    },
+    async put (apiName,data, formData = false) {
+        
+        if(formData){
+          return $axios.put(apiName,  data , {headers: { "Content-Type": "multipart/form-data" }})
+        }else{
+          return $axios.put(apiName,  data )
+        }
+      }
   }
 
   // Will be available in the components as this.$myService

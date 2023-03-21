@@ -442,6 +442,16 @@ export default {
                 this.showToast('La date doit être supérieur à la date de début de l\'exercice')
                 return null
             }
+            if(this.date){
+                let d = new Date(this.parseDateToISO(date))
+                d.setDate(d.getDate() - 365)
+                let iso = d.toISOString().substr(0, 10)
+                if(this.date < iso){
+                    this.showToast('La date doit être inférieur à la date de début de l\'exercice + 365 jours')
+                    return null
+
+                }
+            }
             const [day, month, year] = date.split('/')
             return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
         },

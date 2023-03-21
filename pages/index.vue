@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div class="my-account">
+      <NuxtLink to="/myAccount">
+        <v-btn class="btn btn-primary" style="background-color: #00897B; color: white; border-radius: 0px; border: 0px; margin-top: 20px; margin-left: 20px; margin-right: 20px; margin-bottom: 20px; font-size: 20px; font-weight: 600; height: 50px; text-transform: none; box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.2), 0px 0px 0px 0px rgba(0,0,0,0.14), 0px 0px 0px 0px rgba(0,0,0,0.12);">
+          <v-icon size="30" left>
+            mdi-account-cog-outline
+          </v-icon>
+          Mon compte
+        </v-btn>
+      </NuxtLink>
+    </div>
       <div class="d-flex" style="display:flex;justify-content: center;align-items: center;margin-top: 80px;flex-direction: column;">
         <img style="" class="img-fluid" :src="iconUrl" alt="logo wms">
         <!-- <p style="font-size:44px"><span style="color:#00897B">WE</span>B <span style="color:#00897B">MANAGE</span>MENT <span style="color:#00897B">SYSTEM</span></p> -->

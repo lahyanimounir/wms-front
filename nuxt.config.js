@@ -73,7 +73,8 @@ export default {
         },
         endpoints: {
           login: { url: '/login_check', method: 'post' },
-          user: { url: '/profile', method: 'get' }
+          user: { url: '/profile', method: 'get' },
+          update: { url: '/profile', method: 'put' },
         }
       }
     }

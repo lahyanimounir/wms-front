@@ -1,176 +1,245 @@
 <template>
-    <div>
-        <v-card elevation="0" style="border:1px solid #ddd">
-            <div class=" py-5 px-3 pb-0 d-flex" style="justify-content: space-between;">
-
-            <div style="font-size:18px">
-                Dossier :<b> {{ dossier && dossier.d_denomination }} </b>|
-                Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
-                <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
-            </div>
-            <div>
-                <v-btn color="#BBDEFB" small class="py-5"  @click="afficherEcritures()">
-                        <v-icon class="mr-3">mdi-folder-open</v-icon>
-                        Afficher ecritures
-                </v-btn>
-                <v-btn color="#C5CAE9" small class="py-5"  @click="interrogationCompte()">
-                        <v-icon class="mr-3">mdi-folder-open</v-icon>
-                        Interrogation comptes
-                </v-btn>
-                <v-btn color="#D1C4E9" small class="py-5"  @click="serieComptes()">
-                        <v-icon class="mr-3">mdi-folder-open</v-icon>
-                        Interrogation series comptes
-                </v-btn>
-            </div>
-            </div>
-            <v-snackbar v-model="snackbar" :timeout="timeout">
-                {{ text }}
-
-                <template v-slot:action="{ attrs }">
-                    <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
-                        Close
+    <div style="display:flex;height:100vh">
+        <div :style="[dualMode ? {'width':'60%'} : {'width':'100%'}]">
+            <v-card elevation="0" style="border:1px solid #ddd">
+                <div class=" py-5 px-3 pb-0 d-flex" style="justify-content: space-between;">
+    
+                <div style="font-size:18px">
+                    Dossier :<b> {{ dossier && dossier.d_denomination }} </b>|
+                    Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
+                    <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
+                </div>
+                <div>
+                    <!-- <v-btn color="#BBDEFB" small class="py-5"  @click="afficherEcritures()">
+                            <v-icon class="mr-3">mdi-folder-open</v-icon>
+                            Afficher ecritures
                     </v-btn>
-                </template>
-            </v-snackbar>
-            <v-form ref="ecritureForm">
-                <v-row class="mx-0">
-                    <v-col cols="2">
-                        <label for="">Journal *</label>
-
-                        <v-autocomplete hide-details v-model="editedItem.journal" return-object :rules="obligationRule"
-                            :items="journaux" outlined dense placeholder="Journaux" item-text="nom" item-value="id">
-
-                        </v-autocomplete>
-                    </v-col>
-                    <v-col hidden cols="2">
-                        <label for="">N° de piece</label>
-                        <v-text-field :disabled="true" :filled="true" v-model="editedItem.num_pieces" hide-details outlined
-                            dense></v-text-field>
-
-                    </v-col>
-                    <v-col cols="2">
-                        <label for="">Date *</label>
-                        <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition"
-                            offset-y max-width="290px" min-width="290px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-text-field v-model="dateFormatted" persistent-hint v-bind="attrs"
-                                    hint="JJ/MM/AAAA format" prepend-icon="mdi-calendar" outlined dense
-                                    :format="'DD/MM/AAAA'" :rules="obligationRule" @blur="date = parseDate(dateFormatted)"
-                                    v-on="on"></v-text-field>
-                            </template>
-                            <v-date-picker v-model="date" no-title @input="menu1 = false" :min="du"
-                                :max="au"></v-date-picker>
-                        </v-menu>
-                    </v-col>
-                    <v-col cols="6">
-                        <label for="">Référence *</label>
-                        <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details outlined
-                            dense></v-text-field>
-                    </v-col>
-                </v-row>
-
-                <v-row class="mx-0">
-                    <v-col cols="3" class="pl-3 pr-1 ">
-                        <label for="">Compte *</label>
-
-                        <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
-                            outlined dense placeholder="compte de contrepartie" item-text="numero_compte" item-value="id"
-                            :filter="getList">
-                            <template slot="selection" slot-scope="{ item }">
-                                {{ item.numero_compte }} - {{ item.intitulee }}
-                            </template>
-                            <template slot="item" slot-scope="{ item }">
-                                {{ item.numero_compte }} - {{ item.intitulee }}
-                            </template>
-                        </v-autocomplete>
-                    </v-col>
-                    <v-col cols="2" class="pl-3 pr-1 ">
-                        <label for="">Tiers</label>
-                        <v-autocomplete v-model="editedItem.tiers" color="red" return-object
-                            :disabled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')"
-                            :filled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" :items="test" outlined
-                            dense placeholder="Tiers" item-text="denomination" item-value="id">
-                            <template slot="selection" slot-scope="{ item }">
-                                {{ item.denomination }}
-                            </template>
-                        </v-autocomplete>
-                    </v-col>
-                    <v-col cols="3" class="px-1 ">
-                        <label for="">Libellé *</label>
-                        <v-text-field v-model="editedItem.libelle" outlined dense></v-text-field>
-                    </v-col>
-                    <v-col cols="1" class="px-1 ">
-                        <label for="">Débit</label>
-                        <v-text-field v-model="editedItem.debit" @keyup="positive('d')" type="number" outlined
-                            dense></v-text-field>
-                    </v-col>
-                    <v-col cols="1" class="px-1 ">
-                        <label for="">Credit</label>
-                        <v-text-field v-model="editedItem.credit" @keyup="positive('c')" type="number" outlined
-                            dense></v-text-field>
-                    </v-col>
-                    <v-col cols="1" class="px-1 d-flex">
-                        <v-btn v-if="isEdit" color="#EF9A9A" class="mt-5 py-5" @click="cancelEdit()">Annuler</v-btn>
-                        <v-btn color="primary" small class="mt-5 py-5 ml-3" @click="addEcriture()">{{ btnText }}</v-btn>
-                    </v-col>
-                </v-row>
-            </v-form>
-        </v-card>
-
-
-        <v-card elevation="0" class="mt-3 px-3 py-3" style="border:1px solid #ddd">
-            <div class="pt-3">
-                <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
-                    <template v-slot:item.compte="{ item }">
-                        <span>{{ item && item.compte && item.compte.intitulee }}</span>
+                    <v-btn color="#C5CAE9" small class="py-5"  @click="interrogationCompte()">
+                            <v-icon class="mr-3">mdi-folder-open</v-icon>
+                            Interrogation comptes
+                    </v-btn>
+                    <v-btn color="#D1C4E9" small class="py-5"  @click="serieComptes()">
+                            <v-icon class="mr-3">mdi-folder-open</v-icon>
+                            Interrogation series comptes
+                    </v-btn> -->
+                </div>
+                <div>
+                    <v-menu>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        size="small"
+                        color="teal"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                        >
+                        <v-icon>mdi-menu</v-icon>
+                        </v-btn>
+                        
                     </template>
-                    <template v-slot:item.tiers="{ item }">
-                        <span>{{ item.tiers?.denomination }}</span>
+                    
+                    <!-- add button with image icon -->
+                    
+                    
+                    <v-list>
+                        <v-list-item @click="afficherEcritures()">
+                        <v-list-item-title>Afficher ecritures</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item @click="interrogationCompte()">
+                        <v-list-item-title>Interrogation comptes</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item @click="serieComptes()">
+                        <v-list-item-title>Interrogation series comptes</v-list-item-title>
+                        </v-list-item>
+        
+                    </v-list>
+                </v-menu>
+                <v-btn
+                    size="small"
+                    color="teal"
+                    dark
+                    @click="displayDocument"
+                    >
+                    <v-icon>{{ dualMode ? 'mdi-close':'mdi-image'}}</v-icon>
+                </v-btn>
+                </div>
+                </div>
+                <v-snackbar v-model="snackbar" :timeout="timeout">
+                    {{ text }}
+    
+                    <template v-slot:action="{ attrs }">
+                        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+                            Close
+                        </v-btn>
                     </template>
-                    <template v-slot:item.actions="{ item, index }">
-                        <v-icon size="small" class="me-2" @click="editItem(item, index)">
-                            mdi-pencil
-                        </v-icon>
-                        <v-icon size="small" @click="deleteItem(item, index)">
-                            mdi-delete
-                        </v-icon>
-                    </template>
-                    <template slot="body.append">
-                        <tr class="">
-                            <th class="title">Total</th>
-                            <th class=""></th>
-                            <th class=""></th>
-                            <th class="" style="font-size:1rem">{{ someDebit }}</th>
-                            <th class="" style="font-size:1rem">{{ someCredit }}</th>
-                            <th class=""></th>
-                        </tr>
-                    </template>
-
-                </v-data-table>
-
-                <v-alert class="mt-3" dense outlined v-if="someDebit != someCredit" type="error">
-                    Les champs Débit total et Crédit doivent être égaux.
-                </v-alert>
-            </div>
-            <div class="mt-2">
-                <v-btn color="primary" small class="mt-6 py-5" @click="allValid()">Valider</v-btn>
-            </div>
-        </v-card>
-        <v-dialog v-model="dialogConfirmation" max-width="520px">
-            <v-card>
-                <v-card-title class="text-h6">Êtes-vous sûr de bien vouloir valider cet ecriture
-                    ?</v-card-title>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="closeDelete">Annuler</v-btn>
-                    <v-btn color="blue darken-1" text @click="confimEcriture">Confirmer</v-btn>
-                    <v-spacer></v-spacer>
-                </v-card-actions>
+                </v-snackbar>
+                <v-form ref="ecritureForm">
+                    <v-row class="mx-0">
+                        <v-col cols="2">
+                            <label for="">Journal *</label>
+    
+                            <v-autocomplete hide-details v-model="editedItem.journal" return-object :rules="obligationRule"
+                                :items="journaux" outlined dense placeholder="Journaux" item-text="nom" item-value="id">
+    
+                            </v-autocomplete>
+                        </v-col>
+                        <v-col hidden cols="2">
+                            <label for="">N° de piece</label>
+                            <v-text-field :disabled="true" :filled="true" v-model="editedItem.num_pieces" hide-details outlined
+                                dense></v-text-field>
+    
+                        </v-col>
+                        <v-col cols="2">
+                            <label for="">Date *</label>
+                            <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition"
+                                offset-y max-width="290px" min-width="290px">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <!-- hint="JJ/MM/AAAA format"  -->
+                                    <v-text-field v-model="dateFormatted" persistent-hint v-bind="attrs"
+                                        prepend-icon="mdi-calendar" outlined dense
+                                        :format="'DD/MM/AAAA'" :rules="obligationRule" @blur="date = parseDate(dateFormatted)"
+                                        v-on="on"></v-text-field>
+                                </template>
+                                <v-date-picker v-model="date" no-title @input="menu1 = false" :min="du"
+                                    :max="au"></v-date-picker>
+                            </v-menu>
+                        </v-col>
+                        <v-col cols="6">
+                            <label for="">Référence *</label>
+                            <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details outlined
+                                dense></v-text-field>
+                        </v-col>
+                    </v-row>
+    
+                    <v-row class="mx-0">
+                        <v-col cols="3" class="pl-3 pr-1 ">
+                            <label for="">Compte *</label>
+    
+                            <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
+                                outlined dense placeholder="compte de contrepartie" item-text="numero_compte" item-value="id"
+                                :filter="getList">
+                                <template slot="selection" slot-scope="{ item }">
+                                    {{ item.numero_compte }} - {{ item.intitulee }}
+                                </template>
+                                <template slot="item" slot-scope="{ item }">
+                                    {{ item.numero_compte }} - {{ item.intitulee }}
+                                </template>
+                            </v-autocomplete>
+                        </v-col>
+                        <v-col cols="2" class="pl-3 pr-1 ">
+                            <label for="">Tiers</label>
+                            <v-autocomplete v-model="editedItem.tiers" color="red" return-object
+                                :disabled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')"
+                                :filled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" :items="test" outlined
+                                dense placeholder="Tiers" item-text="denomination" item-value="id">
+                                <template slot="selection" slot-scope="{ item }">
+                                    {{ item.denomination }}
+                                </template>
+                            </v-autocomplete>
+                        </v-col>
+                        <v-col cols="3" class="px-1 ">
+                            <label for="">Libellé *</label>
+                            <v-text-field v-model="editedItem.libelle" outlined dense></v-text-field>
+                        </v-col>
+                        <v-col cols="1" class="px-1 ">
+                            <label for="">Débit</label>
+                            <v-text-field v-model="editedItem.debit" @keyup="positive('d')" type="number" outlined
+                                dense></v-text-field>
+                        </v-col>
+                        <v-col cols="1" class="px-1 ">
+                            <label for="">Credit</label>
+                            <v-text-field v-model="editedItem.credit" @keyup="positive('c')" type="number" outlined
+                                dense></v-text-field>
+                        </v-col>
+                        <v-col cols="1" class="px-1 d-flex">
+                            <v-btn v-if="isEdit" color="#EF9A9A" class="mt-5 py-5" @click="cancelEdit()">Annuler</v-btn>
+                            <v-btn color="primary" small class="mt-5 py-5 ml-3" @click="addEcriture()">{{ btnText }}</v-btn>
+                        </v-col>
+                    </v-row>
+                </v-form>
             </v-card>
-        </v-dialog>
+    
+    
+            <v-card elevation="0" class="mt-3 px-3 py-3" style="border:1px solid #ddd">
+                <div class="pt-3">
+                    <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
+                        <template v-slot:item.compte="{ item }">
+                            <span>{{ item && item.compte && item.compte.intitulee }}</span>
+                        </template>
+                        <template v-slot:item.tiers="{ item }">
+                            <span>{{ item.tiers?.denomination }}</span>
+                        </template>
+                        <template v-slot:item.actions="{ item, index }">
+                            <v-icon size="small" class="me-2" @click="editItem(item, index)">
+                                mdi-pencil
+                            </v-icon>
+                            <v-icon size="small" @click="deleteItem(item, index)">
+                                mdi-delete
+                            </v-icon>
+                        </template>
+                        <template slot="body.append">
+                            <tr class="">
+                                <th class="title">Total</th>
+                                <th class=""></th>
+                                <th class=""></th>
+                                <th class="" style="font-size:1rem">{{ someDebit }}</th>
+                                <th class="" style="font-size:1rem">{{ someCredit }}</th>
+                                <th class=""></th>
+                            </tr>
+                        </template>
+    
+                    </v-data-table>
+    
+                    <v-alert class="mt-3" dense outlined v-if="someDebit != someCredit" type="error">
+                        Les champs Débit total et Crédit doivent être égaux.
+                    </v-alert>
+                </div>
+                <div class="mt-2">
+                    <v-btn color="primary" small class="mt-6 py-5" @click="allValid()">Valider</v-btn>
+                </div>
+            </v-card>
+            <v-dialog v-model="dialogConfirmation" max-width="520px">
+                <v-card>
+                    <v-card-title class="text-h6">Êtes-vous sûr de bien vouloir valider cet ecriture
+                        ?</v-card-title>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="blue darken-1" text @click="closeDelete">Annuler</v-btn>
+                        <v-btn color="blue darken-1" text @click="confimEcriture">Confirmer</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </div>
+        <div class="doc-container" v-show="dualMode" style="width:40%">
+            <!-- <iframe src="https://www.senat.fr/rap/r14-610-1/r14-610-11.pdf" width="100%" height="100%">
+    </iframe> -->
+            <div class="placeholder">
+                <v-card @click="importDocument" style="border:6px dashed #4e67d8;cursor: pointer;" v-if="!docLoaded" class="d-flex justify-center align-center" height="100%">
+                    <v-card-text class="text-center">
+                        <v-icon class="display-4">mdi-file-pdf</v-icon>
+                        <div class="text-h5">Aucun document disponible</div>
+                        <div class="text-caption">Veuillez selectionner un document</div>
+                    </v-card-text>
+                </v-card>
+                <v-file-input style="display:none" type="file" @change="changeFile" ref="fileInput" v-model="inputFiles" multiple
+                label="Choisissez un fichier" prepend-icon="mdi-folder-upload" class="my-6"></v-file-input>                        
+                <iframe v-show="docLoaded"  ref="pdfViewer" :src="pdfUrl" width="100%" height="100%">
+                </iframe>
+
+            </div>
+        </div>
     </div>
 </template>
-
+<style>
+    .doc-container {
+        padding:10px;
+    }
+    .placeholder {
+        width:100%;
+        height:100%;
+    }
+</style>
 
 <script>
 export default {
@@ -244,6 +313,11 @@ export default {
         editedIndex: -1,
         editMode: false,
         deletedIds: [],
+        dualMode: false,
+        inputFiles: [],
+        displayedDocument: null,
+        pdfUrl: null,
+        docLoaded: false,
 
     }),
     computed: {
@@ -362,6 +436,7 @@ export default {
             
         },
         async allValid() {
+            if(this.someCredit !== this.someDebit) return
             this.dialogConfirmation = true
         },
         async search() {
@@ -613,6 +688,59 @@ export default {
         serieComptes(){
             this.$router.push({ path: '/comptabilitee/' + this.id + '/saisie/lists/serieComptes' })
         },
+        async changeFile($event) {
+            // console.log('this.file', this.displayedDocument)
+            const file = $event
+            // console.log('file', file)
+            if (!file) return;
+            // const blob = new Blob([file[0]], { type: 'application/pdf' })
+            // console.log('blob', blob)
+            const reader = new FileReader()
+            // reader.readAsDataURL(file[0])
+            if(file.length > 0 && file[0].type === 'application/pdf'){
+                reader.readAsDataURL(file[0])
+            }else{
+                this.showToast('Le fichier doit être au format PDF')
+            }
+
+            reader.onload = () => {
+                const pdfUrl = reader.result;
+                if (this.$refs.pdfViewer) {
+                    // this.$refs.pdfViewer.src = pdfUrl;
+                    this.pdfUrl = pdfUrl
+                    this.docLoaded = true
+
+                } else {
+                    console.error("pdfViewer element is not defined");
+                }
+            }
+        },
+        displayDocument(){
+            // if(!this.dualMode){
+            //     this.$nextTick(() => {
+            //         try {
+            //         console.log('Trying to trigger file input...');
+            //         console.log('this.$refs', this.$refs)
+            //         this.$refs.fileInput.$refs.input.click();
+            //         } catch (error) {
+            //         console.error('Error triggering file input:', error);
+            //         }
+            //     });
+            // }
+            this.dualMode = !this.dualMode
+
+        },
+        importDocument(){
+            this.$nextTick(() => {
+                try {
+                console.log('Trying to trigger file input...');
+                console.log('this.$refs', this.$refs)
+                this.$refs.fileInput.$refs.input.click();
+                } catch (error) {
+                console.error('Error triggering file input:', error);
+                }
+            });
+        }
     }
 
 }

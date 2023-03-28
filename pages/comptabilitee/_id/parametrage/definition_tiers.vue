@@ -80,6 +80,7 @@ export default {
             //     sortable: false,
             //     value: 'logo',
             // },
+            {text:'id',value:'id'},
             { text: 'Denomination', value: 'denomination' },
             { text: 'Identifiant fiscale', value: 'immf' },
         ],

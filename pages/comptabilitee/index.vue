@@ -1,6 +1,6 @@
 <template>
-    <v-container>
-        <v-card>
+    <!-- <v-container> -->
+        <v-card class="ml-6 mr-6">
             <div class="d-flex" style="padding:1rem">
                 <v-btn class="" color="primary" link @click="$router.push({ path: '/' })">
                     <i class="fal fa-arrow-left mr-3"></i>Retour
@@ -172,12 +172,18 @@
                                                         item-value="id"></v-autocomplete>
                                                 </v-col>
 
-                                                <v-col lg="12" cols="12" class="py-0">
+                                                <v-col lg="6" cols="12" class="py-0">
                                                     <label for="">Droit de timbre *</label>
                                                     <v-autocomplete v-model="editedItem.droit_timbre"
                                                         :rules="obligationRule" :items="timbre" outlined dense
                                                         placeholder="Timbre" item-text="valeur"
                                                         item-value="id"></v-autocomplete>
+                                                </v-col>
+                                                <v-col lg="6" cols="12" class="py-0">
+                                                    <label for="">PRORATA TVA *</label>
+                                                    <v-text-field v-model="editedItem.prorata_tva"
+                                                        :rules="obligationRule" outlined dense
+                                                        placeholder="PRORATA TVA"></v-text-field>
                                                 </v-col>
                                                 <v-col lg="12" cols="12" class="py-0">
                                                     <v-card-actions>
@@ -198,28 +204,30 @@
                         </v-dialog>
                     </v-toolbar>
                 </template>
-                <template v-slot:item.action="{ item }">
-
+                <template v-slot:item.action="{ item }" max-width="300px">
+                    <div class="d-flex">
                     <v-btn text color="primary" @click="startExercice(item)">
                         OUVRIR
                     </v-btn>
-                    <v-btn text color="#616161" @click="handleDuplicateClick(item)">
-                        DUPLIQUER
-                    </v-btn>
-                    <v-btn text color="#26A69A" @click="handleArchiverClick(item)">
-                        ARCHIVER
-                    </v-btn>
-                    <v-btn text color="#FFA726" @click="modifyDossier(item)">
-                        MODIFIER
-                    </v-btn>
-                    <v-btn text color="#D32F2F" @click="handleDeleteClick(item)">
-                        SUPPRIMER
-                    </v-btn>
-
+                    <div>
+                        <v-btn text color="#616161" @click="handleDuplicateClick(item)">
+                            DUPLIQUER
+                        </v-btn>
+                        <v-btn text color="#26A69A" @click="handleArchiverClick(item)">
+                            ARCHIVER
+                        </v-btn>
+                        <v-btn text color="#FFA726" @click="modifyDossier(item)">
+                            MODIFIER
+                        </v-btn>
+                        <v-btn text color="#D32F2F" @click="handleDeleteClick(item)">
+                            SUPPRIMER
+                        </v-btn>
+                    </div>
+                    </div>
                 </template>
             </v-data-table>
         </v-card>
-    </v-container>
+    <!-- </v-container> -->
 </template>
 <script>
 export default {

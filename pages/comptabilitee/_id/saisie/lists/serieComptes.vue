@@ -479,6 +479,9 @@ export default {
                 case 'A NOUVEAU':
                     menu = 'desANouveau'
                     break
+                case 'BUDGET':
+                    menu = 'budget'
+                    break
             }
             const url = `/comptabilitee/${this.id}/saisie/${menu}`
             this.$router.push({ path: url, query: { num_pieces: item.num_pieces, mode: 'edit' } })

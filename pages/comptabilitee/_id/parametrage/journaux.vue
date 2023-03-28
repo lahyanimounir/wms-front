@@ -127,7 +127,7 @@ export default {
     data: () => ({
         dialog: false,
         dialogDelete: false,
-        items:[{id:'Achat',valeur:'ACHAT'},{id:'Vente',valeur:'VENTE'},{id:'Tresorerie',valeur:'TRESORERIE'},{id:'OPERATIONS DIVERS',valeur:'OPERATIONS DIVERS'},{id:'A NOUVEAU',valeur:'A NOUVEAU'},{id:'RESULTAT',valeur:'RESULTAT'}],
+        items:[{id:'Achat',valeur:'ACHAT'},{id:'Vente',valeur:'VENTE'},{id:'Tresorerie',valeur:'TRESORERIE'},{id:'OPERATIONS DIVERS',valeur:'OPERATIONS DIVERS'},{id:'A NOUVEAU',valeur:'A NOUVEAU'},{id:'RESULTAT',valeur:'RESULTAT'},{id:'BUDGET',valeur:'BUDGET'}],
         items2:[],
         obligationRule: [
             v => !!v || 'Ce champs est obligatoire.',

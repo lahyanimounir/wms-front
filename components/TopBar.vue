@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex" style="height:90px;background-color: #D4FFDB;justify-content: space-between;">
+    <div class="d-flex" style="height:70px;background-color: #D4FFDB;justify-content: space-between;">
         <div class="logo d-flex ml-5" style="align-items: center;gap:23px;">
             <!-- <img style="height:45px" src="~/assets/images/LogoWMS.png" alt="logo"> -->
             <div style="background-color: aliceblue;height:46px;width:110px;border-radius: 48px;border:1px solid black;display:flex;justify-content:center;align-items:center;">

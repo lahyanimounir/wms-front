@@ -47,22 +47,22 @@ const links = (id) => {
             {
                 title: 'IMPORTATION ECRITURE',
                 icon: 'mdi-book',
-                // path: '/comptabilitee/' + id + '/parametrage/journaux'
+                path: '/comptabilitee/' + id + '/parametrage/importation_ecritures'
             },
-            {
-                title: 'RE CLOTURER',
-                icon: 'mdi-book',
-                // path: '/comptabilitee/' + id + '/parametrage/journaux'
-            },
-            {
-                title: 'PRORATA TVA ',
-                icon: 'mdi-book',
-                // path: '/comptabilitee/' + id + '/parametrage/journaux'
-            },
+            // {
+            //     title: 'RE CLOTURER',
+            //     icon: 'mdi-book',
+            //     // path: '/comptabilitee/' + id + '/parametrage/journaux'
+            // },
+            // {
+            //     title: 'PRORATA TVA ',
+            //     icon: 'mdi-book',
+            //     // path: '/comptabilitee/' + id + '/parametrage/journaux'
+            // },
         ]
     },  
     {
-        title: 'MENU SAISSIE',
+        title: 'MENU SAISIE',
         path:'saisie',
         childs: [
             {
@@ -198,11 +198,11 @@ const links = (id) => {
                 icon: 'mdi-folder',
                 // path: '/comptabilitee/' + id + '/edition_comptable/journaux'
             },
-            {
-                title:'EDITION GLOBALE',
-                icon: 'mdi-folder',
-                // path: '/comptabilitee/' + id + '/edition_comptable/edition'
-            },
+            // {
+            //     title:'EDITION GLOBALE',
+            //     icon: 'mdi-folder',
+            //     // path: '/comptabilitee/' + id + '/edition_comptable/edition'
+            // },
             {
                 title:'EDITION BUDGET VS ACTUEL',
                 icon: 'mdi-folder',

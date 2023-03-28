@@ -356,6 +356,7 @@ export default {
             
         },
         async allValid() {
+            if(this.someCredit !== this.someDebit) return
             this.dialogConfirmation = true
         },
         async search() {

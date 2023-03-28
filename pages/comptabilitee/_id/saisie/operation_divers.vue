@@ -472,6 +472,7 @@ export default {
             
         },
         async allValid() {
+            if(this.someCredit !== this.someDebit) return
             this.dialogConfirmation = true
             // this.id = this.$route.params.id
             // let url = process.env.Name_api + "/allValid/" + this.id;

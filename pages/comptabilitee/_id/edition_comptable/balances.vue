@@ -94,20 +94,20 @@
                         </v-menu>
                     </v-col>
                     <v-col cols="2">
-                        <v-btn disabled="true" filled="true" color="primary" small class="mt-5 py-5 ml-3" @click="getEcritures">Générer</v-btn>
+                        <v-btn color="primary" small class="mt-5 py-5 ml-3" @click="getEcritures">Générer</v-btn>
                     </v-col>
                 </v-row>
             </v-form>
         </v-card>
         <v-card class="mt-3 px-3 py-3" elevation="0" style="border:1px solid #ddd">
             <div class="py-5 px-3">
-                <div class="font-weight-bold" style="font-size:18px;">Listes des ecritures</div>
+                <div class="font-weight-bold" style="font-size:18px;">Résultats :</div>
             </div>
            
             <table width="100%" class="table styled-table">
                 <thead>
                     <tr class="top-header">
-                        <th style="background-color: rgb(212, 255, 219)" colspan="3"></th>
+                        <th  colspan="2"></th>
                         
                         <!-- <th>Journal</th> -->
                         <!-- <th>N PIECES</th> -->
@@ -119,9 +119,9 @@
                         <!-- <th>Action</th> -->
                     </tr>
                     <tr class="table-header">
-                        <th>Date</th>
-                        <th>Compte</th>
-                        <th>Tiers</th>
+                        <!-- <th>Date</th> -->
+                        <th>N Compte</th>
+                        <th>Intitulee</th>
                         <!-- <th>Journal</th> -->
                         <!-- <th>N PIECES</th> -->
                         <!-- <th>Libelle</th> -->
@@ -138,34 +138,55 @@
                 <tbody>
                     <tr v-for="ecriture in grouped"  :key="ecriture.id">
                         <template v-if="!ecriture.isTotal">
-                            <td>{{ formatDate(ecriture.date) }}</td>
-                            <td>{{ ecriture.compte.numero_compte }} - {{ ecriture.compte.intitulee }}</td>
-                            <td>{{ ecriture.tiers && ecriture.tiers.denomination }}</td>
+                            <!-- <td>{{ formatDate(ecriture.date) }}</td> -->
+                            <!-- <td>{{ ecriture.compte.numero_compte }} - {{ ecriture.compte.intitulee }}</td> -->
+                            <td>{{ ecriture.numero_compte}}</td>
+                            <td>{{ ecriture.intitulee }}</td>
+                            <!-- <td>{{ ecriture.tiers && ecriture.tiers.denomination }}</td> -->
+                            <td class="debit">{{ ecriture.reportDebit }}</td>
+                            <td class="credit">{{ ecriture.reportCredit }}</td>
+                            <td class="debit">{{ ecriture.mouvementDebit }}</td>
+                            <td class="credit">{{ ecriture.mouvementCredit }}</td>
+                            <td class="debit">{{ ecriture.soldeDebit }}</td>
+                            <td class="credit">{{ ecriture.soldeCredit }}</td>
+
                             <!-- <td>{{ ecriture.journal.type }} - {{ ecriture.journal.nom }}</td> -->
                             <!-- <td>{{ ecriture.num_pieces }}</td> -->
                             <!-- <td>{{ ecriture.libelle }}</td> -->
-                            <td v-if="ecriture.debit > 0" style="color:green">{{ ecriture.debit }}</td>
+                            <!-- <td v-if="ecriture.debit > 0" style="color:green">{{ ecriture.debit }}</td>
                             <td v-else>{{ ecriture.debit }}</td>
                             <td v-if="ecriture.credit > 0" style="color:red">{{ ecriture.credit }}</td>
                             <td v-else>{{ ecriture.credit }}</td>
-                            <td>{{ ecriture.montant }}</td>
+                            <td>{{ ecriture.montant }}</td> -->
                             <!-- <td>
                                 <v-icon color="#546E7A" class="mr-2" @click="editEcriture(ecriture)">mdi-star</v-icon>
                             </td> -->
                         </template>
                         <template v-else>
-                            <td colspan="3" class="text-left font-weight-bold total compte">
-                                SOUS TOTAL COMPTE :  {{ ecriture.numero_compte }} - {{ ecriture.intitulee }}
+                            <td colspan="2" class="text-left font-weight-bold total compte">
+                                SOUS TOTAL COMPTE {{ ecriture.intitulee }} :
                             </td>
                             <td class="total debit">
-                                {{ ecriture.totalDebit.toFixed(2) }}
+                                {{ ecriture.report_debit }}
                             </td>
                             <td class="total credit">
-                                {{ ecriture.totalCredit.toFixed(2) }}
+                                {{ ecriture.report_credit }}
                             </td>
-                            <td colspan="2" class="total">
+                            <td class="total debit">
+                                {{ ecriture.mouvement_debit }}
+                            </td>
+                            <td class="total credit">
+                                {{ ecriture.mouvement_credit }}
+                            </td>
+                            <td class="total debit">
+                                {{ ecriture.solde_debit }}
+                            </td>
+                            <td class="total credit">
+                                {{ ecriture.solde_credit }}
+                            </td>
+                            <!-- <td colspan="2" class="total">
 
-                            </td>
+                            </td> -->
                             <!-- <td style="font-size:1rem;color:green">{{ ecriture.debit }}</td>
                             <td style="font-size:1rem;color:red">{{ ecriture.credit }}</td>
                             <td></td>
@@ -189,16 +210,18 @@
 <style>
 .top-header th{
     border:0px;
+    color:#ffffff;
+    background-color:rgb(51, 51, 51);
 }
-.mouvement{
-    background-color: rgb(212, 255, 219);
+/* .mouvement{
+    background-color: rgb(46, 46, 46);
 }
 .report{
-    background-color: rgb(212, 255, 219);
+    background-color: rgb(46, 46, 46);
 }
 .solde{
-    background-color: rgb(212, 255, 219);
-}
+    background-color: rgb(46, 46, 46);
+} */
 .table-header th{
     background-color: rgb(133, 133, 133);
     color: #ffffff;
@@ -207,12 +230,13 @@
 }
 .styled-table {
     border-collapse: collapse;
-    /* border: 1px solid black; */
+    border: 1px solid rgb(88, 88, 88);
     margin: 25px 0;
     font-size: 0.9em;
     font-family: sans-serif;
     min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    line-height: 8px;
 }
 
 .styled-table thead tr {
@@ -230,6 +254,9 @@
 }
 .total{
     background-color: #dbdbdb;
+    font-size: 17px;
+    font-weight: bold;
+    
 
 }
 .compte{
@@ -242,12 +269,12 @@
 
 }
 .debit{
-    color:green;
-    font-size: 15px;
+    /* color:green; */
+    /* font-size: 15px; */
 }
 .credit{
-    color:red;
-    font-size: 15   px;
+    /* color:red; */
+    /* font-size: 15px; */
 }
 </style>
 <script>
@@ -359,6 +386,11 @@ export default {
             console.log('params : ', params)
             const res = await this.$myService.get(url, params)
             this.ecritures = res
+            let temp = this.ecritures.map(e=>{
+                return e.compte.numero_compte
+            })
+            // console.log('this ecr : ', this.ecritures)
+            // console.log('temp : ', temp)
             this.groupeData()
             this.calculateTotal()
             // console.log('res : ', res)
@@ -470,42 +502,92 @@ export default {
             return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())
         },
         groupeData() {
-            let grouped = this.ecritures.reduce((acc, cur) => {
-                const compteId = cur.compte.id;
-                if (!acc[compteId]) {
-                    acc[compteId] = {
-                        rows: [],
-                        totalDebit: 0,
-                        totalCredit: 0
-                    };
-                }
-                acc[compteId].rows.push(cur);
-                if (cur.debit) {
-                    acc[compteId].totalDebit += Number(cur.debit);
-                    
-                }
-                if (cur.credit) {
-                    acc[compteId].totalCredit += Number(cur.credit);
-                }
-                return acc;
-            }, {});
-            let t = [];
-            // console.log('grouped : ',grouped)
-            // console.log(Object.keys(grouped))
-            Object.keys(grouped).forEach(key => {
-                grouped[key].rows.forEach(row=>{
-                    t.push(row)
-                })
-                t.push({
-                    totalDebit: grouped[key].totalDebit,
-                    totalCredit: grouped[key].totalCredit,
-                    isTotal: true,
-                    numero_compte:t[t.length-1].compte.numero_compte,
-                    intitulee:t[t.length-1].compte.intitulee
-                })
+            const groupedData = {};
+            this.ecritures.forEach(entry => {
+            if (!groupedData[entry.compte.numero_compte]) {
+                groupedData[entry.compte.numero_compte] = [];
+            }
+            groupedData[entry.compte.numero_compte].push(entry);
+            });
+
+            const transformedData = [];
+            let previousAccountNumber = null;
+            let reportDebitSubTotal = 0;
+            let reportCreditSubTotal = 0;
+            let mouvementDebitSubTotal = 0;
+            let mouvementCreditSubTotal = 0;
+            let soldeDebitSubTotal = 0;
+            let soldeCreditSubTotal = 0;
+            Object.keys(groupedData).forEach(accountNumber => {
+            if (previousAccountNumber && accountNumber[0] !== previousAccountNumber[0]) {
                 
-            })
-            this.grouped = t
+                const previousTransformedEntry = {
+                    intitulee: `TOTAL ${previousAccountNumber[0]}XXXXXXX`,
+                    report_debit: reportDebitSubTotal,
+                    report_credit: reportCreditSubTotal,
+                    mouvement_debit: mouvementDebitSubTotal,
+                    mouvement_credit: mouvementCreditSubTotal,
+                    solde_debit: soldeDebitSubTotal,
+                    solde_credit: soldeCreditSubTotal,
+                    isTotal: true
+                };
+                transformedData.push(previousTransformedEntry);
+                reportDebitSubTotal = 0;
+                reportCreditSubTotal = 0;
+                mouvementDebitSubTotal = 0;
+                mouvementCreditSubTotal = 0;
+                soldeDebitSubTotal = 0;
+                soldeCreditSubTotal = 0;
+            }
+           
+            const accountEntries = groupedData[accountNumber];
+            const reportDebit = accountEntries
+                .filter(entry => entry.journal.type === "A NOUVEAU")
+                .reduce((total, entry) => total + Number(entry.debit), 0);
+            const reportCredit = accountEntries
+                .filter(entry => entry.journal.type === "A NOUVEAU")
+                .reduce((total, entry) => total + Number(entry.credit), 0);
+            const mouvementDebit = accountEntries.reduce((total, entry) => total + Number(entry.debit), 0);
+            const mouvementCredit = accountEntries.reduce((total, entry) => total + Number(entry.credit), 0);
+            const soldeDebit = reportDebit + mouvementDebit;
+            const soldeCredit = reportCredit + mouvementCredit;
+            const transformedEntry = {
+                numero_compte: parseInt(accountNumber),
+                intitulee: accountEntries[0].compte.intitulee,
+                reportDebit,
+                reportCredit,
+                mouvementDebit,
+                mouvementCredit,
+                soldeDebit,
+                soldeCredit,
+            };
+            reportDebitSubTotal += reportDebit;
+            reportCreditSubTotal += reportCredit;
+            mouvementDebitSubTotal += mouvementDebit;
+            mouvementCreditSubTotal += mouvementCredit;
+            soldeDebitSubTotal += soldeDebit;
+            soldeCreditSubTotal += soldeCredit;
+
+            transformedData.push(transformedEntry);
+
+             if (accountNumber === Object.keys(groupedData)[Object.keys(groupedData).length - 1]) {
+                const previousTransformedEntry = {
+                    intitulee: `TOTAL ${accountNumber[0]}XXXXXXX`,
+                    report_debit: reportDebitSubTotal,
+                    report_credit: reportCreditSubTotal,
+                    mouvement_debit: mouvementDebitSubTotal,
+                    mouvement_credit: mouvementCreditSubTotal,
+                    solde_debit: soldeDebitSubTotal,
+                    solde_credit: soldeCreditSubTotal,
+                    isTotal: true
+                };
+                transformedData.push(previousTransformedEntry);
+            }
+            previousAccountNumber = accountNumber;
+            });
+            
+            console.log('transformedData : ', transformedData)
+            this.grouped = transformedData
         }
 
     },

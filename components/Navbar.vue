@@ -1,6 +1,6 @@
 <template>
     <div>
-    <div class="navbar" style="height:55px;background-color: #65B891;">
+    <div class="navbar" style="height:35px;background-color: #65B891;">
         <ul class="navbar-items">
             <li><i style="cursor:pointer;color:white;font-size:18px;font-weight:bold;" class="fal fa-arrow-left mr-3" link @click="$router.push({ path: '/comptabilitee' })"></i></li>
             <li v-for="link in linksArray" :key="link.id">
@@ -21,7 +21,7 @@
         <v-tabs
             background-color="#FAFAFA"
             show-arrows
-            height="55px"
+            height="35px"
         >
         <v-tabs-slider color="#5092f3"></v-tabs-slider>
       <v-tab

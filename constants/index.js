@@ -155,7 +155,7 @@ const links = (id) => {
             {
                 title: 'RECHERCHE MULTICRITERE',
                 icon: 'mdi-folder',
-                // path: '/comptabilitee/' + id + '/outils/recherche'
+                path: '/comptabilitee/' + id + '/outils/recherche'
             },
             {
                 title: 'MODIFIER COMPTE',
@@ -191,12 +191,12 @@ const links = (id) => {
             {
                 title:'GRANDS LIVRES',
                 icon: 'mdi-folder',
-                // path: '/comptabilitee/' + id + '/edition_comptable/grandlivre'
+                path: '/comptabilitee/' + id + '/edition_comptable/grandlivre'
             },
             {
                 title:'JOURNAUX',
                 icon: 'mdi-folder',
-                // path: '/comptabilitee/' + id + '/edition_comptable/journaux'
+                path: '/comptabilitee/' + id + '/edition_comptable/journaux'
             },
             // {
             //     title:'EDITION GLOBALE',
@@ -311,11 +311,11 @@ const links = (id) => {
                 icon: 'mdi-folder',
                 // path: '/comptabilitee/' + id + '/edition_fiscale/declaration'
             },
-            {
-                title:'BILAN ET ETIC',
-                icon: 'mdi-folder',
-                // path: '/comptabilitee/' + id + '/edition_fiscale/bilan'
-            },
+            // {
+            //     title:'BILAN ET ETIC',
+            //     icon: 'mdi-folder',
+            //     // path: '/comptabilitee/' + id + '/edition_fiscale/bilan'
+            // },
             {
                 title:'RAPPORT D\'ACTIVITE',
                 icon: 'mdi-folder',
@@ -368,6 +368,22 @@ const links = (id) => {
                 // path: '/comptabilitee/' + id + '/audit/controle'
             },
             
+        ]
+    },
+    {
+        title:'BILAN ET ETIC',
+        path:'bilan',
+        childs:[
+            {
+                title:'BILAN ET ETIC',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/bilan'
+            },
+            {
+                title:'BILAN ET ETIC',
+                icon: 'mdi-folder',
+                // path: '/comptabilitee/' + id + '/bilan/bilan'
+            },
         ]
     }
 ]

@@ -3,12 +3,13 @@
 
 
         <v-card elevation="0" style="border:1px solid #ddd">
-            <div class=" py-5 px-3 pb-0 d-flex" style="justify-content: space-between;">
+            <div class=" py-2 px-3 pb-0 d-flex" style="justify-content: space-between;">
 
                 <div style="font-size:18px">
                     Dossier :<b> {{ dossier && dossier.d_denomination }} </b>|
-                    Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
-                    <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
+                    Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b> |
+                    N° de piece : <b>{{ editedItem.num_pieces }}</b>
+                    <div class="font-weight-bold" style="font-size:18px">Saisie operations diverses</div>
                 </div>
                 <!-- <v-btn color="primary" style="position:absolute;top:20px;right:12px" @click="afficherEcritures()">
                         <v-icon>mdi-folder-open</v-icon>
@@ -47,7 +48,7 @@
                 </v-menu>
                 </div>
             </div>
-            <div class="font-weight-bold py-5 px-3 pt-0" style="font-size:18px;">Saisie operations diverses :</div>
+            <!-- <div class="font-weight-bold py-2 px-3 pt-0" style="font-size:18px;">Saisie operations diverses :</div> -->
             <v-snackbar v-model="snackbar" :timeout="timeout">
                 {{ text }}
 
@@ -102,7 +103,7 @@
 
 
                 </v-row> -->
-            <v-form ref="ecritureForm">
+            <v-form class="form" ref="ecritureForm">
                 <v-row class="mx-0">
                     <v-col cols="2">
                         <label for="">Journal *</label>
@@ -139,7 +140,7 @@
                 </v-row>
 
                 <v-row class="mx-0">
-                    <v-col cols="3" class="pl-3 pr-1 ">
+                    <v-col cols="3" class="">
                         <label for="">Compte *</label>
 
                         <v-autocomplete :filter="getList" v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
@@ -152,7 +153,7 @@
                             </template>
                         </v-autocomplete>
                     </v-col>
-                    <v-col cols="2" class="pl-3 pr-1 ">
+                    <v-col cols="2" class="">
                         <label for="">Tiers *</label>
                         <v-autocomplete v-model="editedItem.tiers" color="red" return-object
                             :rules="editedItem.compte && editedItem.compte.c_g == 'COLLECTIF' ? obligationRule : []"
@@ -171,16 +172,16 @@
                             placeholder="Tiers" item-text="denomination" item-value="id">
                         </v-autocomplete>
                     </v-col> -->
-                    <v-col cols="3" class="px-1 ">
+                    <v-col cols="3">
                         <label for="">Libellé *</label>
                         <v-text-field v-model="editedItem.libelle" :rules="obligationRule" outlined dense></v-text-field>
                     </v-col>
-                    <v-col cols="1" class="px-1 ">
+                    <v-col cols="1">
                         <label for="">Débit</label>
                         <v-text-field v-model="editedItem.debit" @keyup="positive('d')" type="number" outlined
                             dense></v-text-field>
                     </v-col>
-                    <v-col cols="1" class="px-1 ">
+                    <v-col cols="1">
                         <label for="">Credit</label>
                         <v-text-field v-model="editedItem.credit" @keyup="positive('c')" type="number" outlined
                             dense></v-text-field>
@@ -257,7 +258,9 @@
         </v-dialog>
     </div>
 </template>
+<style>
 
+</style>
 <script>
 import { throws } from 'assert';
 
@@ -303,12 +306,12 @@ export default {
         isCollectif: false,
         headers: [
 
-            { text: 'compte', value: 'compte' },
-            { text: 'Tiers', value: 'tiers' },
-            { text: 'Libellé', value: 'libelle' },
-            { text: 'Débit', value: 'debit' },
-            { text: 'Crédit', value: 'credit' },
-            { text: 'Actions', value: 'actions', sortable: false },
+            { text: 'COMPTE', value: 'compte' },
+            { text: 'TIERS', value: 'tiers' },
+            { text: 'LIBELLE', value: 'libelle' },
+            { text: 'DEBIT', value: 'debit' },
+            { text: 'CREDIT', value: 'credit' },
+            { text: 'ACTIONS', value: 'actions', sortable: false },
 
         ],
         rows: [],

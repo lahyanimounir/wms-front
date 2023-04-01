@@ -326,7 +326,7 @@ export default {
         //     console.log(this.$refs.searchForm.validate())
         //     await this.getEcritures()
         // }
-        await this.getEcritures()
+        await this.getEcritures(true)
 
     },
     watch: {
@@ -341,11 +341,11 @@ export default {
         }
     },
     methods: {
-        async getEcritures() {
-            // if (!this.$refs.searchForm.validate() || !this.compteDu || !this.date1 || !this.date2) {
-            //     this.showToast('Veuillez remplir tous les champs')
-            //     return
-            // }
+        async getEcritures(init = false) {
+            if (init == false && (!this.$refs.searchForm.validate() || !this.compteDu || !this.date1 || !this.date2)) {
+                this.showToast('Veuillez remplir tous les champs')
+                return
+            }
 
             let url = process.env.Name_api + "/exercice/" + this.id + "/getEcrituresBySerie";
             // let params = {
@@ -354,21 +354,34 @@ export default {
             //     compteDu:this.compteDu.id,
             //     compteAu:this.compteAu.id
             // }
-            let params = {
-                dateDebut:'2023-03-19',
-                dateFin:'2023-03-19',
-                compteDu:4927,
-                compteAu:4924,
+            let params = {}
+            if(init === true){
+                console.log('init')
+                let min = this.comptes.find(x => x.numero_compte === Math.min.apply(Math, this.comptes.map(function(o) { return o.numero_compte; })))
+                let max = this.comptes.find(x => x.numero_compte === Math.max.apply(Math, this.comptes.map(function(o) { return o.numero_compte; })))
+                params = {
+                    dateDebut: this.date1,
+                    dateFin: this.date2,
+                    compteDu:min.id,
+                    compteAu:max.id
+                }
+                this.compteDu = min
+                this.compteAu = max
+            }
+            else{
+                console.log('not init')
+                params = {
+                    dateDebut: this.date1,
+                    dateFin: this.date2,
+                    compteDu:this.compteDu.id,
+                    compteAu:this.compteAu.id
+                }
             }
             console.log('params : ', params)
             const res = await this.$myService.get(url, params)
             this.ecritures = res
-            
-            // console.log('this ecr : ', this.ecritures)
-            // console.log('temp : ', temp)
             this.groupeData()
             this.calculateTotal()
-            // console.log('res : ', res)
 
         },
         parseDate(date) {
@@ -542,9 +555,9 @@ export default {
                     isTotal : true,
                     intitulee: accountEntries[0].tiers.denomination,
                     numero_compte:accountNumber,
-                    debit: debit,
-                    credit: credit,
-                    solde: solde,
+                    debit: debit.toFixed(2),
+                    credit: credit.toFixed(2),
+                    solde: solde.toFixed(2),
                 };
                 transformedData.push(transformedEntry);
             });

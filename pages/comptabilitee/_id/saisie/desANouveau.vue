@@ -3,12 +3,13 @@
 
 
         <v-card elevation="0" style="border:1px solid #ddd">
-            <div class=" py-5 px-3 pb-0 d-flex" style="justify-content: space-between;">
+            <div class=" py-2 px-3 pb-0 d-flex" style="justify-content: space-between;">
 
             <div style="font-size:18px">
                 Dossier :<b> {{ dossier && dossier.d_denomination }} </b>|
-                Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
-                <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
+                Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b> | 
+                N° de piece : <b>{{ editedItem.num_pieces }}</b>
+                <div class="font-weight-bold" style="font-size:18px">Saisie de Des A Nouveau</div>
             </div>
             <div>
                 <v-menu>

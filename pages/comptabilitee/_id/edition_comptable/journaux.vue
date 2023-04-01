@@ -103,7 +103,7 @@
                     </tr>
                 </tbody>
                 <tfoot>
-                    <tr>
+                    <tr class="total-row">
                         <td colspan="5" class="text-right font-weight-bold">Total du journal :</td>
                         <td class="font-weight-bold">{{ totalDebit }}</td>
                         <td class="font-weight-bold">{{ totalCredit }}</td>
@@ -114,6 +114,13 @@
     </div>
 </template>
 <style>
+.total-row{
+    background-color: #DBDBDB;
+    color: #000000;
+    text-align: center;
+    border:1px solid rgb(133, 133, 133);
+}
+
 
 th{
     background-color: rgb(133, 133, 133);

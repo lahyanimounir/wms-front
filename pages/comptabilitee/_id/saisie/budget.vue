@@ -3,12 +3,13 @@
 
 
         <v-card elevation="0" style="border:1px solid #ddd">
-            <div class=" py-5 px-3 pb-0 d-flex" style="justify-content: space-between;">
+            <div class=" py-2 px-3 pb-0 d-flex" style="justify-content: space-between;">
 
                 <div style="font-size:18px">
                     Dossier :<b> {{ dossier && dossier.d_denomination }} </b>|
-                    Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
-                    <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
+                    Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b> | 
+                    N° de piece : <b>{{ editedItem.num_pieces }}</b>
+                    <div class="font-weight-bold" style="font-size:18px">Saisie budget</div>
                 </div>
                 <!-- <v-btn color="primary" style="position:absolute;top:20px;right:12px" @click="afficherEcritures()">
                         <v-icon>mdi-folder-open</v-icon>
@@ -47,7 +48,7 @@
                 </v-menu>
                 </div>
             </div>
-            <div class="font-weight-bold py-5 px-3 pt-0" style="font-size:18px;">Saisie operations diverses :</div>
+            <!-- <div class="font-weight-bold py-5 px-3 pt-0" style="font-size:18px;">Saisie operations diverses :</div> -->
             <v-snackbar v-model="snackbar" :timeout="timeout">
                 {{ text }}
 

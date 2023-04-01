@@ -2,26 +2,13 @@
     <div style="display:flex;height:100vh">
         <div :style="[dualMode ? {'width':'60%'} : {'width':'100%'}]">
             <v-card elevation="0" style="border:1px solid #ddd">
-                <div class=" py-5 px-3 pb-0 d-flex" style="justify-content: space-between;">
+                <div class=" py-2 px-3 pb-0 d-flex" style="justify-content: space-between;">
     
                 <div style="font-size:18px">
                     Dossier :<b> {{ dossier && dossier.d_denomination }} </b>|
-                    Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
-                    <p>N° de piece : <b>{{ editedItem.num_pieces }}</b></p>
-                </div>
-                <div>
-                    <!-- <v-btn color="#BBDEFB" small class="py-5"  @click="afficherEcritures()">
-                            <v-icon class="mr-3">mdi-folder-open</v-icon>
-                            Afficher ecritures
-                    </v-btn>
-                    <v-btn color="#C5CAE9" small class="py-5"  @click="interrogationCompte()">
-                            <v-icon class="mr-3">mdi-folder-open</v-icon>
-                            Interrogation comptes
-                    </v-btn>
-                    <v-btn color="#D1C4E9" small class="py-5"  @click="serieComptes()">
-                            <v-icon class="mr-3">mdi-folder-open</v-icon>
-                            Interrogation series comptes
-                    </v-btn> -->
+                    Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b> | 
+                    N° de piece : <b>{{ editedItem.num_pieces }}</b>
+                    <div class="font-weight-bold" style="font-size:18px">Saisie de Tresorerie</div>
                 </div>
                 <div>
                     <v-menu>
@@ -159,7 +146,24 @@
                 </v-form>
             </v-card>
     
-    
+            <v-card elevation="0" class="mt-3 px-3 py-3" style="border:1px solid #ddd">
+            <div class="pt-3">
+                <v-data-table :headers="reglementHeaders" hide-default-footer :items-per-page="-1" elevation="0">
+                    <!-- <template v-slot:item.actions="{ item, index }">
+                        <v-checkbox v-model="item.checked" color="primary" hide-details></v-checkbox>
+                    </template> -->
+                    <!-- add total -->
+                    <template slot="body.append">
+                        <!-- add total -->
+                        <tr class="font-weight-bold">
+                            <td class="title" colspan="2">Total</td>
+                            <td class="">{{ '0000' }}</td>
+                            <td></td>
+                        </tr>
+                    </template>
+                </v-data-table>
+            </div>
+            </v-card>
             <v-card elevation="0" class="mt-3 px-3 py-3" style="border:1px solid #ddd">
                 <div class="pt-3">
                     <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
@@ -318,6 +322,12 @@ export default {
         displayedDocument: null,
         pdfUrl: null,
         docLoaded: false,
+        reglementHeaders: [
+            { text: 'Date', value: 'date' },
+            { text: 'REFERENCE', value: 'reference' },
+            { text: 'MONTANT', value: 'montant' },
+            { text: 'A REGLER',value: 'a_regler'}
+        ],
 
     }),
     computed: {

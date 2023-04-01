@@ -349,7 +349,7 @@ export default {
         //     console.log(this.$refs.searchForm.validate())
         //     await this.getEcritures()
         // }
-        // this.getEcritures()
+        this.getEcritures(true)
 
     },
     watch: {
@@ -364,19 +364,42 @@ export default {
         }
     },
     methods: {
-        async getEcritures() {
-            if (!this.$refs.searchForm.validate() || !this.compteDu || !this.date1 || !this.date2) {
+        async getEcritures(init = false) {
+            if (init == false && (!this.$refs.searchForm.validate() || !this.compteDu || !this.date1 || !this.date2)) {
                 this.showToast('Veuillez remplir tous les champs')
                 return
             }
 
             let url = process.env.Name_api + "/exercice/" + this.id + "/getEcrituresBySerie";
-            let params = {
-                dateDebut: this.date1,
-                dateFin: this.date2,
-                compteDu:this.compteDu.id,
-                compteAu:this.compteAu.id
+            let params = {}
+            if(init === true){
+                console.log('init')
+                let min = this.comptes.find(x => x.numero_compte === Math.min.apply(Math, this.comptes.map(function(o) { return o.numero_compte; })))
+                let max = this.comptes.find(x => x.numero_compte === Math.max.apply(Math, this.comptes.map(function(o) { return o.numero_compte; })))
+                params = {
+                    dateDebut: this.date1,
+                    dateFin: this.date2,
+                    compteDu:min.id,
+                    compteAu:max.id
+                }
+                this.compteDu = min
+                this.compteAu = max
             }
+            else{
+                console.log('not init')
+                params = {
+                    dateDebut: this.date1,
+                    dateFin: this.date2,
+                    compteDu:this.compteDu.id,
+                    compteAu:this.compteAu.id
+                }
+            }
+            // let params = {
+            //     dateDebut: this.date1,
+            //     dateFin: this.date2,
+            //     compteDu:this.compteDu.id,
+            //     compteAu:this.compteAu.id
+            // }
             // let params = {
             //     dateDebut: this.date1,
             //     dateFin: this.date2,
@@ -386,9 +409,6 @@ export default {
             console.log('params : ', params)
             const res = await this.$myService.get(url, params)
             this.ecritures = res
-            let temp = this.ecritures.map(e=>{
-                return e.compte.numero_compte
-            })
             // console.log('this ecr : ', this.ecritures)
             // console.log('temp : ', temp)
             this.groupeData()
@@ -523,12 +543,12 @@ export default {
                 
                 const previousTransformedEntry = {
                     intitulee: `TOTAL ${previousAccountNumber[0]}XXXXXXX`,
-                    report_debit: reportDebitSubTotal,
-                    report_credit: reportCreditSubTotal,
-                    mouvement_debit: mouvementDebitSubTotal,
-                    mouvement_credit: mouvementCreditSubTotal,
-                    solde_debit: soldeDebitSubTotal,
-                    solde_credit: soldeCreditSubTotal,
+                    report_debit: reportDebitSubTotal.toFixed(2),
+                    report_credit: reportCreditSubTotal.toFixed(2),
+                    mouvement_debit: mouvementDebitSubTotal.toFixed(2),
+                    mouvement_credit: mouvementCreditSubTotal.toFixed(2),
+                    solde_debit: soldeDebitSubTotal.toFixed(2),
+                    solde_credit: soldeCreditSubTotal.toFixed(2),
                     isTotal: true
                 };
                 transformedData.push(previousTransformedEntry);
@@ -554,12 +574,12 @@ export default {
             const transformedEntry = {
                 numero_compte: parseInt(accountNumber),
                 intitulee: accountEntries[0].compte.intitulee,
-                reportDebit,
-                reportCredit,
-                mouvementDebit,
-                mouvementCredit,
-                soldeDebit,
-                soldeCredit,
+                reportDebit : reportDebit,
+                reportCredit: reportCredit,
+                mouvementDebit :mouvementDebit,
+                mouvementCredit: mouvementCredit,
+                soldeDebit: soldeDebit,
+                soldeCredit: soldeCredit,
             };
             reportDebitSubTotal += reportDebit;
             reportCreditSubTotal += reportCredit;
@@ -573,12 +593,12 @@ export default {
              if (accountNumber === Object.keys(groupedData)[Object.keys(groupedData).length - 1]) {
                 const previousTransformedEntry = {
                     intitulee: `TOTAL ${accountNumber[0]}XXXXXXX`,
-                    report_debit: reportDebitSubTotal,
-                    report_credit: reportCreditSubTotal,
-                    mouvement_debit: mouvementDebitSubTotal,
-                    mouvement_credit: mouvementCreditSubTotal,
-                    solde_debit: soldeDebitSubTotal,
-                    solde_credit: soldeCreditSubTotal,
+                    report_debit: reportDebitSubTotal.toFixed(2),
+                    report_credit: reportCreditSubTotal.toFixed(2),
+                    mouvement_debit: mouvementDebitSubTotal.toFixed(2),
+                    mouvement_credit: mouvementCreditSubTotal.toFixed(2),
+                    solde_debit: soldeDebitSubTotal.toFixed(2),
+                    solde_credit: soldeCreditSubTotal.toFixed(2),
                     isTotal: true
                 };
                 transformedData.push(previousTransformedEntry);

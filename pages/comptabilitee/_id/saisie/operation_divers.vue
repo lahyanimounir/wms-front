@@ -15,18 +15,36 @@
                         Afficher ecritures
                 </v-btn> -->
                 <div>
-                    <v-btn color="#BBDEFB" small class="py-5"  @click="afficherEcritures()">
-                            <v-icon class="mr-3">mdi-folder-open</v-icon>
-                            Afficher ecritures
-                    </v-btn>
-                    <v-btn color="#C5CAE9" small class="py-5"  @click="interrogationCompte()">
-                            <v-icon class="mr-3">mdi-folder-open</v-icon>
-                            Interrogation comptes
-                    </v-btn>
-                    <v-btn color="#D1C4E9" small class="py-5"  @click="serieComptes()">
-                            <v-icon class="mr-3">mdi-folder-open</v-icon>
-                            Interrogation series comptes
-                    </v-btn>
+                    <v-menu>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        size="small"
+                        color="teal"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                        >
+                        <v-icon>mdi-menu</v-icon>
+                        </v-btn>
+                        
+                    </template>
+                    
+                    <!-- add button with image icon -->
+                    
+                    
+                    <v-list>
+                        <v-list-item @click="afficherEcritures()">
+                        <v-list-item-title>Afficher ecritures</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item @click="interrogationCompte()">
+                        <v-list-item-title>Interrogation comptes</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item @click="serieComptes()">
+                        <v-list-item-title>Interrogation series comptes</v-list-item-title>
+                        </v-list-item>
+        
+                    </v-list>
+                </v-menu>
                 </div>
             </div>
             <div class="font-weight-bold py-5 px-3 pt-0" style="font-size:18px;">Saisie operations diverses :</div>

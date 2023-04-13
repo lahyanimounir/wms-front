@@ -375,15 +375,37 @@ const links = (id) => {
         path:'bilan',
         childs:[
             {
-                title:'BILAN ET ETIC',
+                title:'BILAN - ACTIF',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/bilan/bilan'
+                path: '/comptabilitee/' + id + '/bilan'
             },
             {
-                title:'BILAN ET ETIC',
+                title:'BILAN - PASSIF',
                 icon: 'mdi-folder',
-                // path: '/comptabilitee/' + id + '/bilan/bilan'
+                path: '/comptabilitee/' + id + '/bilan/passif'
             },
+            {
+                title:'PASSAGE',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/passage'
+            },
+            {
+                title:'ETAT IMMO',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/immo'
+            },
+            {
+                title:'ESG',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/esg'
+            },
+            {
+                title:'DETAIL CPC',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/cpc'
+            },
+            
+            
         ]
     }
 ]

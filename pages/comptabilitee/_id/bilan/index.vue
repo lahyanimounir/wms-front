@@ -1,12 +1,3 @@
-<!-- <template>
-    <div>
-        <h1>Bilan</h1>
-        <p>Page de bilan actif</p>
-    </div>
-</template>
-<style></style>-->
-
-
 <template>
     <div>
         <v-card class="mt-3 px-3 py-3" elevation="0" style="border:1px solid #ddd">
@@ -50,105 +41,208 @@
                 </thead>
                 <tbody>
                     <tr v-for="row in table">
-                        <td>{{row[0]}}</td>
-                        <td>{{ row[1] }}</td>
-                        <td>{{ row[2] }}</td>
-                        <td></td>
-                        <td>{{ row[1] }}</td>
-                        <td>{{ row[2] }}</td>
-                        <td></td>
+                        <td :class="{'title' : isBold(row[0]), 'subTitle' : !isBold(row[0]) , 'first' : true}">{{ row[0] }}</td>
+                        <template v-if="isBold(row[0])">
+
+                            <template v-if="row[0] == 'IMMOBILISATION EN NON VALEUR'">
+                                <td class="highlighted">{{ showNumber(totalsA[0]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsA[1])}}</td>
+                                <td class="highlighted">{{ showNumber(totalsA[2]) }}</td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'IMMOBILISATIONS INCORPORELLES'">
+                                <td class="highlighted">{{ showNumber(totalsB[0]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsB[1]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsB[2]) }}</td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'IMMOBILISATIONS CORPORELLES'">
+                                <td class="highlighted">{{ showNumber(totalsC[0]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsC[1]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsC[2]) }}</td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'IMMOBILISATIONS FINANCIERES'">
+                                <td class="highlighted">{{ showNumber(totalsD[0]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsD[1]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsD[2]) }}</td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'ECARTS DE CONVERSION ACTIF'">
+                                <td class="highlighted">{{ showNumber(totalsE[0]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsE[1]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsE[2]) }}</td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'STOCKS'">
+                                <td class="highlighted">{{ showNumber(totalsF[0]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsF[1]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsF[2]) }}</td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'CREANCES DE L\'ACTIF CIRCULANT'">
+                                <td class="highlighted">{{ showNumber(totalsG[0]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsG[1]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsG[2]) }}</td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'TITRES ET VALEURS DE PLACEMENT'">
+                                <td class="highlighted">{{ showNumber(totalsH[0]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsH[1]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsH[2]) }}</td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'ECARTS DE CONVERSION - ACTIF'">
+                                <td class="highlighted">{{ showNumber(totalsI[0]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsI[1]) }}</td>
+                                <td class="highlighted">{{ showNumber(totalsI[2]) }}</td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'TOTAL  I  (A+B+C+D+E)'">
+                                <td class="total-highlighted">{{ showNumber(totals1[0]) }}</td>
+                                <td class="total-highlighted">{{ showNumber(totals1[1]) }}</td>
+                                <td class="total-highlighted">{{ showNumber(totals1[2]) }}</td>
+                                <td class="total-highlighted"></td>
+                                <td class="total-highlighted"></td>
+                                <td class="total-highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'TOTAL  II  (F+G+H+I)'">
+                                <td class="total-highlighted">{{ showNumber(totals2[0]) }}</td>
+                                <td class="total-highlighted">{{ showNumber(totals2[1]) }}</td>
+                                <td class="total-highlighted">{{ showNumber(totals2[2]) }}</td>
+                                <td class="total-highlighted"></td>
+                                <td class="total-highlighted"></td>
+                                <td class="total-highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'TRÉSORERIE - ACTIF'">
+                                <td class="highlighted">{{ showNumber(totals3[0]) }}</td>
+                                <td class="highlighted">{{ showNumber(totals3[1]) }}</td>
+                                <td class="highlighted">{{ showNumber(totals3[2]) }}</td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                                <td class="highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'TOTAL III'">
+                                <td class="total-highlighted">{{ showNumber(totals3[0]) }}</td>
+                                <td class="total-highlighted">{{ showNumber(totals3[1]) }}</td>
+                                <td class="total-highlighted">{{ showNumber(totals3[2]) }}</td>
+                                <td class="total-highlighted"></td>
+                                <td class="total-highlighted"></td>
+                                <td class="total-highlighted"></td>
+                            </template>
+
+                            <template v-if="row[0] == 'TOTAL ACTIF ( I + II + III)'">
+                                <td class="total-actif-highlight">{{ showNumber(totals[0]) }}</td>
+                                <td class="total-actif-highlight">{{ showNumber(totals[1]) }}</td>
+                                <td class="total-actif-highlight">{{ showNumber(totals[2]) }}</td>
+                                <td class="total-actif-highlight"></td>
+                                <td class="total-actif-highlight"></td>
+                                <td class="total-actif-highlight"></td>
+                            </template>
+                            
+                        </template>
+                        <template v-if="!isBold(row[0])">
+                            <td >{{ showNumber(query[row[1]]) }}</td>
+                            <td >{{ showNumber(query[row[2]]) }}</td>
+                            <td >{{ showNumber(calcDiff(query[row[1]] , query[row[2]])) }}</td>
+                            <td ></td>
+                            <td ></td>
+                            <td ></td>
+                        </template>
                     </tr>
                 </tbody>
-                    
-                <!-- <tbody> -->
-                    <!-- <tr v-for="ecriture in grouped"  :key="ecriture.id"> -->
-                        <!-- <template v-if="!ecriture.isTotal"> -->
-                            <!-- <td>{{ formatDate(ecriture.date) }}</td> -->
-                            <!-- <td>{{ ecriture.compte.numero_compte }} - {{ ecriture.compte.intitulee }}</td> -->
-                            <!-- <td>{{ ecriture.numero_compte}}</td> -->
-                            <!-- <td>{{ ecriture.intitulee }}</td> -->
-                            <!-- <td>{{ ecriture.tiers && ecriture.tiers.denomination }}</td> -->
-                            <!-- <td class="debit">{{ ecriture.reportDebit }}</td>
-                            <td class="credit">{{ ecriture.reportCredit }}</td>
-                            <td class="debit">{{ ecriture.mouvementDebit }}</td>
-                            <td class="credit">{{ ecriture.mouvementCredit }}</td>
-                            <td class="debit">{{ ecriture.soldeDebit }}</td>
-                            <td class="credit">{{ ecriture.soldeCredit }}</td> -->
-
-                            <!-- <td>{{ ecriture.journal.type }} - {{ ecriture.journal.nom }}</td> -->
-                            <!-- <td>{{ ecriture.num_pieces }}</td> -->
-                            <!-- <td>{{ ecriture.libelle }}</td> -->
-                            <!-- <td v-if="ecriture.debit > 0" style="color:green">{{ ecriture.debit }}</td>
-                            <td v-else>{{ ecriture.debit }}</td>
-                            <td v-if="ecriture.credit > 0" style="color:red">{{ ecriture.credit }}</td>
-                            <td v-else>{{ ecriture.credit }}</td>
-                            <td>{{ ecriture.montant }}</td> -->
-                            <!-- <td>
-                                <v-icon color="#546E7A" class="mr-2" @click="editEcriture(ecriture)">mdi-star</v-icon>
-                            </td> -->
-                        <!-- </template>
-                        <template v-else>
-                            <td colspan="2" class="text-left font-weight-bold total compte">
-                                SOUS TOTAL COMPTE {{ ecriture.intitulee }} :
-                            </td>
-                            <td class="total debit">
-                                {{ ecriture.report_debit }}
-                            </td>
-                            <td class="total credit">
-                                {{ ecriture.report_credit }}
-                            </td>
-                            <td class="total debit">
-                                {{ ecriture.mouvement_debit }}
-                            </td>
-                            <td class="total credit">
-                                {{ ecriture.mouvement_credit }}
-                            </td>
-                            <td class="total debit">
-                                {{ ecriture.solde_debit }}
-                            </td>
-                            <td class="total credit">
-                                {{ ecriture.solde_credit }}
-                            </td> -->
-                            <!-- <td colspan="2" class="total">
-
-                            </td> -->
-                            <!-- <td style="font-size:1rem;color:green">{{ ecriture.debit }}</td>
-                            <td style="font-size:1rem;color:red">{{ ecriture.credit }}</td>
-                            <td></td>
-                            <td></td> -->
-                        <!-- </template> -->
-                    <!-- </tr> -->
-                    <!-- <tr>
-                        <th class="title">Total</th>
-                        <th class=""></th>
-                        <th class=""></th>
-                       
-                        <th class="" style="font-size:1rem;color:green">{{ someDebit }}</th>
-                        <th class="" style="font-size:1rem;color:red">{{ someCredit }}</th>
-                        <th class=""></th>
-                    </tr> -->
-                <!-- </tbody> -->
             </table>
         </v-card>
     </div>
 </template>
 
 <style>
+    .highlighted {
+        background-color: yellow;
+    }
+    .total-highlighted {
+        background-color: #f1f1f1;
+    }
+    .total-actif-highlight {
+        background-color: rgb(130, 130, 130);
+    }
+    
     table {
+        table-layout: fixed;
+        width: 100%;
         border: 1px solid #eee;
     }
     th , td {
+        width:max-content;
         border: 1px solid #eee;
+    }
+    td {
+        text-align: center;
+        font-size: 14px;
+    }
+    .title {
+        font-weight:bold;
+        font-size: 14px;
+    }
+    .first {
+        text-align: left;
+    }
+    .subTitle {
+        padding-left: 15px;
     }
 </style>
 
 <script>
 export default {
     data: () => ({
+        totalsA:[0 , 0 , 0],
+        totalsB:[0 , 0 , 0],
+        totalsC:[0 , 0 , 0],
+        totalsD:[0 , 0 , 0],
+        totalsE:[0 , 0 , 0],
+        totalsF:[0 , 0 , 0],
+        totalsG:[0 , 0 , 0],
+        totalsH:[0 , 0 , 0],
+        totalsI:[0 , 0 , 0],
+        totals1:[0 , 0 , 0],
+        totals2:[0 , 0 , 0],
+        totals3:[0 , 0 , 0],
+        totals: [0 , 0, 0],
         dossier:{},
         du:'',
         au:'',
         query :[],
+        specialTitles : ['IMMOBILISATION EN NON VALEUR' , 'IMMOBILISATIONS INCORPORELLES' , 'IMMOBILISATIONS CORPORELLES' , 'IMMOBILISATIONS FINANCIERES' , 'ECARTS DE CONVERSION ACTIF' , 'TOTAL  I  (A+B+C+D+E)' , 'STOCKS' , 'CREANCES DE L\'ACTIF CIRCULANT' , 'TOTAL  II  (F+G+H+I)' , 'TRÉSORERIE - ACTIF' , 'TOTAL III' , 'TOTAL ACTIF ( I + II + III)' , 'ECARTS DE CONVERSION - ACTIF' , 'TITRES ET VALEURS DE PLACEMENT'],
         table: [
         [
             "IMMOBILISATION EN NON VALEUR",
@@ -276,7 +370,7 @@ export default {
             ""
         ],
         [
-            "TOTAL  I  (A+B+C+D+E)  ",
+            "TOTAL  I  (A+B+C+D+E)",
             "",
             ""
         ],
@@ -361,7 +455,7 @@ export default {
             ""
         ],
         [
-            "TOTAL  II  (F+G+H+I)  ",
+            "TOTAL  II  (F+G+H+I)",
             "",
             ""
         ],
@@ -386,7 +480,7 @@ export default {
             ""
         ],
         [
-            "TOTAL III  ",
+            "TOTAL III",
             "",
             ""
         ],
@@ -402,69 +496,122 @@ export default {
     },
     methods: {
         async init() {
-            // console.log('initiated it');
             this.id = this.$route.params.id
             let url = process.env.Name_api + "/exercice/" + this.id + "/getExerciceInfo";
             let info = await this.$myService.get(url)
             this.dossier = info.dossier
             let url2 = process.env.Name_api + "/exercice/" + this.id + "/getActif";
-            this.query = await this.$myService.get(url2)
+            let info2 = await this.$myService.get(url2);
+            if(info2){
+                this.query = info2.results;
+                this.specialTitles.forEach(element => {
+                    this.sum(element);
+                });
+            }
             this.du = info.du;
             this.au = info.au;
-            console.log('info : ', info)
+        },
+        showNumber(number) {
+            if(number == 0) {
+                return '';
+            }else if(number!= undefined) {
+                return Math.round(number * 100) / 100;
+            }return number;
+        },
+        sum(title){
+            switch(title){
+                case 'IMMOBILISATION EN NON VALEUR':
+                    var total1 = this.total(["211" , "212", "213"]);
+                    var total2 = this.total(["2811" , "2812" , "2813"]);
+                    var net = total1-total2;
+                    this.totalsA = [total1 , total2 , net];
+                    return this.totalsA;
+                case 'IMMOBILISATIONS INCORPORELLES':
+                    var total1 = this.total(["221" , "222", "223" , "228"]);
+                    var total2 = this.total(["2821" , "2822" , "2823" , "2828"]);
+                    var net = total1-total2;
+                    this.totalsB = [total1 , total2 , net];
+                    return this.totalsB;
+                case 'IMMOBILISATIONS CORPORELLES':
+                    var total1 = this.total(["231" , "232", "233" , "234" , "235" , "238" , "239"]);
+                    var total2 = this.total(["2930" , "2832" , "2833", "2834" , "2835" , "2838"]);
+                    var net = total1-total2;
+                    this.totalsC = [total1 , total2 , net];
+                    return this.totalsC;
+                case 'IMMOBILISATIONS FINANCIERES':
+                    var total1 = this.total(["241" , "248", "251" , "258"]);
+                    var total2 = this.total(["2941" , "2948" , "2951" , "2958"]);
+                    var net = total1-total2;
+                    this.totalsD = [total1 , total2 , net];
+                    return this.totalsD;
+                case 'ECARTS DE CONVERSION ACTIF':
+                    var total1 = this.total(["271" , "272"]);
+                    // var net = total1-total2;
+                    this.totalsE = [total1 , 0 , total1];
+                    return this.totalsE;  
+                case 'TOTAL  I  (A+B+C+D+E)':
+                    var total1 = this.totalsA[0] + this.totalsB[0] + this.totalsC[0] + this.totalsD[0] + this.totalsE[0];
+                    var total2 = this.totalsA[1] + this.totalsB[1] + this.totalsC[1] + this.totalsD[1] + this.totalsE[1];
+                    var total3 = this.totalsA[2] + this.totalsB[2] + this.totalsC[2] + this.totalsD[2] + this.totalsE[2];
+                    this.totals1 = [ total1, total2 , total3];
+                    return this.totals1;
+                case 'STOCKS': 
+                    var total1 = this.total(["311" , "312", "313" ,"314" , "315"]);
+                    var total2 = this.total(["3911" , "3912" , "3913" , "3914", "3915"]);
+                    this.totalsF = [total1 , total2 , total1-total2];
+                    return this.totalsF; 
+                case 'CREANCES DE L\'ACTIF CIRCULANT':
+                    var total1 = this.total(["341" , "342", "343" , "345" , "346" , "348" , "349" , "350" , "370"]);
+                    var total2 = this.total(["3941" , "3942" , "3943" , "3944" , "3946" , "3948" , "3950"]);
+                    this.totalsG = [total1 , total2 , total1-total2];
+                    return this.totalsG; 
+                case 'TOTAL  II  (F+G+H+I)':
+                    var total1 = this.totalsF[0] + this.totalsG[0] + this.totalsH[0] + this.totalsI[0];
+                    var total2 = this.totalsF[1] + this.totalsG[1] + this.totalsH[1] + this.totalsI[1];
+                    var total3 = this.totalsF[2] + this.totalsG[2] + this.totalsH[2] + this.totalsI[2];
+                    this.totals2 = [ total1, total2 , total3];
+                    return this.totals2;
+                case 'TRÉSORERIE - ACTIF':
+                    var total1 = this.total(["511" , "514", "516"]);
+                    this.totals3 = [ total1, 0 , total1];
+                    return this.totals3;
+                case 'TOTAL III':
+                    var total1 = this.total(["511" , "514", "516"]);
+                    this.totals3 = [ total1, 0 , total1];
+                    return this.totals3;
+                case 'TOTAL ACTIF ( I + II + III)':
+                    var total1 = this.totals1[0] + this.totals2[0] + this.totals3[0];
+                    var total2 = this.totals1[1] + this.totals2[1] + this.totals3[1];
+                    var total3 = this.totals1[2] + this.totals2[2] + this.totals3[2];
+                    this.totals = [ total1, total2 , total3];
+                    return this.totals;
+                case 'ECARTS DE CONVERSION - ACTIF':
+                    var total1 = this.total(["370"]);
+                    this.totalsI = [total1 , 0 , total1];
+                    return this.totalsI; 
+                case 'TITRES ET VALEURS DE PLACEMENT':   
+                    var total1 = this.total(["350"]);
+                    var total2 = this.total(["3950"]);
+                    this.totalsH = [total1 , total2 , total1-total2];
+                    return this.totalsH; 
+                default:
+                    console.log("no option for sum");
+                    break;
+            }
         },
 
-        async getEcritures(init = false) {
-            if (init == false && (!this.$refs.searchForm.validate() || !this.compteDu || !this.date1 || !this.date2)) {
-                this.showToast('Veuillez remplir tous les champs')
-                return
+        total(array) { 
+            var t = 0;
+            array.forEach(element => {
+                t += this.query[element];
+            });
+            return t;
+        },
+        isBold(title){
+            if(this.specialTitles.includes(title)){
+                return true;
             }
-
-            let url = process.env.Name_api + "/exercice/" + this.id + "/getEcrituresBySerie";
-            let params = {}
-            if(init === true){
-                console.log('init')
-                let min = this.comptes.find(x => x.numero_compte === Math.min.apply(Math, this.comptes.map(function(o) { return o.numero_compte; })))
-                let max = this.comptes.find(x => x.numero_compte === Math.max.apply(Math, this.comptes.map(function(o) { return o.numero_compte; })))
-                params = {
-                    dateDebut: this.date1,
-                    dateFin: this.date2,
-                    compteDu:min.id,
-                    compteAu:max.id
-                }
-                this.compteDu = min
-                this.compteAu = max
-            }
-            else{
-                console.log('not init')
-                params = {
-                    dateDebut: this.date1,
-                    dateFin: this.date2,
-                    compteDu:this.compteDu.id,
-                    compteAu:this.compteAu.id
-                }
-            }
-            // let params = {
-            //     dateDebut: this.date1,
-            //     dateFin: this.date2,
-            //     compteDu:this.compteDu.id,
-            //     compteAu:this.compteAu.id
-            // }
-            // let params = {
-            //     dateDebut: this.date1,
-            //     dateFin: this.date2,
-            //     compteDu: 4925,
-            //     compteAu: 5259
-            // }
-            console.log('params : ', params)
-            const res = await this.$myService.get(url, params)
-            this.ecritures = res
-            // console.log('this ecr : ', this.ecritures)
-            // console.log('temp : ', temp)
-            this.groupeData()
-            this.calculateTotal()
-            // console.log('res : ', res)
-
+            return false;
         },
         parseDate(date) {
             if (!date) return null
@@ -509,158 +656,17 @@ export default {
             const [year, month, day] = date.split('-')
             return `${day}/${month}/${year}`
         },
-        calculateTotal() {
-            if (this.ecritures.length == 0) return
-            // this.someDebit = this.displayedRows.reduce((a, b) => a + Number(b.debit), 0)
-            // this.someCredit = this.displayedRows.reduce((a, b) => a + Number(b.credit), 0)
-            // calculate total debit and credit toFixed(2)
-            this.someDebit = this.ecritures.reduce((a, b) => a + Number(b.debit), 0).toFixed(2)
-            this.someCredit = this.ecritures.reduce((a, b) => a + Number(b.credit), 0).toFixed(2)
-        },
-        pageChange(newPage) {
-            console.log('newPage : ', newPage)
-        },
-        itemsPerPageChange(newItemsPerPage) {
-            console.log('newItemsPerPage : ', newItemsPerPage)
-        },
-        currentItems(newCurrentItems) {
-            this.displayedRows = newCurrentItems
+        calcDiff(brut ,amort){
+            if(amort == undefined){
+                amort = 0;
+            }
+            return brut - amort;
         },
         goBack() {
             console.log('here', this.previousMenu !== null)
             this.previousMenu ? this.$router.push({ path: this.previousMenu }) : this.$router.go(-1)
 
         },
-        printEcritures() {
-            this.dialog = true
-        },
-        exportEcritures() {
-            // let url = process.env.Name_api + "/exercice/" + this.id + "/exportEcritures";
-            // let params = {
-            //     dateDebut: this.date1,
-            //     dateFin: this.date2,
-            //     journal: this.journal
-            // }
-            // this.$myService.download(url, params)
-        },
-        editEcriture(item) {
-            let menu;
-            switch (item.journal.type) {
-                case 'Achat':
-                    menu = 'achat'
-                    break
-                case 'Vente':
-                    menu = 'vente'
-                    break
-                case 'Tresorerie':
-                    menu = 'tresorerie'
-                    break
-                case 'OPERATIONS DIVERS':
-                    menu = 'operation_divers'
-                    break
-                case 'A NOUVEAU':
-                    menu = 'desANouveau'
-                    break
-                case 'BUDGET':
-                    menu = 'budget'
-                    break
-            }
-            const url = `/comptabilitee/${this.id}/saisie/${menu}`
-            this.$router.push({ path: url, query: { num_pieces: item.num_pieces, mode: 'edit' } })
-        },
-        getList(item, queryText, itemText) {
-            return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())
-        },
-        groupeData() {
-            const groupedData = {};
-            this.ecritures.forEach(entry => {
-            if (!groupedData[entry.compte.numero_compte]) {
-                groupedData[entry.compte.numero_compte] = [];
-            }
-            groupedData[entry.compte.numero_compte].push(entry);
-            });
-
-            const transformedData = [];
-            let previousAccountNumber = null;
-            let reportDebitSubTotal = 0;
-            let reportCreditSubTotal = 0;
-            let mouvementDebitSubTotal = 0;
-            let mouvementCreditSubTotal = 0;
-            let soldeDebitSubTotal = 0;
-            let soldeCreditSubTotal = 0;
-            Object.keys(groupedData).forEach(accountNumber => {
-            if (previousAccountNumber && accountNumber[0] !== previousAccountNumber[0]) {
-                
-                const previousTransformedEntry = {
-                    intitulee: `TOTAL ${previousAccountNumber[0]}XXXXXXX`,
-                    report_debit: reportDebitSubTotal.toFixed(2),
-                    report_credit: reportCreditSubTotal.toFixed(2),
-                    mouvement_debit: mouvementDebitSubTotal.toFixed(2),
-                    mouvement_credit: mouvementCreditSubTotal.toFixed(2),
-                    solde_debit: soldeDebitSubTotal.toFixed(2),
-                    solde_credit: soldeCreditSubTotal.toFixed(2),
-                    isTotal: true
-                };
-                transformedData.push(previousTransformedEntry);
-                reportDebitSubTotal = 0;
-                reportCreditSubTotal = 0;
-                mouvementDebitSubTotal = 0;
-                mouvementCreditSubTotal = 0;
-                soldeDebitSubTotal = 0;
-                soldeCreditSubTotal = 0;
-            }
-           
-            const accountEntries = groupedData[accountNumber];
-            const reportDebit = accountEntries
-                .filter(entry => entry.journal.type === "A NOUVEAU")
-                .reduce((total, entry) => total + Number(entry.debit), 0);
-            const reportCredit = accountEntries
-                .filter(entry => entry.journal.type === "A NOUVEAU")
-                .reduce((total, entry) => total + Number(entry.credit), 0);
-            const mouvementDebit = accountEntries.reduce((total, entry) => total + Number(entry.debit), 0);
-            const mouvementCredit = accountEntries.reduce((total, entry) => total + Number(entry.credit), 0);
-            const soldeDebit = reportDebit + mouvementDebit;
-            const soldeCredit = reportCredit + mouvementCredit;
-            const transformedEntry = {
-                numero_compte: parseInt(accountNumber),
-                intitulee: accountEntries[0].compte.intitulee,
-                reportDebit : reportDebit,
-                reportCredit: reportCredit,
-                mouvementDebit :mouvementDebit,
-                mouvementCredit: mouvementCredit,
-                soldeDebit: soldeDebit,
-                soldeCredit: soldeCredit,
-            };
-            reportDebitSubTotal += reportDebit;
-            reportCreditSubTotal += reportCredit;
-            mouvementDebitSubTotal += mouvementDebit;
-            mouvementCreditSubTotal += mouvementCredit;
-            soldeDebitSubTotal += soldeDebit;
-            soldeCreditSubTotal += soldeCredit;
-
-            transformedData.push(transformedEntry);
-
-             if (accountNumber === Object.keys(groupedData)[Object.keys(groupedData).length - 1]) {
-                const previousTransformedEntry = {
-                    intitulee: `TOTAL ${accountNumber[0]}XXXXXXX`,
-                    report_debit: reportDebitSubTotal.toFixed(2),
-                    report_credit: reportCreditSubTotal.toFixed(2),
-                    mouvement_debit: mouvementDebitSubTotal.toFixed(2),
-                    mouvement_credit: mouvementCreditSubTotal.toFixed(2),
-                    solde_debit: soldeDebitSubTotal.toFixed(2),
-                    solde_credit: soldeCreditSubTotal.toFixed(2),
-                    isTotal: true
-                };
-                transformedData.push(previousTransformedEntry);
-            }
-            previousAccountNumber = accountNumber;
-            });
-            
-            console.log('transformedData : ', transformedData)
-            this.grouped = transformedData
-        }
-
     },
-
 }
 </script>

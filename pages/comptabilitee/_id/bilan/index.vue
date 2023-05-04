@@ -1,5 +1,23 @@
 <template>
     <div>
+        <modal name="my-modal"  @close="$modal.hide('my-modal')">
+            <div class="modal-class">
+                <table class="text-center">
+                    <thead style="background-color: bisque;">
+                        <tr>
+                            <th>Code</th>
+                            <th>Somme</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: antiquewhite;"  v-for="val in totalsClick">
+                            <td>{{ val[0] }}</td>
+                            <td>{{ val[1] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </modal>
         <v-card class="mt-3 px-3 py-3" elevation="0" style="border:1px solid #ddd">
             <div style="font-size:18px" class="pt-5 px-3">
                 Dossier :<b> {{ dossier && dossier.denomination }} </b>|
@@ -174,20 +192,38 @@
                         <template v-if="!isBold(row[0])">
                             <template v-if="query['211']">
                                 <!-- first Column -->
-                                <td>{{ showNumber(query[row[1]]['act']) }}</td>
+                                <td>
+                                    <a @click="getSubSums(row[1] , 'act')">{{ showNumber(query[row[1]]['act']) }}</a>
+                                </td>
+
+
                                 <!-- second Column -->
-                                <td v-if="!['' , 'd' , 'b' , 'g'].includes(row[2])">{{ showNumber(query[row[2]]['act']) }}</td>
+                                <td v-if="!['' , 'd' , 'b' , 'g'].includes(row[2])">
+                                    <a @click="getSubSums(row[2] , 'act')">{{ showNumber(query[row[2]]['act']) }}</a>
+                                </td>
+
                                 <td v-if="row[2] == ''"></td>
                                 <td v-if="row[2] == 'b'" class="b-special"></td>
                                 <td v-if="row[2] == 'd'" class="d-special"></td>
                                 <td v-if="row[2] == 'g'" class="g-special"></td>
+
+
                                 <!-- third Column -->
                                 <td v-if="!['' , 'd' , 'b' , 'g'].includes(row[2])">{{ showNumber(calcDiff(query[row[1]]['act'] , query[row[2]]['act'])) }}</td>
                                 <td v-if="['' , 'd' , 'b' , 'g'].includes(row[2])">{{ showNumber(query[row[1]]['act']) }}</td>
+
+
                                 <!-- fourth Column -->
-                                <td >{{ showNumber(query[row[1]]['pre']) }}</td>
+                                <td >
+                                    <a @click="getSubSums(row[1] , 'pre')">{{ showNumber(query[row[1]]['pre']) }}</a>
+                                </td>
+
+
                                 <!-- fifth Column -->
-                                <td v-if="!['' , 'd' , 'b' , 'g'].includes(row[2])">{{ showNumber(query[row[2]]['pre']) }}</td>
+                                <td v-if="!['' , 'd' , 'b' , 'g'].includes(row[2])">
+                                    <a @click="getSubSums(row[2] , 'pre')">{{ showNumber(query[row[2]]['pre']) }}</a>
+                                </td>
+
                                 <td v-if="row[2] == ''"></td>
                                 <td v-if="row[2] == 'b'" class="b-special"></td>
                                 <td v-if="row[2] == 'd'" class="d-special"></td>
@@ -226,7 +262,18 @@
     </div>
 </template>
 
+
+
 <style>
+    .modal-class {
+        padding: 20px;
+        background-color: rgb(184, 184, 184);
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    }
+    a{
+        display: block;
+    }
     .g-special {
         background-color: rgb(76, 71, 96);
     }
@@ -272,7 +319,15 @@
 </style>
 
 <script>
+
+import Vue from 'vue'
+import VueJsModal from 'vue-js-modal'
+// import MyModal from '~/components/showDetails.vue'
+
+Vue.use(VueJsModal)
+
 export default {
+    
     data: () => ({
         totalsA:[0 , 0 , 0 , 0 , 0 , 0],
         totalsB:[0 , 0 , 0 , 0 , 0 , 0],
@@ -288,6 +343,7 @@ export default {
         totals3:[0 , 0 , 0 , 0 , 0 , 0],
         totals: [0 , 0 , 0 , 0 , 0 , 0],
         dossier:{},
+        totalsClick : {},
         du:'',
         au:'',
         query :{},
@@ -561,6 +617,19 @@ export default {
             this.du = info.du;
             this.au = info.au;
         },
+        async getSubSums(prefix , side){
+            console.log(prefix);
+            let url3 = process.env.Name_api + "/exercice/" + this.id + "/" + prefix;
+            let info3 = await this.$myService.get(url3);
+            const keys = Object.keys(info3.results);
+            let res = [];
+            for (const key of keys) {
+                res.push([key , info3.results[key][side]]);
+            }
+            this.totalsClick = res;
+            this.$modal.show('my-modal');
+            console.log('show done');
+        },
         showNumber(number) {
             if(number == 0) {
                 return '';
@@ -736,7 +805,6 @@ export default {
         goBack() {
             console.log('here', this.previousMenu !== null)
             this.previousMenu ? this.$router.push({ path: this.previousMenu }) : this.$router.go(-1)
-
         },
     },
 }

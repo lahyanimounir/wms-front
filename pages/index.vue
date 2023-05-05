@@ -29,8 +29,14 @@
                     <v-btn @click="$router.push({path:'/myAccount'})" depressed rounded text>
                       Mon compte
                     </v-btn>
+                    <template v-if="user.is_admin">
+                      <v-divider class="my-3"></v-divider>
+                      <v-btn @click="$router.push({path:'/manageUsers'})" depressed rounded text>
+                        Gerer les utilisateurs
+                      </v-btn>
+                    </template>
                     <v-divider class="my-3"></v-divider>
-                    <v-btn depressed rounded text>
+                    <v-btn @click="logout()" depressed rounded text>
                       Deconnexion
                     </v-btn>
                   </div>
@@ -59,7 +65,7 @@
       <p style="font-size:44px">WEB MANAGEMENT SYSTEM</p>
     </div>
     <div class="d-flex" style="justify-content: center;align-items: center;height: 20vh">
-      <NuxtLink to="/settings/home">
+      <NuxtLink to="/settings/home" v-if="user.is_admin || user.access.parametrage">
         <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
           <div>
             <v-icon size="70" color="grey darken-3">
@@ -71,7 +77,7 @@
         </v-card>
       </NuxtLink>
 
-      <NuxtLink to="/comptabilitee">
+      <NuxtLink to="/comptabilitee" v-if="user.is_admin || user.access.comptabilitee">
 
 
         <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
@@ -83,7 +89,8 @@
           Comptabilité
         </v-card>
       </NuxtLink>
-      <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
+      <!-- add NuxtLink here later -->
+      <v-card v-if="user.is_admin || user.access.p_r_h" class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
         <div>
           <v-icon size="70" color="orange lighten-2">
             mdi-account-tie
@@ -91,7 +98,8 @@
         </div>
         Paie et RH
       </v-card>
-      <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
+      <!-- add NuxtLink here later -->
+      <v-card v-if="user.is_admin || user.access.secretaire_juridique" class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
         <div>
           <v-icon size="70" color="indigo darken-1">
             mdi-account-outline
@@ -99,7 +107,7 @@
         </div>
         Secrétaire juridique
       </v-card>
-      <NuxtLink to="facturation">
+      <NuxtLink to="facturation" v-if="user.is_admin || user.access.facturation">
         <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
           <div>
             <v-icon size="70" color="pink lighten-3">
@@ -109,7 +117,8 @@
           Facturation
         </v-card>
       </NuxtLink>
-      <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
+      <!-- add NuxtLink here later -->
+      <v-card v-if="user.is_admin || user.access.documentation" class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor:pointer">
         <div>
           <v-icon size="70" color="cyan darken-1">
             mdi-text-box-search-outline
@@ -117,7 +126,8 @@
         </div>
         Documentation
       </v-card>
-      <v-card class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor: pointer;">
+      <!-- Here as well -->
+      <v-card v-if="user.is_admin || user.access.agenda" class="px-3 py-3 ml-4 text-center cardHover" elevation="0" style="border: 1px solid #ddd;cursor: pointer;">
         <div>
           <v-icon size="70" color="blue-grey lighten-4">
             mdi-calendar-multiple-check
@@ -165,7 +175,13 @@ export default {
   }),
   created(){
     this.user = this.$auth.user
-  }
+  },
+  methods: {
+    async logout() {
+      await this.$auth.logout()
+      this.$router.push('/login')
+    },
+  },
 }
 </script>
   

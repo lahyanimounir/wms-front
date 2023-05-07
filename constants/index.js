@@ -400,7 +400,7 @@ const links = (id) => {
                 path: '/comptabilitee/' + id + '/bilan/esg'
             },
             {
-                title:'DETAIL CPC',
+                title:'CPC',
                 icon: 'mdi-folder',
                 path: '/comptabilitee/' + id + '/bilan/cpc'
             },

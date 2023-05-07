@@ -36,7 +36,7 @@
                         <!-- <th>N PIECES</th> -->
                         <!-- <th>Libelle</th> -->
                         <th style="background-color: #f1f1f1;">Exercice</th>
-                        <th style="background-color: #f1f1f1;">Precedent</th>
+                        <th style="background-color: #f1f1f1;">Exercice Précédent</th>
                         <!-- <th colspan="2">Solde</th> -->
                         <!-- <th>Solde</th> -->
                         <!-- <th>Action</th> -->

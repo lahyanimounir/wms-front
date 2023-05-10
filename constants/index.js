@@ -1,67 +1,6 @@
 const links = (id) => {
     return[
     {
-        title: 'PARAMETRAGE DOSSIER',
-        path:'parametrage',
-        childs: [
-            {
-                title: 'Définition types plans comptables',
-                icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/parametrage/definition_plan' 
-            },
-            {
-                title: 'Définition Tiers',
-                icon: 'mdi-account',
-                path: '/comptabilitee/' + id + '/parametrage/definition_tiers'
-            },
-            {
-                title: 'Creation des journaux',
-                icon: 'mdi-book',
-                path: '/comptabilitee/' + id + '/parametrage/journaux'
-            },
-            // {
-            //     title: 'UTILISATEURS',
-            //     icon: 'mdi-book',
-            //     path: '/comptabilitee/' + id + '/parametrage/journaux'
-            // },
-            // {
-            //     title: 'DUPLIQUER DOSSIER',
-            //     icon: 'mdi-book',
-            //     path: '/comptabilitee/' + id + '/parametrage/journaux'
-            // },
-            // {
-            //     title: 'SUPPRESSION DOSSIER',
-            //     icon: 'mdi-book',
-            //     path: '/comptabilitee/' + id + '/parametrage/journaux'
-            // },
-            // {
-            //     title: 'ARCHIVER',
-            //     icon: 'mdi-book',
-            //     path: '/comptabilitee/' + id + '/parametrage/journaux'
-            // },
-            {
-                title: 'DEFINITION CODE TVA',
-                icon: 'mdi-book',
-                path: '/comptabilitee/' + id + '/parametrage/definition_codeTVA'
-            },
-            {
-                title: 'IMPORTATION ECRITURE',
-                icon: 'mdi-book',
-                path: '/comptabilitee/' + id + '/parametrage/importation_ecritures'
-            },
-            // {
-            //     title: 'RE CLOTURER',
-            //     icon: 'mdi-book',
-            //     // path: '/comptabilitee/' + id + '/parametrage/journaux'
-            // },
-            // {
-            //     title: 'PRORATA TVA ',
-            //     icon: 'mdi-book',
-            //     // path: '/comptabilitee/' + id + '/parametrage/journaux'
-            // },
-        ]
-    },  
-    {
         title: 'MENU SAISIE',
         path:'saisie',
         childs: [
@@ -407,7 +346,68 @@ const links = (id) => {
             
             
         ]
-    }
+    },
+    {
+        title: 'PARAMETRAGE DOSSIER',
+        path:'parametrage',
+        childs: [
+            {
+                title: 'Définition types plans comptables',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/parametrage/definition_plan' 
+            },
+            {
+                title: 'Définition Tiers',
+                icon: 'mdi-account',
+                path: '/comptabilitee/' + id + '/parametrage/definition_tiers'
+            },
+            {
+                title: 'Creation des journaux',
+                icon: 'mdi-book',
+                path: '/comptabilitee/' + id + '/parametrage/journaux'
+            },
+            // {
+            //     title: 'UTILISATEURS',
+            //     icon: 'mdi-book',
+            //     path: '/comptabilitee/' + id + '/parametrage/journaux'
+            // },
+            // {
+            //     title: 'DUPLIQUER DOSSIER',
+            //     icon: 'mdi-book',
+            //     path: '/comptabilitee/' + id + '/parametrage/journaux'
+            // },
+            // {
+            //     title: 'SUPPRESSION DOSSIER',
+            //     icon: 'mdi-book',
+            //     path: '/comptabilitee/' + id + '/parametrage/journaux'
+            // },
+            // {
+            //     title: 'ARCHIVER',
+            //     icon: 'mdi-book',
+            //     path: '/comptabilitee/' + id + '/parametrage/journaux'
+            // },
+            {
+                title: 'DEFINITION CODE TVA',
+                icon: 'mdi-book',
+                path: '/comptabilitee/' + id + '/parametrage/definition_codeTVA'
+            },
+            {
+                title: 'IMPORTATION ECRITURE',
+                icon: 'mdi-book',
+                path: '/comptabilitee/' + id + '/parametrage/importation_ecritures'
+            },
+            // {
+            //     title: 'RE CLOTURER',
+            //     icon: 'mdi-book',
+            //     // path: '/comptabilitee/' + id + '/parametrage/journaux'
+            // },
+            // {
+            //     title: 'PRORATA TVA ',
+            //     icon: 'mdi-book',
+            //     // path: '/comptabilitee/' + id + '/parametrage/journaux'
+            // },
+        ]
+    },  
 ]
 }
 const NavBarHeight = '90px'

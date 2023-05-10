@@ -50,6 +50,8 @@ export default {
   ],
   plugins: [
     '~/plugins/axios.js',
+    { src: "~/plugins/json-excel.js", mode: "client" }
+
   ],
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

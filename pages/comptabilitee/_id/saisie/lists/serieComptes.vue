@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-dialog v-model="dialog" width="300px">
+        <v-dialog v-model="dialog" width="800px">
             <v-card>
                 <!-- add an input with choices pdf,xlx... and download button -->
                 <v-card-title class="headline">Exporter</v-card-title>
@@ -10,6 +10,10 @@
                         <v-radio-group v-model="format" row>
                             <v-radio label="PDF" value="pdf"></v-radio>
                             <v-radio label="XLS" value="xls"></v-radio>
+                            <!-- <download-excel :data="excel">
+                            Download Data
+                            <img src="download_icon.png" />
+                            </download-excel> -->
                         </v-radio-group>
                     </v-form>
                 </v-card-text>
@@ -321,6 +325,7 @@ export default {
         valid: false,
         format: null,
         grouped:[],
+        excel:[],
 
     }),
     async created() {
@@ -526,6 +531,28 @@ export default {
                 
             })
             this.grouped = t
+            // console.log('grouped : ',this.grouped)
+            this.excel = this.grouped.map(e=>{
+                if(e.isTotal){
+                    return {
+                        journal: `SOUS TOTAL : ${e.numero_compte} - ${e.intitulee}`,
+                        debit:e.totalDebit,
+                        credit:e.totalCredit
+                    }
+                }
+                else {
+                    return {
+                        date: this.formatDate(e.date),
+                        journal: e.journal.nom,
+                        compte: `${e.compte.numero_compte} - ${e.compte.intitulee}`,
+                        tiers: e.tiers ? e.tiers.denomination : '',
+                        libelle: e.libelle,
+                        debit:e.debit,
+                        credit:e.credit
+                    }
+                }
+            })
+            // console.log('excel : ',this.excel)
         }
 
     },

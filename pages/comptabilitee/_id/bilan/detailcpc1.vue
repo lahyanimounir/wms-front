@@ -6,410 +6,527 @@
                 Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
             </div>
             <div class="py-5 px-3">
-                <div class="font-weight-bold" style="font-size:18px;">PASSAGE DU RESULTAT NET COMPTABLE AU RESULTAT NET FISCAL</div>
+                <div class="font-weight-bold" style="font-size:18px;">DETAIL DES POSTES DU C.P.C.</div>
             </div>
            
-            <table  cellpadding=0 cellspacing=0>
+            <table cellpadding=0 cellspacing=0 >
                 <col >
                 <col >
                 <col >
-                <tr   >
-                	<td   class="title2" style="text-align: center;" >INTITULES</td>
-                	<td   class="title2">Montant</td>
-                	<td   class="title2">Montant</td>
+                <col >
+                <tr  >
+                	<td colspan=2 >Poste</td>
+                	<td  >Exercice</td>
+                	<td  >Exercice Précédent</td>
                 </tr>
                 <tr  >
-                	<td class="title2"  >I.RESULTAT NET COMPTABLE</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Bénéfice net</td>
-                	<td  class="title2 background_pink">C</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Perte nette</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_pink">&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2 background_gray"  >II.REINTEGRATIONS FISCALES</td>
-                	<td class="title2 background_gray">SOUS TOTAL<span> </span>A+B</td>
-                	<td class="background_gray">&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2 subTitle">1.Courantes</td>
-                	<td class="title2 highlighted">SOUS TOTAL A</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- RRR obtenus des exercice anterieurs</td>
-                	<td >61298<span ></span>+<span></span>6149</td>
                 	<td >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Autres charges des exercice anterieurs</td>
-                	<td >6148<span ></span>+<span></span>6188</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Impots et taxes des exercices anterieurs</td>
-                	<td >6168</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Charges de personnel exercices anterieurs</td>
-                	<td >6178</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Dotation d'exploitation exercices anterieurs</td>
-                	<td >6198</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Charges d'interet des exercices anterieurs</td>
-                	<td >6318</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Pertes de changes exercice anterieurs</td>
-                	<td >6338</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Autres charges financieres exercice anterieurs</td>
-                	<td >6398</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Achats revendus de marchandises des exercices anterieurs</td>
-                	<td >6118</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Achats de matieres et de fournitures des exercices anterieurs</td>
-                	<td >6128</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Cadeaux non deductibles</td>
-                	<td  >A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Dons non deductible</td>
-                	<td  >A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td   >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2 subTitle">2. Non courantes</td>
-                	<td  class="title2 highlighted" >SOUS TOTAL B</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td   >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Cotisation Minimale</td>
-                	<td  >6701</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Impot sur le resultat<span ></span></td>
-                	<td  >6708</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Creances devenues irrecouvrables</td>
-                	<td  >6585</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Subventions accordees exercice anterieurs</td>
-                	<td  >6568</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Penalites et amandes fiscales</td>
-                	<td  >6583</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Autres charges non courant des exercices ant</td>
-                	<td  >6588</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Dotations non courantes exercices anterieurs</td>
-                	<td  >6598</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Contribution sociale de solidarité sur les bénéfices (C.S.S)</td>
-                	<td  >65864</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2 background_gray">III. DEDUCTIONS FISCALES</td>
-                	<td class="title2 background_gray">TOTAL<span ></span>A + B + C</td>
-                	<td class="title2 background_gray" >TOTAL<span ></span>A + B + C</td>
-                </tr>
-                <tr  >
-                	<td class="title2 subTitle">1. Courantes</td>
-                	<td  >&nbsp;</td>
-                	<td class="title2" >TOT A</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Dividendes et produits de participation</td>
-                	<td  >&nbsp;</td>
-                	<td  >732</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Ind.retard (Loi 32-10) compt.non encaissées<span></span></td>
-                	<td  >&nbsp;</td>
-                	<td  >738111</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Ind.retard (Loi 32-10) compt.non payées en N<span></span></td>
-                	<td  >&nbsp;</td>
-                	<td  >631181</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td   >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2 subTitle">2. Non courantes</td>
-                	<td  >&nbsp;</td>
-                	<td class="title2" >TOTAL B</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td   >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2" style="text-align: right;">Total</td>
-                	<td  >&nbsp;</td>
-                	<td class="title2">TOTAL A + B</td>
-                </tr>
-                <tr  >
-                	<td class="title2">IV. RESULTAT BRUT FISCAL</td>
-                	<td class="title2">T1</td>
-                	<td class="title2">T2</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Bénéfice brut si T1 &gt; T2 (A)</td>
-                	<td  class="highlighted">&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Déficit brut fiscal si T2 &gt; T1 (B)</td>
-                	<td  >&nbsp;</td>
-                	<td  class="highlighted">&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2">V. REPORTS DEFICITAIRES IMPUTES<span > </span>(C)<span> </span>(1)</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Exercice n-4 (2018)</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Exercice n-3 (2019)</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Exercice n-2 (2020)</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Exercice n-1 (2021)</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Amort fiscalement différés imputés</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2">VI. RESULTAT NET FISCAL</td>
+                	<td >CHARGESD'EXPLOITATION</td>
                 	<td >&nbsp;</td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="normal">Bénéfice net fiscal<span > </span>(A-C)</td>
-                	<td  class="title2">0.00</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">ou déficit net fiscal<span > </span>(B)</td>
-                	<td  >&nbsp;</td>
-                	<td  class="title2">0.00</td>
+                	<td >611</td>
+                	<td >Achats revendus de marchandises</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
                 </tr>
                 <tr  >
                 	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td class="title2">Montant</td>
-                </tr>
-                <tr  >
-                    <td  class="title2">VII. CUMUL DES AMORTISSEMENTS FISCALEMENT DIFFERES</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  class="title2">VIII. CUMUL DES DEFICITS FISCAUX RESTANT A REPORTER</td>
-                	<td  >&nbsp;</td>
-                    <td  class="title2">0.00</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Exercice n-4 (2018)</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
+                	<td >- Achats de marchandises</td>
+                	<td ><span> </span>C8-C7</td>
+                	<td  >#NAME?</td>
                 </tr>
                 <tr >
-                	<td class="normal">Exercice n-3 (2019)</td>
-                	<td class="background_blue">A SAISIR</td>
+                	<td >&nbsp;</td>
+                	<td >- Variation des stocks de marchandises</td>
+                	<td >6114</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr >
+                	<td >&nbsp;</td>
+                	<td >Total</td>
+                	<td >611</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr >
+                	<td >612</td>
+                	<td ></td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr >
+                	<td >&nbsp;</td>
+                	<td >- Achats de matières premières</td>
+                	<td ><span> </span>6121+61281+61291+61298</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr >
+                	<td >&nbsp;</td>
+                	<td >- Variation des stocks de matières premières</td>
+                	<td >61241</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td >&nbsp;</td>
+                	<td >- Achats de matières et fournitures consommables et d'emballages</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr >
+                	<td >&nbsp;</td>
+                	<td >- Variation des stocks de matières, fournitures et emballages</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td >&nbsp;</td>
+                	<td >- Achats non stockés de matières et de fournitures</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr >
+                	<td >&nbsp;</td>
+                	<td >- Achats de travaux, études et prestation de services</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td >&nbsp;</td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr >
-                	<td class="normal">Exercice n-2 (2020)</td>
-                	<td class="background_blue">A SAISIR</td>
                 	<td >&nbsp;</td>
+                	<td >Total</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
                 </tr>
-                <tr >
-                	<td class="normal">Exercice n-1 (2021)</td>
-                	<td class="background_blue">A SAISIR</td>
+                <tr  >
+                	<td >613/614</td>
+                	<td >Autres charges externes</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
                 	<td >&nbsp;</td>
+                	<td >- Locations et charges locatives</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
                 </tr>
-                
+                <tr  >
+                	<td >&nbsp;</td>
+                	<td >- Redevances de crédit-bail</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
                 <tr>
-                	<td></td>
-                	<td></td>
-                	<td></td>
+                	<td >&nbsp;</td>
+                	<td >- Entretient et réparations</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
                 </tr>
-            </table>       
+                <tr  >
+                	<td >&nbsp;</td>
+                	<td >- Primes d'assurances</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr>
+                	<td >&nbsp;</td>
+                	<td >- Rémunérations du personnel extérieur à l'entreprise</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr>
+                	<td >&nbsp;</td>
+                	<td >- Rémunérations d'intermédiaires et honoraires</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td >&nbsp;</td>
+                	<td >- Redevances pour brevets, marque, droits ...</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr >
+                	<td >&nbsp;</td>
+                	<td >- Transports</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr>
+                	<td >&nbsp;</td>
+                	<td >- Déplacements, missions et réceptions</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr>
+                	<td >&nbsp;</td>
+                	<td >- Reste du poste des autres charges externes</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr>
+                	<td >&nbsp;</td>
+                	<td >Total</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td >617</td>
+                	<td >Charges de personnel</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td >&nbsp;</td>
+                	<td >- Rémunération du personnel</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr>
+                	<td >&nbsp;</td>
+                	<td >- Charges sociales</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr>
+                	<td >&nbsp;</td>
+                	<td >- Reste du poste des charges de personnel</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr>
+                	<td >&nbsp;</td>
+                	<td >Total</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr>
+                	<td >618</td>
+                	<td >Autres charges d'exploitation</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr>
+                	<td >&nbsp;</td>
+                	<td >- Jetons de présence</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Pertes sur
+                cr�ances irr�couvrables</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Reste du poste
+                des autres charges d'exploitation</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >Total</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr>
+                	<td >638</td>
+                	<td >CHARGES FINANCIERES</td>
+                	<td >&nbsp;</td>
+                	<td >&nbsp;</td>
+                </tr>
+                <tr>
+                	<td  >&nbsp;</td>
+                	<td >Autres charges financières</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td >&nbsp;</td>
+                	<td >- Charges nettes sur cessions de titres et valeurs de placement</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Reste du poste des autres charges financières</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >Total</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >658</td>
+                	<td >CHARGES NON COURANTES</td>
+                	<td >&nbsp;</td>
+                	<td >&nbsp;</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >Autres charges non courantes</td>
+                	<td  >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Pénalités sur marchés et débits</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Rappels d'impôts (autres qu'impôts sur les résultats)</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Pénalités et amendes fiscales et pénales</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Créances devenues irrécouvrables</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Reste du poste des autres charges non courantes</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >Total</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >PRODUITS D'EXPLOITATION</td>
+                	<td >&nbsp;</td>
+                	<td >&nbsp;</td>
+                </tr>
+                <tr  >
+                	<td  >711</td>
+                	<td >Ventes de marchandises</td>
+                	<td  >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Ventes de marchandises au Maroc</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Ventes de marchandises à l'étranger</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Reste du poste des ventes de marchandises</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >Total</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >712</td>
+                	<td >Ventes des biens et services produits</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Ventes de biens au Maroc</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Ventes de biens à l'étranger</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Ventes des services au Maroc</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Ventes des services � l'étranger</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Redevances pour brevets, marques, droits ...</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Reste du poste des ventes et services produits</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >Total</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >713</td>
+                	<td >Variation des stocks de produits</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Variation des stocks de produits de produits en cours</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Variation des stocks de biens produits</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Variation des stocks de services en cours</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >Total</td>
+                	<td  >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >718</td>
+                	<td >Autres produits d'exploitation</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Jetons de présence reçus</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Reste du poste (produits divers)</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >Total</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >719</td>
+                	<td >Reprises d'exploitation, transferts de charges</td>
+                	<td >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Reprises</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Transferts de charges</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >Total</td>
+                	<td  >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >PRODUITS FINANCIERS</td>
+                	<td >&nbsp;</td>
+                	<td >&nbsp;</td>
+                </tr>
+                <tr  >
+                	<td  >738</td>
+                	<td >Intérêts et autres produits financiers</td>
+                	<td  >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Intérêt et produits assimilés</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Revenus des créances rattachées à des participations</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Produits nets sur cessions de titres et valeurs de placement</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >- Reste du poste intérêts et autres produits financiers</td>
+                	<td  >#NAME?</td>
+                	<td  >#NAME?</td>
+                </tr>
+                <tr  >
+                	<td  >&nbsp;</td>
+                	<td >Total</td>
+                	<td  >#NAME?</td>
+                	<td >#NAME?</td>
+                </tr>
+
+                <tr >
+                	<td  ></td>
+                	<td  ></td>
+                	<td  ></td>
+                	<td  ></td>
+                </tr>
+            </table>    
         </v-card>
     </div>
 </template>

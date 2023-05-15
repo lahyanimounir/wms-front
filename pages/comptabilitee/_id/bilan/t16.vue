@@ -6,129 +6,56 @@
                 Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
             </div>
             <div class="py-5 px-3">
-                <div class="font-weight-bold" style="font-size:18px;">PASSAGE DU RESULTAT NET COMPTABLE AU RESULTAT NET FISCAL</div>
+                <div class="font-weight-bold" style="font-size:18px;">ETAT DES DOTATIONS AUX AMORTISSEMENTS RELATIFS AUX IMMOBILISATIONS</div>
             </div>
-           
-            <table  cellpadding=0 cellspacing=0>
-                <col >
-                <col >
-                <col >
-                <tr   >
-                	<td   class="title2" style="text-align: center;" >INTITULES</td>
-                	<td   class="title2">Montant</td>
-                	<td   class="title2">Montant</td>
-                </tr>
+            
+            <table cellpadding=0 cellspacing=0>
                 <tr  >
-                	<td class="title2"  >I.RESULTAT NET COMPTABLE</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Bénéfice net</td>
-                	<td  class="title2 background_pink">C</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Perte nette</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_pink">&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2 background_gray"  >II.REINTEGRATIONS FISCALES</td>
-                	<td class="title2 background_gray">SOUS TOTAL<span> </span>A+B</td>
-                	<td class="background_gray">&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2 subTitle">1.Courantes</td>
-                	<td class="title2 highlighted">SOUS TOTAL A</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- RRR obtenus des exercice anterieurs</td>
-                	<td >61298<span ></span>+<span></span>6149</td>
+                	<td colspan=2 >TOTAL IMMOBILISATION</td>
+                	<td >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td colspan=2>TOTAL AMORTISSEMENT</td>
+                	<td >&nbsp;</td>
+                	<td colspan="3">TOTAL AMORTISSEMENT CUMULE</td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="normal">- Autres charges des exercice anterieurs</td>
-                	<td >6148<span ></span>+<span></span>6188</td>
+                	<td colspan="11" >&nbsp;</td>
+                </tr>
+                <tr  >
+                	<td colspan=11 >Il convient d'établir autant de feuillets annexes qu'il existe de groupes d'éléments de même nature amortissables au même taux. Détail : cf. feuillets annexes</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="normal">- Impots et taxes des exercices anterieurs</td>
-                	<td >6168</td>
-                	<td  >&nbsp;</td>
+                	<td colspan="11">&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="normal">- Charges de personnel exercices anterieurs</td>
-                	<td >6178</td>
-                	<td  >&nbsp;</td>
+                	<td colspan="7" >Feuillet N° 01</td>
+                	<td colspan=2>Immobilisations concernées :</td>
+                	<td colspan=2>&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="normal">- Dotation d'exploitation exercices anterieurs</td>
-                	<td >6198</td>
-                	<td  >&nbsp;</td>
+                	<td>Date Entrée 1</td>
+                	<td>DESIGNATION</td>
+                	<td>Prix Acquisition 2</td>
+                	<td>Valeur comptable après réévaluation 3</td>
+                	<td>Amortissement Antérieur 4</td>
+                	<td>Taux % 5</td>
+                	<td>Durée Années 6</td>
+                	<td>Amortissements de l'exercice</td>
+                	<td>Cumul amortissements</td>
+                	<td>Observations</td>
+                	<td>Date Sortie</td>
                 </tr>
                 <tr  >
-                	<td  class="normal">- Charges d'interet des exercices anterieurs</td>
-                	<td >6318</td>
+                	<td   >&nbsp;</td>
                 	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Pertes de changes exercice anterieurs</td>
-                	<td >6338</td>
                 	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Autres charges financieres exercice anterieurs</td>
-                	<td >6398</td>
                 	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Achats revendus de marchandises des exercices anterieurs</td>
-                	<td >6118</td>
                 	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Achats de matieres et de fournitures des exercices anterieurs</td>
-                	<td >6128</td>
                 	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Cadeaux non deductibles</td>
-                	<td  >A SAISIR</td>
                 	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Dons non deductible</td>
-                	<td  >A SAISIR</td>
                 	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
@@ -137,13 +64,141 @@
                 	<td   >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td ></td>
+                	<td >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td class="title2 subTitle">2. Non courantes</td>
-                	<td  class="title2 highlighted" >SOUS TOTAL B</td>
+                	<td   >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
+                	<td   >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                </tr>
+                <tr  >
+                	<td   >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                </tr>
+                <tr  >
+                	<td   >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                </tr>
+                <tr  >
+                	<td   >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                </tr>
+                <tr  >
+                	<td   >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                </tr>
+                <tr  >
+                	<td   >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                </tr>
+                <tr  >
+                	<td   >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                </tr>
+                <tr  >
+                	<td   >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                </tr>
+                <tr  >
+                	<td   >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
@@ -152,118 +207,11 @@
                 	<td   >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Cotisation Minimale</td>
-                	<td  >6701</td>
                 	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Impot sur le resultat<span ></span></td>
-                	<td  >6708</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Creances devenues irrecouvrables</td>
-                	<td  >6585</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Subventions accordees exercice anterieurs</td>
-                	<td  >6568</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Penalites et amandes fiscales</td>
-                	<td  >6583</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Autres charges non courant des exercices ant</td>
-                	<td  >6588</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Dotations non courantes exercices anterieurs</td>
-                	<td  >6598</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Contribution sociale de solidarité sur les bénéfices (C.S.S)</td>
-                	<td  >65864</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
+                	<td >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2 background_gray">III. DEDUCTIONS FISCALES</td>
-                	<td class="title2 background_gray">TOTAL<span ></span>A + B + C</td>
-                	<td class="title2 background_gray" >TOTAL<span ></span>A + B + C</td>
-                </tr>
-                <tr  >
-                	<td class="title2 subTitle">1. Courantes</td>
-                	<td  >&nbsp;</td>
-                	<td class="title2" >TOT A</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Dividendes et produits de participation</td>
-                	<td  >&nbsp;</td>
-                	<td  >732</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Ind.retard (Loi 32-10) compt.non encaissées<span></span></td>
-                	<td  >&nbsp;</td>
-                	<td  >738111</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">- Ind.retard (Loi 32-10) compt.non payées en N<span></span></td>
-                	<td  >&nbsp;</td>
-                	<td  >631181</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
@@ -272,149 +220,62 @@
                 	<td   >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2 subTitle">2. Non courantes</td>
                 	<td  >&nbsp;</td>
-                	<td class="title2" >TOTAL B</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
+                	<td >&nbsp;</td>
                 	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
                 	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
                 	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
                 	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td   >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2" style="text-align: right;">Total</td>
                 	<td  >&nbsp;</td>
-                	<td class="title2">TOTAL A + B</td>
-                </tr>
-                <tr  >
-                	<td class="title2">IV. RESULTAT BRUT FISCAL</td>
-                	<td class="title2">T1</td>
-                	<td class="title2">T2</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Bénéfice brut si T1 &gt; T2 (A)</td>
-                	<td  class="highlighted">&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Déficit brut fiscal si T2 &gt; T1 (B)</td>
-                	<td  >&nbsp;</td>
-                	<td  class="highlighted">&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2">V. REPORTS DEFICITAIRES IMPUTES<span > </span>(C)<span> </span>(1)</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Exercice n-4 (2018)</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Exercice n-3 (2019)</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Exercice n-2 (2020)</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Exercice n-1 (2021)</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Amort fiscalement différés imputés</td>
-                	<td  class="background_blue">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                </tr>
-                <tr  >
-                	<td class="title2">VI. RESULTAT NET FISCAL</td>
                 	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="normal">Bénéfice net fiscal<span > </span>(A-C)</td>
-                	<td  class="title2">0.00</td>
+                	<td   >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="normal">ou déficit net fiscal<span > </span>(B)</td>
-                	<td  >&nbsp;</td>
-                	<td  class="title2">0.00</td>
-                </tr>
-                <tr  >
+                	<td   >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
-                	<td class="title2">Montant</td>
-                </tr>
-                <tr  >
-                    <td  class="title2">VII. CUMUL DES AMORTISSEMENTS FISCALEMENT DIFFERES</td>
                 	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
-                </tr>
-                <tr  >
-                	<td  class="title2">VIII. CUMUL DES DEFICITS FISCAUX RESTANT A REPORTER</td>
                 	<td  >&nbsp;</td>
-                    <td  class="title2">0.00</td>
-                </tr>
-                <tr  >
-                	<td  class="normal">Exercice n-4 (2018)</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
+                	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
                 </tr>
-                <tr >
-                	<td class="normal">Exercice n-3 (2019)</td>
-                	<td class="background_blue">A SAISIR</td>
-                	<td >&nbsp;</td>
-                </tr>
-                <tr >
-                	<td class="normal">Exercice n-2 (2020)</td>
-                	<td class="background_blue">A SAISIR</td>
-                	<td >&nbsp;</td>
-                </tr>
-                <tr >
-                	<td class="normal">Exercice n-1 (2021)</td>
-                	<td class="background_blue">A SAISIR</td>
-                	<td >&nbsp;</td>
-                </tr>
-                
-                <tr>
-                	<td></td>
-                	<td></td>
-                	<td></td>
-                </tr>
-            </table>       
+            </table>
+
+
+            
+
         </v-card>
     </div>
 </template>
-
-
 
 <style>
 

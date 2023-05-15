@@ -10,10 +10,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr style="background-color: antiquewhite;"  v-for="val in totalsClick">
-                            	<td>{{ val[0] }}</td>
-                            	<td>{{ val[1] }}</td>
-                        </tr>
+                        <template v-for="val in totalsClick">
+                            <tr style="background-color: antiquewhite;"  v-if="val[1] != 0">
+                                <td>{{ val[0] }}</td>
+                                <td>{{ val[1] }}</td>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>
             </div>
@@ -24,7 +26,7 @@
                 Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b>
             </div>
             <div class="py-5 px-3">
-                <div class="font-weight-bold" style="font-size:18px;">BILAN - PASSIF   (MODEL NORMAL)</div>
+                <div class="font-weight-bold" style="font-size:18px;">TABLEAU DES IMMOBILISATIONS AUTRES QUE FINANCIERES</div>
             </div>
            
             <table cellpadding=0 cellspacing=0 width=1318>
@@ -415,11 +417,33 @@ export default {
             console.log('show done');
         },
         showNumber(number) {
-            if(number == 0) {
-                return '';
-            }else if(number!= undefined) {
-                return Math.round(number * 100) / 100;
-            }return number;
+            if (number === 0 || number == undefined) {
+            return "";
+            }
+            if(number!= undefined) {
+                number =  Math.round(number * 100) / 100;
+            }
+
+            const stringifiedNumber = number.toString();
+            const [integerPart, decimalPart] = stringifiedNumber.split(".");
+            const integerPartLength = integerPart.length;
+
+            let separatedIntegerPart = "";
+
+            for (let i = 0; i < integerPartLength; i++) {
+                if (i !== 0 && (integerPartLength - i) % 3 === 0) {
+                separatedIntegerPart += " ";
+                }
+
+                separatedIntegerPart += integerPart.charAt(i);
+            }
+
+            if (decimalPart !== undefined) {
+                console.log(separatedIntegerPart + "." + decimalPart)
+                return separatedIntegerPart + "." + decimalPart;
+            }
+            console.log(separatedIntegerPart)
+            return separatedIntegerPart;
         },
         sum(title){
             switch(title){

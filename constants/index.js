@@ -375,14 +375,19 @@ const links = (id) => {
         path:'bilan',
         childs:[
             {
-                title:'BILAN - ACTIF',
+                title:'ACTIF',
                 icon: 'mdi-folder',
                 path: '/comptabilitee/' + id + '/bilan'
             },
             {
-                title:'BILAN - PASSIF',
+                title:'PASSIF',
                 icon: 'mdi-folder',
                 path: '/comptabilitee/' + id + '/bilan/passif'
+            },
+            {
+                title:'CPC',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/cpc'
             },
             {
                 title:'PASSAGE',
@@ -400,12 +405,65 @@ const links = (id) => {
                 path: '/comptabilitee/' + id + '/bilan/esg'
             },
             {
-                title:'CPC',
+                title:'DETAIL CPC',
                 icon: 'mdi-folder',
-                path: '/comptabilitee/' + id + '/bilan/cpc'
+                path: '/comptabilitee/' + id + '/bilan/detailcpc1'
             },
-            
-            
+            {
+                title:'CREDIT BAIL',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/creditbail'
+            },
+            {
+                title:'AMORT',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/amort'
+            },
+            {
+                title:'PROV',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/prov'
+            },
+            {
+                title:'VALU',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/valu'
+            },
+            {
+                title:'T11',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/t11'
+            },
+            {
+                title:'T12',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/t12'
+            },
+            {
+                title:'T13',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/t13'
+            },
+            {
+                title:'T14',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/t14'
+            },
+            {
+                title:'T15',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/t15'
+            },
+            {
+                title:'T16',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/t16'
+            },
+            {
+                title:'T17',
+                icon: 'mdi-folder',
+                path: '/comptabilitee/' + id + '/bilan/t17'
+            }
         ]
     }
 ]

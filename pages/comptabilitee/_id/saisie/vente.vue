@@ -8,7 +8,7 @@
                 <div style="font-size:18px">
                     Dossier :<b> {{ dossier && dossier.d_denomination }} </b>| Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b> | 
                     N° de piece : <b>{{ editedItem.num_pieces }}</b>
-                    <div class="font-weight-bold" style="font-size:18px">Saisie de vente</div>
+                    <!-- <div class="font-weight-bold" style="font-size:18px">Saisie de vente</div> -->
                 </div>
             </div>
             <v-snackbar v-model="snackbar" :timeout="timeout">
@@ -22,12 +22,12 @@
             </v-snackbar>
 
             <v-form ref="ecritureForm">
-                <v-row class="mx-0">
+                <v-row class="mx-0 mt-2">
                     <v-col cols="2">
-                        <label for="">Journal *</label>
+                        <!-- <label for="">Journal *</label> -->
 
                         <v-autocomplete hide-details v-model="editedItem.journal" return-object :rules="obligationRule"
-                            :items="journaux" outlined dense placeholder="Journaux" item-text="nom" item-value="id">
+                            :items="journaux" label="Journal *" dense placeholder="Journaux" item-text="nom" item-value="id">
 
                         </v-autocomplete>
                     </v-col>
@@ -50,12 +50,12 @@
                         </v-menu>
                     </v-col> -->
                     <v-col cols="2">
-                        <label for="">Date *</label>
+                        <!-- <label for="">Date *</label> -->
                         <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition"
                             offset-y max-width="290px" min-width="290px">
                             <template v-slot:activator="{ on, attrs }" >
                                 <v-text-field v-model="dateFormatted" persistent-hint v-bind="attrs" hint="JJ/MM/AAAA format"
-                                prepend-icon="mdi-calendar" outlined dense
+                                prepend-icon="mdi-calendar" label="Date*" dense
                                     :format="'DD/MM/AAAA'" :rules="obligationRule" @blur="date = parseDate(dateFormatted)"
                                     v-on="on"></v-text-field>
                             </template>
@@ -64,18 +64,18 @@
                     </v-col>
                    
                     <v-col cols="2">
-                        <label for="">ECHEANCE</label>
-                        <v-text-field :rules="obligationRule" v-model="editedItem.echeance" hide-details outlined
+                        <!-- <label for="">ECHEANCE</label> -->
+                        <v-text-field :rules="obligationRule" v-model="editedItem.echeance" hide-details label="ECHEANCE"
                             dense></v-text-field>
                     </v-col>
                     <v-col cols="3">
-                        <label for="">Référence *</label>
+                        <!-- <label for="">Référence *</label> -->
                         <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details
-                            outlined dense></v-text-field>
+                            label="Référence *" dense></v-text-field>
                     </v-col>
                     <v-col cols="3" class="px-1 ">
-                        <label for="">Libellé *</label>
-                        <v-text-field :rules="obligationRule" v-model="editedItem.libelle" outlined dense></v-text-field>
+                        <!-- <label for="">Libellé *</label> -->
+                        <v-text-field :rules="obligationRule" v-model="editedItem.libelle" label="Libellé *" dense></v-text-field>
                     </v-col>
                     
                     
@@ -83,15 +83,15 @@
 
                 <v-row class="mx-0 mt-0">
                     <v-col cols="2" class="pl-3 pr-1 ">
-                        <label for="">Plan comptable *</label>
+                        <!-- <label for="">Plan comptable *</label> -->
 
                         <v-autocomplete v-model="editedItem.plan_comptable" return-object :rules="obligationRule"
-                            :items="collectif" outlined dense placeholder="Plan comptable" item-text="numero_compte"
+                            :items="collectif" label="Plan comptable *" dense placeholder="Plan comptable" item-text="numero_compte"
                             item-value="id" style="font-size:16px"
                             :filter="getList"
                             >
                             <template slot="selection" slot-scope="{ item }">
-                                {{ item.numero_compte }} - {{ item.intitulee.length > 5 && charsNumberCollectif != -1 ?item.intitulee.substring(0, charsNumberCollectif) + '...' : item.intitulee }}
+                                {{ item.numero_compte }} - {{ item.intitulee.length > 5 && charsNumberCollectif != -1 ?item.intitulee.substring(0, charsNumberCollectif) + '..' : item.intitulee }}
                             </template>
                             <template slot="item" slot-scope="{ item }">
                                 {{ item.numero_compte }} - {{ item.intitulee }}
@@ -99,20 +99,21 @@
                         </v-autocomplete>
                     </v-col>
                     <v-col cols="2" class="pl-3 pr-1 ">
-                        <label for="">Tiers</label>
+                        <!-- <label for="">Tiers</label> -->
                         <div class="d-flex">
                             <v-autocomplete v-model="editedItem.tiers" color="red"
                                 return-object
                                 :disabled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')"
-                                :filled="!(editedItem.plan_comptable && editedItem.plan_comptable.c_g == 'COLLECTIF')" :items="tiersShow"
-                                outlined dense placeholder="Tiers" item-text="denomination" item-value="id">
+                                 :items="tiersShow"
+                                label="Tiers" dense placeholder="Tiers" item-text="denomination" item-value="id">
                                 <template slot="selection" slot-scope="{ item }">
-                                    {{ item.denomination }}
+                                    {{ item.denomination.length > 7 && charsNumberTiers != -1
+                                        ? item.denomination.substring(0, charsNumberTiers) + '..' : item.denomination }}
                                 </template>
                             </v-autocomplete>
                             <div style="color: #5092f3;cursor: pointer;margin-left: 0.5rem;" @click="addTiers()" class="">
                             <div class="d-inline-block px-2"
-                                style="border: 2px dotted; height: 38px; line-height: 36px; #5092f3;border-radius: 5px;cursor: pointer;">
+                                style="border: 2px dotted; height: 33px; line-height: 32px; #5092f3;border-radius: 5px;cursor: pointer;">
                                 <i class="fal fa-plus"></i>
 
                             </div>
@@ -121,15 +122,15 @@
                     </v-col>
                     
                     <v-col cols="3" class="pl-3 pr-1 ">
-                        <label for="">Compte contrepartie *</label>
+                        <!-- <label for="">Compte contrepartie *</label> -->
 
                         <v-autocomplete v-model="editedItem.compte" return-object :rules="obligationRule"
-                            :items="contreparties" outlined dense placeholder="compte de contrepartie"
+                            :items="contreparties" label="Compte contrepartie *" dense placeholder="compte de contrepartie"
                             item-text="numero_compte" item-value="id"
                             :filter="getList"
                             >
                             <template slot="selection" slot-scope="{ item }">
-                                {{ item.numero_compte }} - {{ item.intitulee.length ? item.intitulee.substring(0, charsNumberContreparties) + '...' : item.intitulee }}
+                                {{ item.numero_compte }} - {{ item.intitulee.length ? item.intitulee.substring(0, charsNumberContreparties) + '..' : item.intitulee }}
                             </template>
                             <template slot="item" slot-scope="{ item }">
                                 {{ item.numero_compte }} - {{ item.intitulee }}
@@ -138,8 +139,8 @@
                     </v-col>
 
                     <v-col cols="1" class="px-1 ">
-                        <label for="">Taux TVA</label>
-                        <v-text-field v-model="editedItem.taux_tva" type="number" outlined
+                        <!-- <label for="">Taux TVA</label> -->
+                        <v-text-field v-model="editedItem.taux_tva" type="number" label="Taux TVA*"
                             dense>
                             <template v-slot:append>
                             <span class="font-weight-bold" style="padding:5px 0">%</span>
@@ -147,8 +148,8 @@
                         </v-text-field>
                     </v-col>
                     <v-col cols="3" class="px-1 ">
-                        <label for="">Code TVA</label>
-                        <v-autocomplete  v-model="editedItem.code_tva" return-object :items="filteredTvas" :rules="obligationRule" outlined dense placeholder="Code TVA"
+                        <!-- <label for="">Code TVA</label> -->
+                        <v-autocomplete  v-model="editedItem.code_tva" return-object :items="filteredTvas" :rules="obligationRule" label="Code TVA" dense placeholder="Code TVA"
                             item-text="id" item-value="code">
                             <template slot="item" slot-scope="{ item }">
                                 {{ item.code }} - {{ item.intitulee }}
@@ -161,24 +162,24 @@
                 </v-row>
                 <v-row class="mx-0 mt-0" style="justify-content:end">
                     <v-col cols="2" class="px-1 ">
-                        <label for="">MONTANT TTC</label>
+                        <!-- <label for="">MONTANT TTC</label> -->
                         <v-text-field  @blur="addDecimals()" v-model="editedItem.montant_ttc"
-                            @keyup="positive()" type="number" outlined dense></v-text-field>
+                            @keyup="positive()" type="number" label="MONTANT TTC" dense></v-text-field>
                     </v-col>
                     <v-col cols="2" class="px-1 ">
-                        <label for="">MONTANT HT</label>
-                        <v-text-field v-model="editedItem.montant_ht"  type="number" outlined
+                        <!-- <label for="">MONTANT HT</label> -->
+                        <v-text-field v-model="editedItem.montant_ht"  type="number" label="MONTANT HT"
                             dense></v-text-field>
                     </v-col>
                     <v-col cols="2" class="px-1 ">
-                        <label for="">MONTANT TVA</label>
-                        <v-text-field v-model="editedItem.montant_tva"  type="number" outlined
+                        <!-- <label for="">MONTANT TVA</label> -->
+                        <v-text-field v-model="editedItem.montant_tva"  type="number" label="MONTANT TVA"
                             dense></v-text-field>
                     </v-col>
                    
-                    <v-col cols="2" class="px-1 text-center">
-                        <v-btn v-if="isEdit" color="#EF9A9A" class="mt-5 py-5" @click="resetEcriture()">Annuler</v-btn>
-                        <v-btn color="primary" large class="mt-5 py-5" @click="addEcriture()">Ajouter</v-btn>
+                    <v-col cols="2" class="px-1">
+                        <v-btn color="primary" small class="py-4 mr-1" @click="addEcriture()">Ajouter</v-btn>
+                        <v-btn v-if="isEdit" color="#EF9A9A" small class="py-4" @click="resetEcriture()">Annuler</v-btn>
                     </v-col>
                 </v-row>
             </v-form>
@@ -186,10 +187,10 @@
 
 
         <v-card elevation="0" class="mt-3 px-3 py-3" style="border:1px solid #ddd">
-            <div class="subtitle-2 ">
+            <!-- <div class="subtitle-2 ">
                 Ecritures :
-            </div>
-            <div class="pt-3">
+            </div> -->
+            <div class="">
                 <table width="100%" class="table styled-table" >
                     <thead class="text-left">
                         <tr>
@@ -240,7 +241,7 @@
                 </div> -->
 
                 <v-alert class="mt-3" dense outlined v-if="someDebit != someCredit" type="error">
-                    Les champs Débit total et Crédit doivent être égaux.
+                    Les champs Débit total et Crédit doivent être égaux. (Montant restant pour équilibrer : {{ someDebit > someCredit ? someDebit - someCredit : someCredit - someDebit }})
                 </v-alert>
             </div>
             <div class="mt-2">
@@ -262,10 +263,10 @@
     </div>
 
 </template>
-<style>
+<style scoped>
 .styled-table {
     border-collapse: collapse;
-    margin: 25px 0;
+    margin: 5px 0;
     font-size: 0.9em;
     font-family: sans-serif;
     min-width: 400px;
@@ -280,7 +281,9 @@
 
 .styled-table th,
 .styled-table td {
-    padding: 12px 15px;
+    /* padding: 12px 15px; */
+    height: 32px;
+    padding:0 10px;
 }
 </style>
 <script>
@@ -354,10 +357,10 @@ export default {
         tempEcritures:[],
         selectedTiers:{},
         selectedTva:{},
-        charsNumberTva: 25,
-        charsNumberCollectif: 10,
+        charsNumberTva: 8,
+        charsNumberCollectif: 3,
         charsNumberTiers: 7,
-        charsNumberContreparties: 18,
+        charsNumberContreparties: 7,
         snackbar: false,
         timeout: 3000,
         text: '',

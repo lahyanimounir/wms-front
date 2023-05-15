@@ -9,7 +9,7 @@
                 Dossier :<b> {{ dossier && dossier.d_denomination }} </b>|
                 Exercice du : <b>{{ formatDate(du) }}</b> au <b>{{ formatDate(au) }}</b> | 
                 N° de piece : <b>{{ editedItem.num_pieces }}</b>
-                <div class="font-weight-bold" style="font-size:18px">Saisie de Des A Nouveau</div>
+                <!-- <div class="font-weight-bold" style="font-size:18px">Saisie de Des A Nouveau</div> -->
             </div>
             <div>
                 <v-menu>
@@ -54,12 +54,12 @@
                 </template>
             </v-snackbar>
             <v-form ref="ecritureForm">
-                <v-row class="mx-0">
+                <v-row class="mx-0 mt-2">
                     <v-col cols="2">
-                        <label for="">Journal *</label>
+                        <!-- <label for="">Journal *</label> -->
 
                         <v-autocomplete hide-details v-model="editedItem.journal" return-object :rules="obligationRule"
-                            :items="journaux" outlined dense placeholder="Journaux" item-text="nom" item-value="id">
+                            :items="journaux" label="Journal *" dense placeholder="Journaux" item-text="nom" item-value="id">
 
                         </v-autocomplete>
                     </v-col>
@@ -70,12 +70,12 @@
 
                     </v-col>
                     <v-col cols="2">
-                        <label for="">Date *</label>
+                        <!-- <label for="">Date *</label> -->
                         <v-menu ref="menu1" v-model="menu1" :close-on-content-click="false" transition="scale-transition"
                             offset-y max-width="290px" min-width="290px">
                             <template v-slot:activator="{ on, attrs }" >
                                 <v-text-field v-model="dateFormatted" persistent-hint v-bind="attrs" hint="JJ/MM/AAAA format"
-                                prepend-icon="mdi-calendar" outlined dense
+                                prepend-icon="mdi-calendar" label="Date *" dense
                                     :format="'DD/MM/AAAA'" :rules="obligationRule" @blur="date = parseDate(dateFormatted)"
                                     v-on="on"></v-text-field>
                             </template>
@@ -83,20 +83,20 @@
                         </v-menu>
                     </v-col>
                     <v-col cols="6">
-                        <label for="">Référence *</label>
-                        <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details outlined
+                        <!-- <label for="">Référence *</label> -->
+                        <v-text-field :rules="obligationRule" v-model="editedItem.reference_facture" hide-details label="Référence *"
                             dense></v-text-field>
                     </v-col>
                 </v-row>
 
                 <v-row class="mx-0">
-                    <v-col cols="3" class="pl-3 pr-1 ">
-                        <label for="">Compte *</label>
+                    <v-col cols="2" class="pl-3 pr-1 ">
+                        <!-- <label for="">Compte *</label> -->
 
                         <v-autocomplete :filter="getList" v-model="editedItem.compte" return-object :rules="obligationRule" :items="items"
-                            outlined dense placeholder="compte de contrepartie" item-text="numero_compte" item-value="id">
+                            label="Compte *" dense placeholder="compte de contrepartie" item-text="numero_compte" item-value="id">
                             <template slot="selection" slot-scope="{ item }">
-                                {{ item.numero_compte }} - {{ item.intitulee }}
+                                {{ item.numero_compte }} - {{ item.intitulee.substring(0, 5) }}..
                             </template>
                             <template slot="item" slot-scope="{ item }">
                                 {{ item.numero_compte }} - {{ item.intitulee }}
@@ -104,36 +104,36 @@
                         </v-autocomplete>
                     </v-col>
                     <v-col cols="2" class="pl-3 pr-1 ">
-                        <label for="">Tiers *</label>
+                        <!-- <label for="">Tiers *</label> -->
                         <v-autocomplete v-model="editedItem.tiers" color="red" return-object
                             :rules="editedItem.compte && editedItem.compte.c_g == 'COLLECTIF' ? obligationRule : []"
                             :disabled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')"
-                            :filled="!(editedItem.compte && editedItem.compte.c_g == 'COLLECTIF')" :items="test" outlined
+                            :items="test" label="Tiers *"
                             dense placeholder="Tiers" item-text="denomination" item-value="id">
                             <template slot="selection" slot-scope="{ item }">
-                                {{ item.denomination }}
+                                {{ item.denomination.substring(0, 8) }}..
                             </template>
                         </v-autocomplete>
                     </v-col>
-                    <v-col cols="3" class="px-1 ">
-                        <label for="">Libellé *</label>
-                        <v-text-field v-model="editedItem.libelle" :rules="obligationRule" outlined dense></v-text-field>
+                    <v-col cols="2" class="px-1 ">
+                        <!-- <label for="">Libellé *</label> -->
+                        <v-text-field v-model="editedItem.libelle" :rules="obligationRule" label="Libellé *" dense></v-text-field>
                     </v-col>
-                    <v-col cols="1" class="px-1 ">
-                        <label for="">Débit</label>
-                        <v-text-field v-model="editedItem.debit" @keyup="positive('d')" type="number" outlined
+                    <v-col cols="2" class="px-1 ">
+                        <!-- <label for="">Débit</label> -->
+                        <v-text-field v-model="editedItem.debit" @keyup="positive('d')" type="number" label="Débit"
                             dense></v-text-field>
                     </v-col>
-                    <v-col cols="1" class="px-1 ">
-                        <label for="">Credit</label>
-                        <v-text-field v-model="editedItem.credit" @keyup="positive('c')" type="number" outlined
+                    <v-col cols="2" class="px-1 ">
+                        <!-- <label for="">Credit</label> -->
+                        <v-text-field v-model="editedItem.credit" @keyup="positive('c')" type="number" label="Credit"
                             dense></v-text-field>
 
                     </v-col>
 
                     <v-col cols="1" class="px-1 d-flex">
-                        <v-btn v-if="isEdit" color="#EF9A9A" class="mt-5 py-5" @click="cancelEdit()">Annuler</v-btn>
-                        <v-btn color="primary" small class="mt-5 py-5 ml-3" @click="addEcriture()">{{ btnText }}</v-btn>
+                        <v-btn color="primary" small class="py-4 mr-1" @click="addEcriture()">{{ btnText }}</v-btn>
+                        <v-btn v-if="isEdit" color="#EF9A9A" small class="py-4" @click="cancelEdit()">Annuler</v-btn>
                     </v-col>
                 </v-row>
             </v-form>
@@ -142,7 +142,7 @@
 
         <v-card elevation="0" class="mt-3 px-3 py-3" style="border:1px solid #ddd">
             <div class="pt-3">
-                <v-data-table :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
+                <v-data-table dense :headers="headers" hide-default-footer :items-per-page="-1" elevation="0" :items="rows">
                     <template v-slot:item.compte="{ item }">
                         <span>{{ item && item.compte && item.compte.intitulee }}</span>
                     </template>

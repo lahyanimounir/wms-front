@@ -11,18 +11,18 @@
             
             <table cellpadding=0 cellspacing=0>
                 <tr  >
-                	<td >&nbsp;</td>
-                	<td >Rubriques 1</td>
-                	<td >Ensemble des produits 2</td>
-                	<td >Ensemble des produits correspondant à la base imposable 3</td>
-                	<td >Ensemble des produits correspondant au numérateur taxable 4</td>
+                	<td class="background_gray">&nbsp;</td>
+                	<td class="background_gray">Rubriques 1</td>
+                	<td class="background_gray">Ensemble des produits 2</td>
+                	<td class="background_gray">Ensemble des produits correspondant à la base imposable 3</td>
+                	<td class="background_gray">Ensemble des produits correspondant au numérateur taxable 4</td>
                 </tr>
                 <tr>
                 	<td >&nbsp;</td>
-                	<td >Ventes</td>
-                	<td >0.00 </td>
-                	<td >0.00 </td>
-                	<td >0.00 </td>
+                	<td class="title2">Ventes</td>
+                	<td class="highlighted">0.00 </td>
+                	<td class="highlighted">0.00 </td>
+                	<td class="highlighted">0.00 </td>
                 </tr>
                 <tr  >
                 	<td >1</td>
@@ -47,10 +47,10 @@
                 </tr>
                 <tr >
                 	<td >&nbsp;</td>
-                	<td >Lotissement et promotion immobilière</td>
-                	<td >0.00 </td>
-                	<td >0.00 </td>
-                	<td >0.00 </td>
+                	<td class="title2">Lotissement et promotion immobilière</td>
+                	<td class="highlighted">0.00 </td>
+                	<td class="highlighted">0.00 </td>
+                	<td class="highlighted">0.00 </td>
                 </tr>
                 <tr   >
                 	<td   >4</td>
@@ -75,10 +75,10 @@
                 </tr>
                 <tr   >
                 	<td   >&nbsp;</td>
-                	<td  >Prestations de services</td>
-                	<td  >0.00 </td>
-                	<td  >0.00 </td>
-                	<td  >0.00 </td>
+                	<td class="title2" >Prestations de services</td>
+                	<td class="highlighted" >0.00 </td>
+                	<td class="highlighted" >0.00 </td>
+                	<td class="highlighted" >0.00 </td>
                 </tr>
                 <tr   >
                 	<td   >7</td>
@@ -124,10 +124,10 @@
                 </tr>
                 <tr   >
                 	<td   >13</td>
-                	<td  >Subventions d'équilibre</td>
-                	<td  >0.00 </td>
-                	<td  >0.00 </td>
-                	<td  >0.00 </td>
+                	<td class="title2" >Subventions d'équilibre</td>
+                	<td class="highlighted" >0.00 </td>
+                	<td class="highlighted" >0.00 </td>
+                	<td class="highlighted" >0.00 </td>
                 </tr>
                 <tr   >
                 	<td   >13</td>
@@ -137,7 +137,7 @@
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr   >
-                	<td   >13�</td>
+                	<td   >13</td>
                 	<td  >Exonérées à 100 %</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
@@ -152,10 +152,10 @@
                 </tr>
                 <tr   >
                 	<td   >14</td>
-                	<td  >Totaux partiels</td>
-                	<td  >0.00 </td>
-                	<td  >0.00 </td>
-                	<td  >0.00 </td>
+                	<td class="title2" >Totaux partiels</td>
+                	<td class="highlighted" >0.00 </td>
+                	<td class="highlighted" >0.00 </td>
+                	<td class="highlighted" >0.00 </td>
                 </tr>
                 <tr   >
                 	<td   >15</td>
@@ -173,10 +173,10 @@
                 </tr>
                 <tr  >
                 	<td   >17</td>
-                	<td  >Total général ( lignes 14 + 15 + 16 )</td>
-                	<td  >0.00 </td>
-                	<td  >0.00 </td>
-                	<td  >0.00 </td>
+                	<td class="title2" >Total général ( lignes 14 + 15 + 16 )</td>
+                	<td class="highlighted" >0.00 </td>
+                	<td class="highlighted" >0.00 </td>
+                	<td class="highlighted" >0.00 </td>
                 </tr>
             </table>
 
@@ -199,7 +199,7 @@
         display: block;
     }
     .background_gray {
-        background-color: rgb(102, 102, 102);
+        background-color: rgb(235, 234, 234);
     }
     .background_pink {
         background-color: rgb(222, 152, 108);

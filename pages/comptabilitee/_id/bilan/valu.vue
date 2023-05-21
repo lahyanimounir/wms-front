@@ -9,20 +9,17 @@
                 <div class="font-weight-bold" style="font-size:18px;">TABLEAU DES PLUS OU MOINS VALUES SUR CESSIONS OU RETRAITS D'IMMOBILISATIONS</div>
             </div>
            
-            <table cellpadding=0 cellspacing=0>
-                <col  >
-                <col  >
-                <col  span=7>
+            <table cellpadding=0 cellspacing=0 >
                 <tr  >
-                	<td    >Date cession Ou retrait</td>
-                	<td   >Compte Principal</td>
-                	<td   >Montant Brut</td>
-                	<td   >Amortissements Cumulés</td>
-                	<td   >Valeur nette Amortissements</td>
-                	<td   >Produit de Cession</td>
-                	<td   >&nbsp;</td>
-                	<td   >Plus Values</td>
-                	<td   >Moins Values</td>
+                	<td class="background_gray"  >Date cession Ou retrait</td>
+                	<td class="background_gray" >Compte Principal</td>
+                	<td class="background_gray" >Montant Brut</td>
+                	<td class="background_gray" >Amortissements Cumulés</td>
+                	<td class="background_gray" >Valeur nette Amortissements</td>
+                	<td class="background_gray" >Produit de Cession</td>
+                	<td class="background_gray" >&nbsp;</td>
+                	<td class="background_gray" >Plus Values</td>
+                	<td class="background_gray" >Moins Values</td>
                 </tr>
                 <tr  >
                 	<td   >&nbsp;</td>
@@ -282,27 +279,16 @@
                 </td>
                 </tr>
                 <tr  >
-                	<td colspan=2  >TOTAL</td>
-                	<td   >0.00 </td>
-                	<td   >0.00 </td>
-                	<td   >0.00 </td>
-                	<td   >0.00 </td>
-                	<td  >0.00 </td>
-                	<td   >0.00 </td>
-                	<td   >0.00 </td>
+                	<td class="background_gray" style="text-align: center;" colspan=2 >TOTAL</td>
+                	<td class="background_gray"   >0.00 </td>
+                	<td class="background_gray"   >0.00 </td>
+                	<td class="background_gray"   >0.00 </td>
+                	<td class="background_gray"   >0.00 </td>
+                	<td class="background_gray"  >0.00 </td>
+                	<td class="background_gray"   >0.00 </td>
+                	<td class="background_gray"   >0.00 </td>
                 </tr>
-                <tr  >
-                	<td  ></td>
-                	<td  ></td>
-                	<td  ></td>
-                	<td  ></td>
-                	<td  ></td>
-                	<td  ></td>
-                	<td  ></td>
-                	<td  ></td>
-                	<td  ></td>
-                </tr>
-                </table>   
+            </table>   
         </v-card>
     </div>
 </template>
@@ -310,7 +296,6 @@
 
 
 <style>
-
     tr td:first-child {
         text-align: left;
     }
@@ -324,7 +309,7 @@
         display: block;
     }
     .background_gray {
-        background-color: rgb(102, 102, 102);
+        background-color: rgb(235, 234, 234);
     }
     .background_pink {
         background-color: rgb(222, 152, 108);

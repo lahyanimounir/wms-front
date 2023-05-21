@@ -11,41 +11,43 @@
             
             <table cellpadding=0 cellspacing=0>
                 <tr  >
-                	<td colspan=2 >TOTAL IMMOBILISATION</td>
-                	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td colspan=2>TOTAL AMORTISSEMENT</td>
-                	<td >&nbsp;</td>
-                	<td colspan="3">TOTAL AMORTISSEMENT CUMULE</td>
-                	<td >&nbsp;</td>
+                	<td colspan="11" style="border-bottom: 0px;" class="background_gray" >&nbsp;</td>
+                </tr>
+                <tr >
+                	<td style="border-top: 0px; border-bottom: 0px; border-right: 0px;" colspan=2 class="background_gray">TOTAL IMMOBILISATION</td>
+                	<td style="border-top: 0px; border-bottom: 0px; border-left: 0px; border-right: 0px;" class="highlighted">&nbsp;</td>
+                	<td style="border-top: 0px; border-bottom: 0px; border-left: 0px; border-right: 0px;" class="background_gray" >&nbsp;</td>
+                	<td style="border-top: 0px; border-bottom: 0px; border-left: 0px; border-right: 0px;" colspan=2 class="background_gray">TOTAL AMORTISSEMENT</td>
+                	<td style="border-top: 0px; border-bottom: 0px; border-left: 0px; border-right: 0px;" class="highlighted">&nbsp;</td>
+                	<td style="border-top: 0px; border-bottom: 0px; border-left: 0px; border-right: 0px;" colspan="3" class="background_gray">TOTAL AMORTISSEMENT CUMULE</td>
+                	<td style="border-top: 0px; border-bottom: 0px; border-left: 0px;" class="highlighted">&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td colspan="11" >&nbsp;</td>
+                	<td colspan="11" style="border-top: 0px;" class="background_gray">&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td colspan=11 >Il convient d'établir autant de feuillets annexes qu'il existe de groupes d'éléments de même nature amortissables au même taux. Détail : cf. feuillets annexes</td>
-                	<td  >&nbsp;</td>
+                	<td class="background_gray" colspan=11 >Il convient d'établir autant de feuillets annexes qu'il existe de groupes d'éléments de même nature amortissables au même taux. Détail : cf. feuillets annexes</td>
                 </tr>
                 <tr  >
                 	<td colspan="11">&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td colspan="7" >Feuillet N° 01</td>
-                	<td colspan=2>Immobilisations concernées :</td>
-                	<td colspan=2>&nbsp;</td>
+                	<td class="background_gray" style="border-right: 0px;" colspan="7" >Feuillet N° 01</td>
+                	<td class="background_gray" style="border-left: 0px;border-right: 0px" colspan=2>Immobilisations concernées :</td>
+                	<td colspan=2 class="highlighted" style="border-left: 0px;">&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td>Date Entrée 1</td>
-                	<td>DESIGNATION</td>
-                	<td>Prix Acquisition 2</td>
-                	<td>Valeur comptable après réévaluation 3</td>
-                	<td>Amortissement Antérieur 4</td>
-                	<td>Taux % 5</td>
-                	<td>Durée Années 6</td>
-                	<td>Amortissements de l'exercice</td>
-                	<td>Cumul amortissements</td>
-                	<td>Observations</td>
-                	<td>Date Sortie</td>
+                	<td class="background_gray">Date Entrée 1</td>
+                	<td class="background_gray">DESIGNATION</td>
+                	<td class="background_gray">Prix Acquisition 2</td>
+                	<td class="background_gray">Valeur comptable après réévaluation 3</td>
+                	<td class="background_gray">Amortissement Antérieur 4</td>
+                	<td class="background_gray">Taux % 5</td>
+                	<td class="background_gray">Durée Années 6</td>
+                	<td class="background_gray">Amortissements de l'exercice</td>
+                	<td class="background_gray">Cumul amortissements</td>
+                	<td class="background_gray">Observations</td>
+                	<td class="background_gray">Date Sortie</td>
                 </tr>
                 <tr  >
                 	<td   >&nbsp;</td>
@@ -256,23 +258,19 @@
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td   >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
+                    <td class="background_gray" >&nbsp;</td>
+                	<td class="background_gray"  >&nbsp;</td>
+                	<td class="highlighted" >&nbsp;</td>
+                	<td class="highlighted" >&nbsp;</td>
+                	<td class="highlighted" >&nbsp;</td>
+                	<td class="highlighted" >&nbsp;</td>
+                	<td class="highlighted" >&nbsp;</td>
+                	<td class="highlighted" >&nbsp;</td>
+                	<td class="highlighted" >&nbsp;</td>
+                	<td class="highlighted" >&nbsp;</td>
+                	<td class="highlighted" >&nbsp;</td>
                 </tr>
             </table>
-
-
-            
-
         </v-card>
     </div>
 </template>
@@ -292,7 +290,7 @@
         display: block;
     }
     .background_gray {
-        background-color: rgb(102, 102, 102);
+        background-color: rgb(235, 234, 234);
     }
     .background_pink {
         background-color: rgb(222, 152, 108);

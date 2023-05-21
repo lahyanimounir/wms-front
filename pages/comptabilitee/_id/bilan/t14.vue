@@ -8,12 +8,12 @@
             <div class="py-5 px-3">
                 <div class="font-weight-bold" style="font-size:18px;">AFFECTATION DES RESULTATS INTERVENUE AU COURS DE L'EXERCICE</div>
             </div>
-            <table cellpadding=0 cellspacing=0>
+            <table v-if="query['116']" cellpadding=0 cellspacing=0>
                 <tr  >
-                	<td>ORIGINE RESULTATS A AFFECTER</td>
-                	<td>MONTANT</td>
-                	<td>AFFECTATION DES RESULTATS</td>
-                	<td>MONTANT</td>
+                	<td class="background_gray">ORIGINE RESULTATS A AFFECTER</td>
+                	<td class="background_gray">MONTANT</td>
+                	<td class="background_gray">AFFECTATION DES RESULTATS</td>
+                	<td class="background_gray">MONTANT</td>
                 </tr>
                 <tr  >
                 	<td>&nbsp;</td>
@@ -25,7 +25,7 @@
                 	<td >- - Décision du :</td>
                 	<td >&nbsp;</td>
                 	<td >- Réserve légale</td>
-                	<td >114</td>
+                	<td >{{ showNumber(query["114"]['act']) }}</td>
                 </tr>
                 <tr  >
                 	<td   >&nbsp;</td>
@@ -35,9 +35,9 @@
                 </tr>
                 <tr  >
                 	<td >- Report à nouveau</td>
-                	<td >116</td>
+                	<td >{{ showNumber(query["116"]['act']) }}</td>
                 	<td >- Autres réserves</td>
-                	<td >115</td>
+                	<td >{{ showNumber(query["115"]['act']) }}</td>
                 </tr>
                 <tr  >
                 	<td >&nbsp;</td>
@@ -47,7 +47,7 @@
                 </tr>
                 <tr  >
                 	<td >- Résultats nets en instance d'affectation</td>
-                	<td >118</td>
+                	<td >{{ showNumber(query["118"]['act']) }}</td>
                 	<td >- Tantièmes</td>
                 	<td >&nbsp;</td>
                 </tr>
@@ -59,9 +59,9 @@
                 </tr>
                 <tr  >
                 	<td >- Résultat net de l'exercice N-1</td>
-                	<td >119</td>
+                	<td >{{ showNumber(query["119"]['act']) }}</td>
                 	<td >- Dividendes</td>
-                	<td >446</td>
+                	<td >{{ showNumber(query["446"]['act']) }}</td>
                 </tr>
                 <tr  >
                 	<td   >&nbsp;</td>
@@ -71,7 +71,7 @@
                 </tr>
                 <tr  >
                 	<td >- Prélèvements sur les réserves</td>
-                	<td >115</td>
+                	<td >{{ showNumber(query["115"]['act']) }}</td>
                 	<td >- Autres affectations</td>
                 	<td >&nbsp;</td>
                 </tr>
@@ -94,10 +94,10 @@
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td >TOTAL A</td>
-                	<td >&nbsp;</td>
-                	<td >TOTAL B</td>
-                	<td >&nbsp;</td>
+                	<td style="text-align: center;" class="highlighted">TOTAL A</td>
+                	<td class="highlighted">{{ showNumber(totals1[0]) }}</td>
+                	<td style="text-align: center;" class="highlighted">TOTAL B</td>
+                	<td class="highlighted">{{ showNumber(totals2[0]) }}</td>
                 </tr>
             </table>
         </v-card>
@@ -119,7 +119,7 @@
         display: block;
     }
     .background_gray {
-        background-color: rgb(102, 102, 102);
+        background-color: rgb(235, 234, 234);
     }
     .background_pink {
         background-color: rgb(222, 152, 108);
@@ -173,10 +173,8 @@ Vue.use(VueJsModal)
 export default {
     
     data: () => ({
-        totals1 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
-        totals2 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
-        totals3 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
-        totals4 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
+        totals1 : [0],
+        totals2 : [0],
         dossier:{},
         totalsClick : {},
         du:'',
@@ -189,7 +187,7 @@ export default {
     methods: {
         async init() {
             this.id = this.$route.params.id
-            let url2 = process.env.Name_api + "/exercice/" + this.id + "/getIMMO";
+            let url2 = process.env.Name_api + "/exercice/" + this.id + "/get14";
             let info2 = await this.$myService.get(url2);
             if(info2){
                 this.query = info2.results;
@@ -203,14 +201,10 @@ export default {
             this.au = info.au;
         },
         async makeSums() {
-            var total1 = this.total(["211" , "212" , "213"]);
-            this.totals1 = [total1[0] , 0 , 0 , 0 , 0 , 0 , 0 ,0];
-            var total2 = this.total(["221" , "222" , "223" , "228"]);
-            this.totals2 = [total2[0] , 0 , 0 , 0 , 0 , 0 , 0 ,0];
-            var total3 = this.total(["231" , "232" , "233" , "234" , "235" , "238" , "239" , "2355"]);
-            this.totals3 = [total3[0] , 0 , 0 , 0 , 0 , 0 , 0 ,0];
-            var total4 = this.totals1[0] + this.totals2[0] + this.totals3[0] ; 
-            this.totals4 = [total4 , 0 , 0 , 0 , 0 , 0 , 0 ,0];
+            var total1 = this.total(["116" , "118" , "119" , "115"]);
+            this.totals1 = [total1[0]];
+            var total2 = this.total(["114" , "115" , "446"]);
+            this.totals2 = [total2[0]];
             return;
         },
         async getSubSums(prefix , side){

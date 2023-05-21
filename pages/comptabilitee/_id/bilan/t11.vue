@@ -10,19 +10,19 @@
             </div>
             <table cellpadding=0 cellspacing=0>
                 <tr  >
-                	<td rowspan=2>Raison sociale de la société émettrice</td>
-                	<td rowspan=2>Secteur d'activité</td>
-                	<td rowspan=2>Capital social</td>
-                	<td rowspan=2>Participation au capital en %</td>
-                	<td rowspan=2>Prix d'acquisition global</td>
-                	<td rowspan=2>Valeur comptable nette</td>
-                	<td colspan=3>Extrait des derniers états de synthèse de la société émetrice</td>
-                	<td rowspan=2>Produits inscrits au CPC de l'exercice</td>
+                	<td class="background_gray" rowspan=2>Raison sociale de la société émettrice</td>
+                	<td class="background_gray" rowspan=2>Secteur d'activité</td>
+                	<td class="background_gray" rowspan=2>Capital social</td>
+                	<td class="background_gray" rowspan=2>Participation au capital en %</td>
+                	<td class="background_gray" rowspan=2>Prix d'acquisition global</td>
+                	<td class="background_gray" rowspan=2>Valeur comptable nette</td>
+                	<td class="background_gray" colspan=3>Extrait des derniers états de synthèse de la société émetrice</td>
+                	<td class="background_gray" rowspan=2>Produits inscrits au CPC de l'exercice</td>
                 </tr>
                 <tr  >
-                	<td>Date Clôture</td>
-                	<td>Situation Nette</td>
-                	<td>Résultat Net</td>
+                	<td class="background_gray">Date Clôture</td>
+                	<td class="background_gray">Situation Nette</td>
+                	<td class="background_gray">Résultat Net</td>
                 </tr>
                 <tr  >
                 	<td >&nbsp;</td>
@@ -289,16 +289,16 @@
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr   >
-                	<td   >TOTAL</td>
-                	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td  >0.00 </td>
-                	<td   >0.00 </td>
-                	<td  >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td   >0.00 </td>
+                	<td class="background_gray"  >TOTAL</td>
+                	<td class="background_gray">&nbsp;</td>
+                	<td class="background_gray">&nbsp;</td>
+                	<td class="background_gray">&nbsp;</td>
+                	<td class="background_gray" >0.00 </td>
+                	<td class="background_gray"  >0.00 </td>
+                	<td class="background_gray" >&nbsp;</td>
+                	<td class="background_gray">&nbsp;</td>
+                	<td class="background_gray">&nbsp;</td>
+                	<td class="background_gray"  >0.00 </td>
                 </tr>
 
                 </table>
@@ -325,7 +325,7 @@
         display: block;
     }
     .background_gray {
-        background-color: rgb(102, 102, 102);
+        background-color: rgb(235, 234, 234);
     }
     .background_pink {
         background-color: rgb(222, 152, 108);

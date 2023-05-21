@@ -74,25 +74,17 @@
                 </tr>
                 <tr   >
                 	<td>SOUS TOTAL (A)</td>
-                	<td>&nbsp;</td>
-                	<td>&nbsp;</td>
-                	<td>&nbsp;</td>
-                	<td>&nbsp;</td>
-                	<td>&nbsp;</td>
-                	<td>&nbsp;</td>
-                	<td>&nbsp;</td>
-                	<td>&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td   ></td>
-                	<td ></td>
-                	<td  ></td>
-                	<td  ></td>
-                	<td  >&nbsp;</td>
-                	<td  ></td>
-                	<td  ></td>
-                	<td  ></td>
-                	<td  ></td>
+                	<td colspan="9">&nbsp;</td>
                 </tr>
                 <tr   >
                 	<td   >4. Provi. pour dépréciation actif circulant</td>
@@ -130,37 +122,29 @@
                 </td>
                 </tr>
                 <tr   >
-                	<td   >SOUS TOTAL (B)</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
+                	<td>SOUS TOTAL (B)</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td></td>
-                	<td></td>
-                	<td></td>
-                	<td></td>
-                	<td></td>
-                	<td></td>
-                	<td></td>
-                	<td></td>
-                	<td></td>
+                	<td colspan="8">&nbsp;</td>
                 </tr>
                 <tr   >
                 	<td>TOTAL ( A + B )</td>
-                	<td>0.00 </td>
-                	<td>0.00 </td>
-                	<td>0.00 </td>
-                	<td>0.00 </td>
-                	<td>0.00 </td>
-                	<td>0.00 </td>
-                	<td>0.00 </td>
-                	<td>0.00 </td>
+                	<td class="highlighted">0.00 </td>
+                	<td class="highlighted">0.00 </td>
+                	<td class="highlighted">0.00 </td>
+                	<td class="highlighted">0.00 </td>
+                	<td class="highlighted">0.00 </td>
+                	<td class="highlighted">0.00 </td>
+                	<td class="highlighted">0.00 </td>
+                	<td class="highlighted">0.00 </td>
                 </tr>
                 </table>
 
@@ -186,7 +170,7 @@
         display: block;
     }
     .background_gray {
-        background-color: rgb(102, 102, 102);
+        background-color: rgb(235, 234, 234);
     }
     .background_pink {
         background-color: rgb(222, 152, 108);

@@ -10,18 +10,18 @@
             </div>
             <table cellpadding=0 cellspacing=0>
                 <tr>
-                	<td rowspan=2 >Nom, prénom Raison sociale des principaux associés</td>
-                	<td rowspan=2 >Adresses</td>
-                	<td colspan=2 >Nombre De Titres</td>
-                	<td rowspan=2 >Valeur nominale de chaque action ou part sociale</td>
-                	<td colspan=3 >Montant Du Capital</td>
+                	<td rowspan=2 style="text-align: center;" class="background_gray">Nom, prénom Raison sociale des principaux associés</td>
+                	<td rowspan=2 style="text-align: center;" class="background_gray">Adresses</td>
+                	<td colspan=2 style="text-align: center;" class="background_gray">Nombre De Titres</td>
+                	<td rowspan=2 style="text-align: center;" class="background_gray">Valeur nominale de chaque action ou part sociale</td>
+                	<td colspan=3 style="text-align: center;" class="background_gray">Montant Du Capital</td>
                 </tr>
                 <tr  >
-                	<td >Ex. précéd</td>
-                	<td >Ex. actuel</td>
-                	<td >Souscrit</td>
-                	<td >Appelé</td>
-                	<td >Libéré</td>
+                	<td style="text-align: center;" class="background_gray">Ex. précéd</td>
+                	<td style="text-align: center;" class="background_gray">Ex. actuel</td>
+                	<td style="text-align: center;" class="background_gray">Souscrit</td>
+                	<td style="text-align: center;" class="background_gray">Appelé</td>
+                	<td style="text-align: center;" class="background_gray">Libéré</td>
                 </tr>
                 <tr >
                 	<td >&nbsp;</td>
@@ -184,13 +184,13 @@
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td colspan="2">Totaux</td>
-                	<td >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td  >&nbsp;</td>
+                	<td style="text-align: right; padding-right: 30px;" class="background_gray" colspan="2">Totaux</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted" >&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted" >&nbsp;</td>
+                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted" >&nbsp;</td>
                 </tr>
             </table>
 
@@ -215,7 +215,7 @@
         display: block;
     }
     .background_gray {
-        background-color: rgb(102, 102, 102);
+        background-color: rgb(235, 234, 234);
     }
     .background_pink {
         background-color: rgb(222, 152, 108);

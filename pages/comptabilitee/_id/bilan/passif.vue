@@ -46,7 +46,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="row in table">
-                        <td v-if="row[0] != ''" :class="{'title2' : isBold(row[0]), 'subTitle' : !isBold(row[0]) , 'first' : true , 'total-highlighted' : row[0] == 'TOTAL PASSIF (I + II + III)'}">{{ row[0] }}</td>
+                        <td v-if="row[0] != ''" :class="{'title2' : isBold(row[0]), 'subSub' : row[0] == 'Moins : actionnaires, capital souscrit non appele' || row[0] == 'Capital appele dont verse :' , 'subTitle' : !isBold(row[0]) && (row[0] != 'Moins : actionnaires, capital souscrit non appele' && row[0] != 'Capital appele dont verse :') , 'first' : true , 'total-highlighted' : row[0] == 'TOTAL PASSIF (I + II + III)'}">{{ row[0] }}</td>
                         <td v-if="row[0] == ''">&nbsp;</td>
                         <template v-if="isBold(row[0])">
                             
@@ -77,8 +77,8 @@
                             </template>
 
                             <template v-if="row[0] == 'TOTAL  I  (A+B+C+D+E)'">
-                                <td class="total-highlighted">{{ showNumber(totals1[0]) }}</td>
-                                <td class="total-highlighted">{{ showNumber(totals1[1])}}</td>
+                                <td class="total">{{ showNumber(totals1[0]) }}</td>
+                                <td class="total">{{ showNumber(totals1[1])}}</td>
                             </template>
 
                             <template v-if="row[0] == 'DETTES DU PASSIF CIRCULANT'">
@@ -194,6 +194,9 @@
     .first {
         width:fit-content;
         text-align: left;
+    }
+    .subSub {
+        padding-left: 30px;
     }
     .subTitle {
         padding-left: 15px;

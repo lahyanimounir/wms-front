@@ -9,10 +9,7 @@
                 <div class="font-weight-bold" style="font-size:18px;">PASSAGE DU RESULTAT NET COMPTABLE AU RESULTAT NET FISCAL</div>
             </div>
            
-            <table  cellpadding=0 cellspacing=0>
-                <col >
-                <col >
-                <col >
+            <table v-if="query['6168']"   cellpadding=0 cellspacing=0>
                 <tr   >
                 	<td   class="title2" style="text-align: center;" >INTITULES</td>
                 	<td   class="title2">Montant</td>
@@ -35,243 +32,229 @@
                 </tr>
                 <tr  >
                 	<td class="title2 background_gray"  >II.REINTEGRATIONS FISCALES</td>
-                	<td class="title2 background_gray">SOUS TOTAL<span> </span>A+B</td>
+                	<td class="title2 background_gray">{{ showNumber(totals5[0]) }}</td>
                 	<td class="background_gray">&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td class="title2 subTitle">1.Courantes</td>
-                	<td class="title2 highlighted">SOUS TOTAL A</td>
+                	<td class="title2 highlighted">{{ showNumber(totals3[0]) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- RRR obtenus des exercice anterieurs</td>
-                	<td >61298<span ></span>+<span></span>6149</td>
+                	<td >{{ showNumber(totals1[0]) }}</td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Autres charges des exercice anterieurs</td>
-                	<td >6148<span ></span>+<span></span>6188</td>
+                	<td >{{ showNumber(totals2[0]) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Impots et taxes des exercices anterieurs</td>
-                	<td >6168</td>
+                	<td >{{ showNumber(query["6168"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Charges de personnel exercices anterieurs</td>
-                	<td >6178</td>
+                	<td >{{ showNumber(query["6178"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Dotation d'exploitation exercices anterieurs</td>
-                	<td >6198</td>
+                	<td >{{ showNumber(query["6198"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Charges d'interet des exercices anterieurs</td>
-                	<td >6318</td>
+                	<td >{{ showNumber(query["6318"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Pertes de changes exercice anterieurs</td>
-                	<td >6338</td>
+                	<td >{{ showNumber(query["6338"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Autres charges financieres exercice anterieurs</td>
-                	<td >6398</td>
+                	<td >{{ showNumber(query["6398"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Achats revendus de marchandises des exercices anterieurs</td>
-                	<td >6118</td>
+                	<td >{{ showNumber(query["6118"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Achats de matieres et de fournitures des exercices anterieurs</td>
-                	<td >6128</td>
+                	<td >{{ showNumber(query["6128"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Cadeaux non deductibles</td>
-                	<td  >A SAISIR</td>
+                	<td  ><input type="text" style="width:100%;" ></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Dons non deductible</td>
-                	<td  >A SAISIR</td>
+                	<td  ><input type="text" style="width:100%;"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
+                	<td colspan="3">&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td   >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
+                	<td colspan="3">&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td class="title2 subTitle">2. Non courantes</td>
-                	<td  class="title2 highlighted" >SOUS TOTAL B</td>
+                	<td  class="title2 highlighted" >{{ showNumber(totals4[0]) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
+                	<td colspan="3">&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td   >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
+                	<td colspan="3">&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Cotisation Minimale</td>
-                	<td  >6701</td>
+                	<td  >{{ showNumber(query["6701"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Impot sur le resultat<span ></span></td>
-                	<td  >6708</td>
+                	<td  >{{ showNumber(query["6708"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Creances devenues irrecouvrables</td>
-                	<td  >6585</td>
+                	<td  >{{ showNumber(query["6585"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Subventions accordees exercice anterieurs</td>
-                	<td  >6568</td>
+                	<td  >{{ showNumber(query["6568"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Penalites et amandes fiscales</td>
-                	<td  >6583</td>
+                	<td  >{{ showNumber(query["6583"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Autres charges non courant des exercices ant</td>
-                	<td  >6588</td>
+                	<td  >{{ showNumber(query["6588"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Dotations non courantes exercices anterieurs</td>
-                	<td  >6598</td>
+                	<td  >{{ showNumber(query["6598"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Contribution sociale de solidarité sur les bénéfices (C.S.S)</td>
-                	<td  >65864</td>
+                	<td  >{{ showNumber(query["65864"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
+                	<td colspan="3">&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td class="title2 background_gray">III. DEDUCTIONS FISCALES</td>
                 	<td class="title2 background_gray">TOTAL<span ></span>A + B + C</td>
-                	<td class="title2 background_gray" >TOTAL<span ></span>A + B + C</td>
+                	<td class="title2 background_gray" >{{ showNumber(totals7[0]) }}</td>
                 </tr>
                 <tr  >
                 	<td class="title2 subTitle">1. Courantes</td>
                 	<td  >&nbsp;</td>
-                	<td class="title2" >TOT A</td>
+                	<td class="title2" >{{ showNumber(totals6[0]) }}</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Dividendes et produits de participation</td>
                 	<td  >&nbsp;</td>
-                	<td  >732</td>
+                	<td  >{{ showNumber(query["732"]['act']) }}</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Ind.retard (Loi 32-10) compt.non encaissées<span></span></td>
                 	<td  >&nbsp;</td>
-                	<td  >738111</td>
+                	<td  >{{ showNumber(query["738111"]['act']) }}</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Ind.retard (Loi 32-10) compt.non payées en N<span></span></td>
                 	<td  >&nbsp;</td>
-                	<td  >631181</td>
+                	<td  >{{ showNumber(query["631181"]['act']) }}</td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue">&nbsp;</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue">&nbsp;</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue">&nbsp;</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 </tr>
                 <tr  >
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
+                	<td colspan="3">&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td   >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
+                	<td colspan="3">&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td class="title2 subTitle">2. Non courantes</td>
@@ -279,29 +262,27 @@
                 	<td class="title2" >TOTAL B</td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue">&nbsp;</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue">&nbsp;</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue">&nbsp;</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 </tr>
                 <tr  >
-                	<td  class="background_blue normal">A SAISIR</td>
-                	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue normal"><input type="text" style="width:100%;" class="background_blue"></td>
+                	<td  class="background_blue">&nbsp;</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 </tr>
                 <tr  >
-                	<td   >&nbsp;</td>
-                	<td  >&nbsp;</td>
-                	<td  >&nbsp;</td>
+                	<td colspan="3">&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td class="title2" style="text-align: right;">Total</td>
@@ -330,27 +311,27 @@
                 </tr>
                 <tr  >
                 	<td  class="normal">Exercice n-4 (2018)</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">Exercice n-3 (2019)</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">Exercice n-2 (2020)</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">Exercice n-1 (2021)</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">Amort fiscalement différés imputés</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
@@ -376,7 +357,7 @@
                 <tr  >
                     <td  class="title2">VII. CUMUL DES AMORTISSEMENTS FISCALEMENT DIFFERES</td>
                 	<td  >&nbsp;</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 </tr>
                 <tr  >
                 	<td  class="title2">VIII. CUMUL DES DEFICITS FISCAUX RESTANT A REPORTER</td>
@@ -385,29 +366,23 @@
                 </tr>
                 <tr  >
                 	<td  class="normal">Exercice n-4 (2018)</td>
-                	<td  class="background_blue">A SAISIR</td>
+                	<td  class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr >
                 	<td class="normal">Exercice n-3 (2019)</td>
-                	<td class="background_blue">A SAISIR</td>
+                	<td class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr >
                 	<td class="normal">Exercice n-2 (2020)</td>
-                	<td class="background_blue">A SAISIR</td>
+                	<td class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr >
                 	<td class="normal">Exercice n-1 (2021)</td>
-                	<td class="background_blue">A SAISIR</td>
+                	<td class="background_blue"><input type="text" style="width:100%;" class="background_blue"></td>
                 	<td >&nbsp;</td>
-                </tr>
-                
-                <tr>
-                	<td></td>
-                	<td></td>
-                	<td></td>
                 </tr>
             </table>       
         </v-card>
@@ -431,7 +406,7 @@
         display: block;
     }
     .background_gray {
-        background-color: rgb(102, 102, 102);
+        background-color: rgb(235, 234, 234);
     }
     .background_pink {
         background-color: rgb(222, 152, 108);
@@ -485,10 +460,14 @@ Vue.use(VueJsModal)
 export default {
     
     data: () => ({
-        totals1 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
-        totals2 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
-        totals3 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
-        totals4 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
+        totals1 : [0 ,0],
+        totals2 : [0 ,0],
+        totals3 : [0 ,0],
+        totals4 : [0 ,0],
+        totals5 : [0 ,0],
+        totals6 : [0 ,0],
+        totals7 : [0 ,0],
+        totals8 : [0 ,0],
         dossier:{},
         totalsClick : {},
         du:'',
@@ -501,7 +480,7 @@ export default {
     methods: {
         async init() {
             this.id = this.$route.params.id
-            let url2 = process.env.Name_api + "/exercice/" + this.id + "/getIMMO";
+            let url2 = process.env.Name_api + "/exercice/" + this.id + "/getPassage";
             let info2 = await this.$myService.get(url2);
             if(info2){
                 this.query = info2.results;
@@ -515,14 +494,26 @@ export default {
             this.au = info.au;
         },
         async makeSums() {
-            var total1 = this.total(["211" , "212" , "213"]);
-            this.totals1 = [total1[0] , 0 , 0 , 0 , 0 , 0 , 0 ,0];
-            var total2 = this.total(["221" , "222" , "223" , "228"]);
-            this.totals2 = [total2[0] , 0 , 0 , 0 , 0 , 0 , 0 ,0];
-            var total3 = this.total(["231" , "232" , "233" , "234" , "235" , "238" , "239" , "2355"]);
-            this.totals3 = [total3[0] , 0 , 0 , 0 , 0 , 0 , 0 ,0];
-            var total4 = this.totals1[0] + this.totals2[0] + this.totals3[0] ; 
-            this.totals4 = [total4 , 0 , 0 , 0 , 0 , 0 , 0 ,0];
+            var total1 = this.total(["61298" , "6149"]);
+            this.totals1 = [total1[0] , total1[1]];
+
+            var total2 = this.total(["6148" , "6188"]);
+            this.totals2 = [total2[0] , total2[1]];
+
+            var total3 = this.total(["61298","6149","6148","6188","6168","6178","6198","6318","6338","6398","6118","6128"]);
+            this.totals3 = [total3[0] , total3[1]];
+
+            var total4 = this.total(["6701","6708","6585","6568","6583","6588","6598","65864"]);
+            this.totals4 = [total4[0] , total4[1]];
+
+            var total5 = this.totals3[0] + this.totals4[0] ; 
+            this.totals5 = [total5 , 0];
+
+            var total6 = this.total(["732","738111","631181"]);
+            this.totals6 = [total6[0] , total6[1]];
+
+            var total7 = this.totals6[0] ; 
+            this.totals7 = [total7 , 0];
             return;
         },
         async getSubSums(prefix , side){

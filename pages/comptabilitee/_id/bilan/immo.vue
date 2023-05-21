@@ -61,7 +61,7 @@
                 </tr>
                 <tr height=17 >
                     <td height=17 >- Frais préliminaires</td>
-                    <td v-if="query['211']">{{ showNumber(query['211'][0]) }}</td>
+                    <td v-if="query['211']">{{ showNumber(query['211']['act']) }}</td>
                     <td v-if="!query['211']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -73,7 +73,7 @@
                 </tr>
                 <tr height=17 >
                     <td height=17  >- Charges à répartir sur plusieurs exercices</td>
-                    <td v-if="query['212']">{{ showNumber(query['212'][0]) }}</td>
+                    <td v-if="query['212']">{{ showNumber(query['212']['act']) }}</td>
                     <td v-if="!query['212']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -85,7 +85,7 @@
                 </tr>
                 <tr height=17 >
                     <td height=17  >- Primes de remboursement obligations</td>
-                    <td v-if="query['213']">{{ showNumber(query['213'][0]) }}</td>
+                    <td v-if="query['213']">{{ showNumber(query['213']['act']) }}</td>
                     <td v-if="!query['213']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -108,7 +108,7 @@
                 </tr>
                 <tr height=17 >
                     <td height=17  >- Immobilisation en recherche et développement</td>
-                    <td v-if="query['221']">{{ showNumber(query['221'][0]) }}</td>
+                    <td v-if="query['221']">{{ showNumber(query['221']['act']) }}</td>
                     <td v-if="!query['221']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -120,7 +120,7 @@
                 </tr>
                 <tr height=17 >
                     <td height=17  >- Brevets, marques, droits et valeurs similaires</td>
-                    <td v-if="query['222']">{{ showNumber(query['222'][0]) }}</td>
+                    <td v-if="query['222']">{{ showNumber(query['222']['act']) }}</td>
                     <td v-if="!query['222']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -132,7 +132,7 @@
                 </tr>
                 <tr height=17 >
                     <td height=17  >- Fonds commercial</td>
-                    <td v-if="query['223']">{{ showNumber(query['223'][0]) }}</td>
+                    <td v-if="query['223']">{{ showNumber(query['223']['act']) }}</td>
                     <td v-if="!query['223']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -144,7 +144,7 @@
                 </tr>
                 <tr height=17 >
                     <td height=17  >- Autres immobilisations incorporelles</td>
-                    <td v-if="query['228']">{{ showNumber(query['228'][0]) }}</td>
+                    <td v-if="query['228']">{{ showNumber(query['228']['act']) }}</td>
                     <td v-if="!query['228']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -167,7 +167,7 @@
                 </tr>
                 <tr height=19 >
                     <td height=19  >- Terrains</td>
-                    <td v-if="query['231']">{{ showNumber(query['231'][0]) }}</td>
+                    <td v-if="query['231']">{{ showNumber(query['231']['act']) }}</td>
                     <td v-if="!query['231']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -179,7 +179,7 @@
                 </tr>
                 <tr height=19 >
                     <td height=19  >- Constructions</td>
-                    <td v-if="query['232']">{{ showNumber(query['232'][0]) }}</td>
+                    <td v-if="query['232']">{{ showNumber(query['232']['act']) }}</td>
                     <td v-if="!query['232']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -191,7 +191,7 @@
                 </tr>
                 <tr height=19 >
                     <td height=19  >- Installations techniques, matériel et outillage</td>
-                    <td v-if="query['233']">{{ showNumber(query['233'][0]) }}</td>
+                    <td v-if="query['233']">{{ showNumber(query['233']['act']) }}</td>
                     <td v-if="!query['233']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -203,7 +203,7 @@
                 </tr>
                 <tr height=19 >
                     <td height=19  >- Matériel de transport</td>
-                    <td v-if="query['234']">{{ showNumber(query['234'][0]) }}</td>
+                    <td v-if="query['234']">{{ showNumber(query['234']['act']) }}</td>
                     <td v-if="!query['234']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -215,7 +215,7 @@
                 </tr>
                 <tr height=19 >
                     <td height=19  >- Mobilier, matériel de bureau et aménagement</td>
-                    <td v-if="query['235']">{{ showNumber(query['235'][0]) }}</td>
+                    <td v-if="query['235']">{{ showNumber(query['235']['act']) }}</td>
                     <td v-if="!query['235']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -227,7 +227,7 @@
                 </tr>
                 <tr height=19 >
                     <td height=19  >- Autres immobilisations corporelles</td>
-                    <td v-if="query['238']">{{ showNumber(query['238'][0]) }}</td>
+                    <td v-if="query['238']">{{ showNumber(query['238']['act']) }}</td>
                     <td v-if="!query['238']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -239,7 +239,7 @@
                 </tr>
                 <tr height=17 >
                     <td height=17  >- Immobilisations corporelles en cours</td>
-                    <td v-if="query['239']">{{ showNumber(query['239'][0]) }}</td>
+                    <td v-if="query['239']">{{ showNumber(query['239']['act']) }}</td>
                     <td v-if="!query['239']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>
@@ -251,7 +251,7 @@
                 </tr>
                 <tr height=17 >
                     <td height=17  >- Matériel informatique</td>
-                    <td v-if="query['2355']">{{ showNumber(query['2355'][0]) }}</td>
+                    <td v-if="query['2355']">{{ showNumber(query['2355']['act']) }}</td>
                     <td v-if="!query['2355']">&nbsp;</td>
                     <td  >&nbsp;</td>
                     <td  >&nbsp;</td>

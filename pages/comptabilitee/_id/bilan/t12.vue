@@ -10,18 +10,14 @@
             </div>
             <table cellpadding=0 cellspacing=0>
                 <tr >
-                	<td>NATURE</td>
-                	<td>Solde début exercice 1</td>
-                	<td>Opérations comptables de l'exercice 2</td>
-                	<td>Déclérations TVA de l'exercice 3</td>
-                	<td>Solde fin exercice</td>
+                	<td class="background_gray">NATURE</td>
+                	<td class="background_gray">Solde début exercice 1</td>
+                	<td class="background_gray">Opérations comptables de l'exercice 2</td>
+                	<td class="background_gray">Déclérations TVA de l'exercice 3</td>
+                	<td class="background_gray">Solde fin exercice</td>
                 </tr>
                 <tr >
-                	<td>&nbsp;</td>
-                	<td>&nbsp;</td>
-                	<td>&nbsp;</td>
-                	<td>&nbsp;</td>
-                	<td>&nbsp;</td>
+                	<td colspan="5">&nbsp;</td>
                 </tr>
                 <tr >
                 	<td  >A) T.V.A. Facturée</td>
@@ -31,11 +27,7 @@
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
+                	<td colspan="5">&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td   >B) T.V.A. Récuperable</td>
@@ -45,32 +37,28 @@
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td >- Sur Charges</td>
+                	<td style="padding-left: 40px;">- Sur Charges</td>
                 	<td >&nbsp;</td>
                 	<td >&nbsp;</td>
                 	<td >&nbsp;</td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td >- Sur Immobilisations</td>
+                	<td style="padding-left: 40px;">- Sur Immobilisations</td>
                 	<td >&nbsp;</td>
                 	<td >&nbsp;</td>
                 	<td >&nbsp;</td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
-                	<td >&nbsp;</td>
+                	<td colspan="5">&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td >C) T.V.A. dûe / crédit de T.V.A = (A - B)</td>
-                	<td>0.00</td>
-                	<td>0.00</td>
-                	<td>0.00</td>
-                	<td>0.00</td>
+                	<td class="background_gray">C) T.V.A. dûe / crédit de T.V.A = (A - B)</td>
+                	<td class="highlighted">0.00</td>
+                	<td class="highlighted">0.00</td>
+                	<td class="highlighted">0.00</td>
+                	<td class="highlighted">0.00</td>
                 </tr>
             </table>
 
@@ -95,7 +83,7 @@
         display: block;
     }
     .background_gray {
-        background-color: rgb(102, 102, 102);
+        background-color: rgb(235, 234, 234);
     }
     .background_pink {
         background-color: rgb(222, 152, 108);

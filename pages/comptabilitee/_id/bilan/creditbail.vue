@@ -368,7 +368,7 @@
         display: block;
     }
     .background_gray {
-        background-color: rgb(165, 165, 165);
+        background-color: rgb(235, 234, 234);
     }
     .background_pink {
         background-color: rgb(222, 152, 108);

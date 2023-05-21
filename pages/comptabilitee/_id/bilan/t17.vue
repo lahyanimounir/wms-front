@@ -11,15 +11,15 @@
             
             <table cellpadding=0 cellspacing=0 >
                 <tr  >
-                	<td colspan=2>Eléments</td>
-                	<td >Valeur d'apport</td>
-                	<td >Valeur nette comptable</td>
-                	<td >Plus-value constatée et différée</td>
-                	<td >Fraction plus-value rapportée aux l'exerc. Anté.</td>
-                	<td >Fraction plus-value rapportée aux l'exerc. Actu.</td>
-                	<td >Cumul des plus-values rapportées</td>
-                	<td >Solde des plus-values non imputées</td>
-                	<td >Observations</td>
+                	<td class="background_gray" colspan=2>Eléments</td>
+                	<td class="background_gray" >Valeur d'apport</td>
+                	<td class="background_gray" >Valeur nette comptable</td>
+                	<td class="background_gray" >Plus-value constatée et différée</td>
+                	<td class="background_gray" >Fraction plus-value rapportée aux l'exerc. Anté.</td>
+                	<td class="background_gray" >Fraction plus-value rapportée aux l'exerc. Actu.</td>
+                	<td class="background_gray" >Cumul des plus-values rapportées</td>
+                	<td class="background_gray" >Solde des plus-values non imputées</td>
+                	<td class="background_gray" >Observations</td>
                 </tr>
                 <tr  >
                 	<td   >01</td>
@@ -162,22 +162,15 @@
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
-                	<td colspan=2 >TOTAL</td>
-                	<td   >0.00
-                </td>
-                	<td   >0.00
-                </td>
-                	<td   >0.00
-                </td>
-                	<td   >0.00
-                </td>
-                	<td   >0.00
-                </td>
-                	<td   >0.00
-                </td>
-                	<td   >0.00
-                </td>
-                	<td  >&nbsp;</td>
+                	<td class="background_gray" style="text-align: center;" colspan=2 >TOTAL</td>
+                	<td class="background_gray" >0.00</td>
+                	<td class="background_gray" >0.00</td>
+                	<td class="background_gray" >0.00</td>
+                	<td class="background_gray" >0.00</td>
+                	<td class="background_gray" >0.00</td>
+                	<td class="background_gray" >0.00</td>
+                	<td class="background_gray" >0.00</td>
+                	<td class="background_gray" >&nbsp;</td>
                 </tr>
             </table>
         </v-card>
@@ -199,7 +192,7 @@
         display: block;
     }
     .background_gray {
-        background-color: rgb(102, 102, 102);
+        background-color: rgb(235, 234, 234);
     }
     .background_pink {
         background-color: rgb(222, 152, 108);

@@ -9,7 +9,7 @@
                 <div class="font-weight-bold" style="font-size:18px;">TABLEAU DES AMORTISSEMENTS</div>
             </div>
            
-            <table cellpadding=0 cellspacing=0>
+            <table v-if="query['2811']" cellpadding=0 cellspacing=0>
                 <col >
                 <col >
                 <tr >
@@ -34,10 +34,10 @@
                 </tr>
                 <tr >
                 	<td class="title2">IMMOBILISATION EN NON-VALEURS</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">{{ showNumber(totals1[0]) }}</td>
+                	<td class="highlighted">{{ showNumber(totals1[1]) }}</td>
+                	<td class="highlighted">{{ showNumber(totals1[2]) }}</td>
+                	<td class="highlighted">{{ showNumber(totals1[3]) }}</td>
                 </tr>
                 <tr  >
                 	<td   >&nbsp;</td>
@@ -48,22 +48,22 @@
                 </tr>
                 <tr  >
                 	<td  class="normal">- Frais préliminaires</td>
-                	<td  >2811</td>
-                	<td  >61911</td>
+                	<td  >{{showNumber(query['2811']['act'])}}</td>
+                	<td  >{{showNumber(query['61911']['act'])}}</td>
                 	<td ></td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Charges à répartir sur plusieurs exercices</td>
-                	<td  >2812</td>
-                	<td  >61912</td>
+                	<td  >{{showNumber(query['2812']['act'])}}</td>
+                	<td  >{{showNumber(query['61912']['act'])}}</td>
                 	<td ></td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Primes de remboursement des obligations</td>
-                	<td  >2813</td>
-                	<td  >6391</td>
+                	<td  >{{showNumber(query['2813']['act'])}}</td>
+                	<td  >{{showNumber(query['6391']['act'])}}</td>
                 	<td ></td>
                 	<td >&nbsp;</td>
                 </tr>
@@ -76,10 +76,10 @@
                 </tr>
                 <tr  >
                 	<td  class="title2">IMMOBILISATIONS INCORPORELLES</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">{{ showNumber(totals2[0]) }}</td>
+                	<td class="highlighted">{{ showNumber(totals2[1]) }}</td>
+                	<td class="highlighted">{{ showNumber(totals2[2]) }}</td>
+                	<td class="highlighted">{{ showNumber(totals2[3]) }}</td>
                 </tr>
                 <tr  >
                 	<td   >&nbsp;</td>
@@ -90,29 +90,29 @@
                 </tr>
                 <tr  >
                 	<td  class="normal">- Immobilisation en recherche et développement</td>
-                	<td  >2821</td>
-                	<td  >61921</td>
+                	<td  >{{showNumber(query['2821']['act'])}}</td>
+                	<td  >{{showNumber(query['61921']['act'])}}</td>
                 	<td  ></td>
                 	<td  >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Brevets, marques, droits et valeurs similaires</td>
-                	<td  >2822</td>
-                	<td  >61922</td>
+                	<td  >{{showNumber(query['2822']['act'])}}</td>
+                	<td  >{{showNumber(query['61922']['act'])}}</td>
                 	<td ></td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Fonds commercial</td>
-                	<td  >2823</td>
-                	<td  >61923</td>
+                	<td  >{{showNumber(query['2823']['act'])}}</td>
+                	<td  >{{showNumber(query['61923']['act'])}}</td>
                 	<td ></td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Autres immobilisations incorporelles</td>
-                	<td  >2828</td>
-                	<td  >61928</td>
+                	<td  >{{showNumber(query['2828']['act'])}}</td>
+                	<td  >{{showNumber(query['61928']['act'])}}</td>
                 	<td ></td>
                 	<td >&nbsp;</td>
                 </tr>
@@ -125,10 +125,10 @@
                 </tr>
                 <tr  >
                 	<td  class="title2">IMMOBILISATIONS CORPORELLES</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
+                	<td class="highlighted">{{ showNumber(totals3[0]) }}</td>
+                	<td class="highlighted">{{ showNumber(totals3[1]) }}</td>
+                	<td class="highlighted">{{ showNumber(totals3[2]) }}</td>
+                	<td class="highlighted">{{ showNumber(totals3[3]) }}</td>
                 </tr>
                 <tr  >
                 	<td  >&nbsp;</td>
@@ -139,43 +139,43 @@
                 </tr>
                 <tr  >
                 	<td  class="normal">- Terrains</td>
-                	<td  >2831</td>
-                	<td  >61931</td>
+                	<td  >{{showNumber(query['2831']['act'])}}</td>
+                	<td  >{{showNumber(query['61931']['act'])}}</td>
                 	<td ></td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Constructions</td>
-                	<td  >2832</td>
-                	<td  >61932</td>
+                	<td  >{{showNumber(query['2832']['act'])}}</td>
+                	<td  >{{showNumber(query['61932']['act'])}}</td>
                 	<td ></td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Installations techniques, matériel et outillage</td>
-                	<td  >2833</td>
-                	<td  >61933</td>
+                	<td  >{{showNumber(query['2833']['act'])}}</td>
+                	<td  >{{showNumber(query['61933']['act'])}}</td>
                 	<td ></td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Matériel de transport</td>
-                	<td  >2834</td>
-                	<td  >61934</td>
+                	<td  >{{showNumber(query['2834']['act'])}}</td>
+                	<td  >{{showNumber(query['61934']['act'])}}</td>
                 	<td ></td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Mobilier, matériel de bureau et aménagement</td>
-                	<td  >2835</td>
-                	<td  >61935</td>
+                	<td  >{{showNumber(query['2835']['act'])}}</td>
+                	<td  >{{showNumber(query['61935']['act'])}}</td>
                 	<td ></td>
                 	<td >&nbsp;</td>
                 </tr>
                 <tr  >
                 	<td  class="normal">- Autres immobilisations corporelles</td>
-                	<td  >2838</td>
-                	<td  >61938</td>
+                	<td  >{{showNumber(query['2838']['act'])}}</td>
+                	<td  >{{showNumber(query['61938']['act'])}}</td>
                 	<td ></td>
                 	<td >&nbsp;</td>
                 </tr>
@@ -195,20 +195,12 @@
                 </tr>
                 <tr  >
                 	<td class="background_gray">TOTAUX</td>
+                	<td class="highlighted">{{ showNumber(totals4[0]) }}</td>
+                	<td class="highlighted">{{ showNumber(totals4[1]) }}</td>
                 	<td class="highlighted">0.00</td>
-                	<td class="highlighted">0.00</td>
-                	<td class="highlighted">0.00</td>
-                	<td class="highlighted">0.00</td>
+                	<td class="highlighted">{{ showNumber(totals4[3]) }}</td>
                 </tr>
-                <tr >
-                	<td  ></td>
-                	<td  ></td>
-                	<td  ></td>
-                	<td  ></td>
-                	<td  ></td>
-                </tr>
-                </table>
-            
+            </table>
         </v-card>
     </div>
 </template>
@@ -221,7 +213,7 @@
         display: block;
     }
     .background_gray {
-        background-color: rgb(165, 165, 165);
+        background-color: rgb(235, 234, 234);
     }
     .background_pink {
         background-color: rgb(222, 152, 108);
@@ -271,10 +263,10 @@ Vue.use(VueJsModal)
 export default {
     
     data: () => ({
-        totals1 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
-        totals2 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
-        totals3 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
-        totals4 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
+        totals1 : [0 ,0 , 0 , 0],
+        totals2 : [0 ,0 , 0 , 0],
+        totals3 : [0 ,0 , 0 , 0],
+        totals4 : [0 ,0 , 0 , 0],
         dossier:{},
         totalsClick : {},
         du:'',
@@ -287,7 +279,7 @@ export default {
     methods: {
         async init() {
             this.id = this.$route.params.id
-            let url2 = process.env.Name_api + "/exercice/" + this.id + "/getIMMO";
+            let url2 = process.env.Name_api + "/exercice/" + this.id + "/getAmort";
             let info2 = await this.$myService.get(url2);
             if(info2){
                 this.query = info2.results;
@@ -301,14 +293,22 @@ export default {
             this.au = info.au;
         },
         async makeSums() {
-            var total1 = this.total(["211" , "212" , "213"]);
-            this.totals1 = [total1[0] , 0 , 0 , 0 , 0 , 0 , 0 ,0];
-            var total2 = this.total(["221" , "222" , "223" , "228"]);
-            this.totals2 = [total2[0] , 0 , 0 , 0 , 0 , 0 , 0 ,0];
-            var total3 = this.total(["231" , "232" , "233" , "234" , "235" , "238" , "239" , "2355"]);
-            this.totals3 = [total3[0] , 0 , 0 , 0 , 0 , 0 , 0 ,0];
-            var total4 = this.totals1[0] + this.totals2[0] + this.totals3[0] ; 
-            this.totals4 = [total4 , 0 , 0 , 0 , 0 , 0 , 0 ,0];
+            var total1 = this.total(["2811" , "2812" , "2813"]);
+            var total2 = this.total(["61911" , "61911" , "6391"]);
+            this.totals1 = [total1[0] , total2[0] , 0 , total1[0] + total2[0]];
+            
+            var total3 = this.total(["2821" , "2822" , "2823" , "2828"]);
+            var total4 = this.total(["61921" , "61922" , "61923" , "61928"]);
+            this.totals2 = [total3[0] , total4[0] , 0 , total3[0] + total4[0]];
+
+            var total5 = this.total(["2831" , "2832" , "2833" , "2834" , "2835" , "2838"]);
+            var total6 = this.total(["61931" , "61932" , "61933", "61934" , "61935" , "61938"]);
+            this.totals3 = [total5[0] , total6[0] , 0 , total5[0] + total6[0]];
+
+            var total7 = this.totals1[0] + this.totals2[0] + this.totals3[0];
+            var total8 = this.totals1[1] + this.totals2[1] + this.totals3[1];
+
+            this.totals4 = [total7 , total8 , 0 , total7 + total8];
             return;
         },
         async getSubSums(prefix , side){

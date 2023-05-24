@@ -8,147 +8,133 @@
             <div class="py-5 px-3">
                 <div class="font-weight-bold" style="font-size:18px;">TABLEAU DES PROVISIONS</div>
             </div>
-            <table cellpadding=0 cellspacing=0>
+            <table v-if="query['6194']" cellpadding=0 cellspacing=0>
                 <tr  >
-                	<td rowspan=2>NATURE</td>
-                	<td rowspan=2>Début Exercice</td>
-                	<td colspan=3>DOTATIONS</td>
-                	<td >&nbsp;</td>
-                	<td >REPRISES</td>
-                	<td >&nbsp;</td>
-                	<td rowspan=2 >Fin Exercice</td>
+                	<td class="background_gray" rowspan=2>NATURE</td>
+                	<td class="background_gray" rowspan=2>Début Exercice</td>
+                	<td class="background_gray" colspan=3>DOTATIONS</td>
+                	<td class="background_gray" >&nbsp;</td>
+                	<td class="background_gray" >REPRISES</td>
+                	<td class="background_gray" >&nbsp;</td>
+                	<td class="background_gray" rowspan=2 >Fin Exercice</td>
                 </tr>
                 <tr  >
-                	<td  >Exploitation</td>
-                	<td  >Financières</td>
-                	<td  >Non courantes</td>
-                	<td  >Exploitation</td>
-                	<td  >Financières</td>
-                	<td  >Non courantes</td>
+                	<td class="background_gray" >Exploitation</td>
+                	<td class="background_gray" >Financières</td>
+                	<td class="background_gray" >Non courantes</td>
+                	<td class="background_gray" >Exploitation</td>
+                	<td class="background_gray" >Financières</td>
+                	<td class="background_gray" >Non courantes</td>
                 </tr>
                 <tr  >
-                	<td   ></td>
-                	<td ></td>
-                	<td ></td>
-                	<td ></td>
-                	<td ></td>
-                	<td ></td>
-                	<td ></td>
-                	<td ></td>
-                	<td ></td>
+                	<td colspan="9"></td>
                 </tr>
                 <tr   >
                 	<td   >1. Provi. pour dépréciation actif immobilisé</td>
-                	<td  >29</td>
-                	<td  >6194</td>
-                	<td  >6392</td>
-                	<td  >65962</td>
-                	<td  >7194</td>
-                	<td  >7392</td>
-                	<td  >75962</td>
-                	<td   >-11,971.00 </td>
+                	<td  >{{ showNumber(query["29"]['act']) }}</td>
+                	<td  >{{ showNumber(query["6194"]['act']) }}</td>
+                	<td  >{{ showNumber(query["6392"]['act']) }}</td>
+                	<td  >{{ showNumber(query["65962"]['act']) }}</td>
+                	<td  >{{ showNumber(query["7194"]['act']) }}</td>
+                	<td  >{{ showNumber(query["7392"]['act']) }}</td>
+                	<td  >{{ showNumber(query["75962"]['act']) }}</td>
+                	<td   >{{ showNumber(this.totals1[0]) }}</td>
                 </tr>
                 <tr   >
                 	<td   >2. Provisions réglementées</td>
-                	<td  >135</td>
+                	<td  >{{ showNumber(query["135"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
-                	<td  >6594</td>
+                	<td  >{{ showNumber(query["6594"]['act']) }}</td>
                 	<td  >&nbsp;</td>
                 	<td  >&nbsp;</td>
-                	<td  >7594</td>
-                	<td   >-865.00
-                </td>
+                	<td  >{{ showNumber(query["7594"]['act']) }}</td>
+                	<td   >{{ showNumber(this.totals1[1]) }}</td>
                 </tr>
                 <tr   >
                 	<td   >3. Provi. durables pour risques et charges</td>
-                	<td  >15</td>
-                	<td  >61955</td>
-                	<td  >63935</td>
-                	<td  >65955</td>
-                	<td  >71955</td>
-                	<td  >73935</td>
-                	<td  >75955</td>
-                	<td   >-29,985.00
-                </td>
+                	<td  >{{ showNumber(query["15"]['act']) }}</td>
+                	<td  >{{ showNumber(query["61955"]['act']) }}</td>
+                	<td  >{{ showNumber(query["63935"]['act']) }}</td>
+                	<td  >{{ showNumber(query["65955"]['act']) }}</td>
+                	<td  >{{ showNumber(query["71955"]['act']) }}</td>
+                	<td  >{{ showNumber(query["73935"]['act']) }}</td>
+                	<td  >{{ showNumber(query["75955"]['act']) }}</td>
+                	<td   >{{ showNumber(this.totals1[2]) }}</td>
                 </tr>
                 <tr   >
-                	<td>SOUS TOTAL (A)</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
+                	<td style="padding-left: 20px;">SOUS TOTAL (A)</td>
+                	<td class="highlighted">{{ showNumber(this.totals2[0]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals2[1]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals2[2]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals2[3]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals2[4]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals2[5]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals2[6]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals2[7]) }}</td>
                 </tr>
                 <tr  >
                 	<td colspan="9">&nbsp;</td>
                 </tr>
                 <tr   >
                 	<td   >4. Provi. pour dépréciation actif circulant</td>
-                	<td  >39</td>
-                	<td  >6196</td>
-                	<td  >6394</td>
-                	<td  >65963</td>
-                	<td  >7196</td>
-                	<td  >7394</td>
-                	<td  >75963</td>
-                	<td   >-11,961.00 </td>
+                	<td  >{{ showNumber(query["39"]['act']) }}</td>
+                	<td  >{{ showNumber(query["6196"]['act']) }}</td>
+                	<td  >{{ showNumber(query["6394"]['act']) }}</td>
+                	<td  >{{ showNumber(query["65963"]['act']) }}</td>
+                	<td  >{{ showNumber(query["7196"]['act']) }}</td>
+                	<td  >{{ showNumber(query["7394"]['act']) }}</td>
+                	<td  >{{ showNumber(query["75963"]['act']) }}</td>
+                	<td   >{{ showNumber(this.totals1[3]) }}</td>
                 </tr>
                 <tr   >
                 	<td   >5. Autres Provisions pour risques &amp; charges</td>
-                	<td  >45</td>
-                	<td  >61957</td>
-                	<td  >63937</td>
-                	<td  >65957</td>
-                	<td  >71957</td>
-                	<td  >73937</td>
-                	<td  >75957</td>
-                	<td   >-29,955.00
-                </td>
+                	<td  >{{ showNumber(query["45"]['act']) }}</td>
+                	<td  >{{ showNumber(query["61957"]['act']) }}</td>
+                	<td  >{{ showNumber(query["63937"]['act']) }}</td>
+                	<td  >{{ showNumber(query["65957"]['act']) }}</td>
+                	<td  >{{ showNumber(query["71957"]['act']) }}</td>
+                	<td  >{{ showNumber(query["73937"]['act']) }}</td>
+                	<td  >{{ showNumber(query["75957"]['act']) }}</td>
+                	<td   >{{ showNumber(this.totals1[4]) }}</td>
                 </tr>
                 <tr   >
                 	<td>6. Provi. pour dépréciation comptes trésorie</td>
-                	<td>59</td>
+                	<td>{{ showNumber(query["59"]['act']) }}</td>
                 	<td>&nbsp;</td>
-                	<td>6396</td>
+                	<td>{{ showNumber(query["6396"]['act']) }}</td>
                 	<td>&nbsp;</td>
                 	<td>&nbsp;</td>
-                	<td>7396</td>
+                	<td>{{ showNumber(query["7396"]['act']) }}</td>
                 	<td>&nbsp;</td>
-                	<td>-941.00
-                </td>
+                	<td>{{ showNumber(this.totals1[5]) }}</td>
                 </tr>
                 <tr   >
-                	<td>SOUS TOTAL (B)</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
-                	<td class="highlighted">&nbsp;</td>
+                	<td style="padding-left: 20px;">SOUS TOTAL (B)</td>
+                	<td class="highlighted">{{ showNumber(this.totals3[0]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals3[1]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals3[2]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals3[3]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals3[4]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals3[5]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals3[6]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals3[7]) }}</td>
                 </tr>
                 <tr  >
                 	<td colspan="8">&nbsp;</td>
                 </tr>
                 <tr   >
-                	<td>TOTAL ( A + B )</td>
-                	<td class="highlighted">0.00 </td>
-                	<td class="highlighted">0.00 </td>
-                	<td class="highlighted">0.00 </td>
-                	<td class="highlighted">0.00 </td>
-                	<td class="highlighted">0.00 </td>
-                	<td class="highlighted">0.00 </td>
-                	<td class="highlighted">0.00 </td>
-                	<td class="highlighted">0.00 </td>
+                	<td class="background_gray">TOTAL ( A + B )</td>
+                	<td class="highlighted">{{ showNumber(this.totals4[0]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals4[1]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals4[2]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals4[3]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals4[4]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals4[5]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals4[6]) }}</td>
+                	<td class="highlighted">{{ showNumber(this.totals4[7]) }}</td>
                 </tr>
-                </table>
-
-             
+            </table>
         </v-card>
     </div>
 </template>
@@ -224,10 +210,10 @@ Vue.use(VueJsModal)
 export default {
     
     data: () => ({
-        totals1 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
-        totals2 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
-        totals3 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
-        totals4 : [0 ,0 , 0 , 0 , 0 , 0 , 0 , 0],
+        totals1 : [0 , 0, 0, 0, 0, 0],
+        totals2 : [0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ],
+        totals3 : [0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ],
+        totals4 : [0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ],
         dossier:{},
         totalsClick : {},
         du:'',
@@ -240,7 +226,7 @@ export default {
     methods: {
         async init() {
             this.id = this.$route.params.id
-            let url2 = process.env.Name_api + "/exercice/" + this.id + "/getIMMO";
+            let url2 = process.env.Name_api + "/exercice/" + this.id + "/getProv";
             let info2 = await this.$myService.get(url2);
             if(info2){
                 this.query = info2.results;
@@ -254,14 +240,45 @@ export default {
             this.au = info.au;
         },
         async makeSums() {
-            var total1 = this.total(["211" , "212" , "213"]);
-            this.totals1 = [total1[0] , 0 , 0 , 0 , 0 , 0 , 0 ,0];
-            var total2 = this.total(["221" , "222" , "223" , "228"]);
-            this.totals2 = [total2[0] , 0 , 0 , 0 , 0 , 0 , 0 ,0];
-            var total3 = this.total(["231" , "232" , "233" , "234" , "235" , "238" , "239" , "2355"]);
-            this.totals3 = [total3[0] , 0 , 0 , 0 , 0 , 0 , 0 ,0];
-            var total4 = this.totals1[0] + this.totals2[0] + this.totals3[0] ; 
-            this.totals4 = [total4 , 0 , 0 , 0 , 0 , 0 , 0 ,0];
+            var total1 = this.total(["29","6194","6392","65962"])[0] - this.query["7194"]['act'] - this.query["7392"]['act'] - this.query["75962"]['act'];
+            var total2 = this.total(["135","6594"])[0] - this.query["7594"]['act'];
+            var total3 = this.total(["15","61955","63935","65955"])[0] - this.query["71955"]['act'] - this.query["73935"]['act'] - this.query["75955"]['act'];
+            var total4 = this.total(["39","6196","6394","65963"])[0] - this.query["7196"]['act'] - this.query["7394"]['act'] - this.query["75963"]['act'];
+            var total5 = this.total(["45","61957","63937","65957"])[0] - this.query["71957"]['act'] - this.query["73937"]['act'] - this.query["75957"]['act'];	
+            var total6 = this.total(["59","6396"])[0] - this.query["7396"]['act'];
+
+            this.totals1 = [total1 , total2 , total3 , total4 , total5 , total6];
+            					
+            var total7 = this.total(["29" , "135" , "15"])[0];
+            var total8 = this.total(["6194" , "61955"])[0];
+            var total9 = this.total(["6392" , "63935"])[0];
+            var total10 = this.total(["65962" , "6594" , "65955"])[0];
+            var total11 = this.total(["7194" , "71955"])[0];
+            var total12 = this.total(["7392" , "73935"])[0];
+            var total13 = this.total(["75962" , "7594" , "75955"])[0];
+            var total14 = this.totals1[0] + this.totals1[1] + this.totals1[2];
+            this.totals2 = [total7 , total8 , total9 , total10 , total11 , total12 , total13 , total14];
+
+            var total15 = this.total(["39" , "45" , "59"])[0];
+            var total16 = this.total(["6196" , "61957"])[0];
+            var total17 = this.total(["6394" , "63937" , "6396"])[0];
+            var total18 = this.total(["65963" , "65957"])[0];
+            var total19 = this.total(["7196" , "71957"])[0];
+            var total20 = this.total(["7394" , "73937" ,"7396"])[0];
+            var total21 = this.total(["75963" , "75957"])[0];
+            var total22 = this.totals1[3] + this.totals1[4] + this.totals1[5];
+            this.totals3 = [total15 , total16 , total17 , total18 , total19 , total20 , total21 , total22];
+
+            var total23 = this.totals2[0] + this.totals3[0]; 
+            var total24 = this.totals2[1] + this.totals3[1];
+            var total25 = this.totals2[2] + this.totals3[2];
+            var total26 = this.totals2[3] + this.totals3[3];
+            var total27 = this.totals2[4] + this.totals3[4];
+            var total28 = this.totals2[5] + this.totals3[5];
+            var total29 = this.totals2[6] + this.totals3[6];
+            var total30 = this.totals2[7] + this.totals3[7];
+            this.totals4 = [total23 ,total24 ,total25 ,total26 ,total27 ,total28 ,total29 ,total30];
+
             return;
         },
         async getSubSums(prefix , side){
@@ -306,74 +323,6 @@ export default {
             console.log(separatedIntegerPart)
             return separatedIntegerPart;
         },
-        sum(title){
-            switch(title){
-                case 'MARGES BRUTES SUR VENTES EN L\'ETAT  1- 2':
-                    var total1 = this.query['711']['act'] - this.query['611']['act'];
-                    var total2 = this.query['711']['pre'] - this.query['611']['pre'];
-                    this.totalsI = [total1 , total2];
-                    return this.totalsI;
-                case 'PRODUCTION DE L\'EXERCICE (3+4+5)':
-                    this.totalsII = this.total(["712" , "713" , "714"]);
-                    return this.totalsII;
-                case 'CONSOMMATION DE L\'EXERCICE (6+7)':
-                    var total = this.total(["612" , "613" , "614"]);
-                    this.totalsIII = total ;
-                    return this.totalsIII;
-                case 'Autres charges externes':
-                    var total = this.total(["613" , "614"]);
-                    this.totals7 = total ;
-                    return this.totals7;
-                case 'VALEUR AJOUTEE ( I+II+III )':
-                    var total1 = this.totalsI[0] + this.totalsII[0] + this.totalsII[0] ;
-                    var total2 = this.totalsI[1] + this.totalsII[1] + this.totalsII[1] ; 
-                    this.totalsIV = [total1 , total2];
-                    return this.totalsIV;
-                case 'RESULTAT FINANCIER':
-                    var total1 = this.query["73"]["act"] - this.query["63"]["act"] ;
-                    var total2 = this.query["73"]["pre"] - this.query["63"]["pre"] ;
-                    this.totalsVII = [total1 , total2];
-                    return this.totalsVII;
-                case 'RESULTAT NON COURANT ( + ou - )': 
-                    var total1 = this.query["75"]["act"] - this.query["65"]["act"] ;
-                    var total2 = this.query["75"]["pre"] - this.query["65"]["pre"] ;
-                    this.totalsIX = [total1 , total2];
-                    return this.totalsIX;
-                case 'RESULTAT NON COURANT ( + ou - )': 
-                    this.totals15 = this.query['67'];
-                    return this.totals15;
-                case 'Dotations d\'exploitation':
-                    this.totalsII2 = this.total(["619" , "6196"]);
-                    return this.totalsII2; 
-                case 'Dotations financières':
-                    this.totalsII3 = this.total(["639" , "6396" , "6393"]);
-                    return this.totalsII3; 
-                case 'Dotations non courantes':
-                    this.totalsII4 = this.total(["659" , "65963"]);
-                    return this.totalsII4;
-                case 'Reprises d\'exploitation':
-                    this.totalsII5 = this.total(["719" , "7196" , "7197" , "7198"]);
-                    return this.totalsII5;
-                case 'Reprises financières':
-                    this.totalsII6 = this.total(["739" , "7396" , "7397" , "7393"]);
-                    return this.totalsII6;
-                case 'Reprises non courantes':
-                    this.totalsII7 = this.total(["759" , "75963" , "7597" , "7598" , "7595"]);
-                    return this.totalsII7; 
-                case 'CAPACITE D\'AUTOFINANCEMENT  ( C.A.F )':
-                    var total1 = this.totalsII2[0] + this.totalsII3[0] + this.totalsII4[0] + this.totalsII5[0] + this.totalsII6[0] + this.totalsII7[0] + this.query["751"]['act'] + this.query["651"]['act'] ;
-                    var total1 = this.totalsII2[1] + this.totalsII3[1] + this.totalsII4[1] + this.totalsII5[1] + this.totalsII6[1] + this.totalsII7[1] + this.query["751"]['pre'] + this.query["651"]['pre'] ;    
-                    this.totalsII_I = [total1 , total2];
-                    return this.totalsII_I; 
-                case 'AUTOFINANCEMENT':
-                    this.totalsII_II = this.totalsII_I;
-                    return this.totalsII_II; 
-                default:
-                    console.log("no option for sum");
-                    break;
-            }
-        },
-
         total(array) { 
             var t1 = 0;
             var t2 = 0;
@@ -389,32 +338,6 @@ export default {
             }
             return false;
         },
-        parseDate(date) {
-            if (!date) return null
-            if (!(/^\d{2}\/\d{2}\/\d{4}$/.test(date)) && date !== null) {
-                this.showToast('Invalide date (jj/mm/aaaa)')
-                return null
-            }
-            if (!(/(^0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(\d{4}$)/.test(date))) {
-                this.showToast('Invalide date')
-                return null
-            }
-            let d = new Date(this.parseDateToISO(date))
-            let du = new Date((this.dateDu))
-            let au = new Date((this.dateAu))
-            console.log(d, du, au)
-            if (d > au || d < du && date !== null) {
-                this.showToast('La date doit être comprise entre ' + this.formatDate(this.dateDu) + ' et ' + this.formatDate(this.dateAu))
-                return null
-            }
-            const [day, month, year] = date.split('/')
-            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-        },
-        parseDateToISO(date) {
-            if (!date) return null
-            const [day, month, year] = date.split('/')
-            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-        },
         formatDate(date) {
             if (!date) return null
 
@@ -425,12 +348,6 @@ export default {
             this.text = message
             this.snackbar = true
 
-        },
-        formatDate(date) {
-            if (!date) return null
-
-            const [year, month, day] = date.split('-')
-            return `${day}/${month}/${year}`
         },
         calcDiff(brut ,amort){
             if(amort == undefined){

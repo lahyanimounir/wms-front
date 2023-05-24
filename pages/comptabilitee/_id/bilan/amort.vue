@@ -10,8 +10,6 @@
             </div>
            
             <table v-if="query['2811']" cellpadding=0 cellspacing=0>
-                <col >
-                <col >
                 <tr >
                 	<td style="text-align: center; width:20%" class="background_gray title2" rowspan=2 >NATURE</td>
                 	<td style="text-align: center;" class="background_gray title2" >Cumul début exercice</td>
@@ -353,74 +351,6 @@ export default {
             console.log(separatedIntegerPart)
             return separatedIntegerPart;
         },
-        sum(title){
-            switch(title){
-                case 'MARGES BRUTES SUR VENTES EN L\'ETAT  1- 2':
-                    var total1 = this.query['711']['act'] - this.query['611']['act'];
-                    var total2 = this.query['711']['pre'] - this.query['611']['pre'];
-                    this.totalsI = [total1 , total2];
-                    return this.totalsI;
-                case 'PRODUCTION DE L\'EXERCICE (3+4+5)':
-                    this.totalsII = this.total(["712" , "713" , "714"]);
-                    return this.totalsII;
-                case 'CONSOMMATION DE L\'EXERCICE (6+7)':
-                    var total = this.total(["612" , "613" , "614"]);
-                    this.totalsIII = total ;
-                    return this.totalsIII;
-                case 'Autres charges externes':
-                    var total = this.total(["613" , "614"]);
-                    this.totals7 = total ;
-                    return this.totals7;
-                case 'VALEUR AJOUTEE ( I+II+III )':
-                    var total1 = this.totalsI[0] + this.totalsII[0] + this.totalsII[0] ;
-                    var total2 = this.totalsI[1] + this.totalsII[1] + this.totalsII[1] ; 
-                    this.totalsIV = [total1 , total2];
-                    return this.totalsIV;
-                case 'RESULTAT FINANCIER':
-                    var total1 = this.query["73"]["act"] - this.query["63"]["act"] ;
-                    var total2 = this.query["73"]["pre"] - this.query["63"]["pre"] ;
-                    this.totalsVII = [total1 , total2];
-                    return this.totalsVII;
-                case 'RESULTAT NON COURANT ( + ou - )': 
-                    var total1 = this.query["75"]["act"] - this.query["65"]["act"] ;
-                    var total2 = this.query["75"]["pre"] - this.query["65"]["pre"] ;
-                    this.totalsIX = [total1 , total2];
-                    return this.totalsIX;
-                case 'RESULTAT NON COURANT ( + ou - )': 
-                    this.totals15 = this.query['67'];
-                    return this.totals15;
-                case 'Dotations d\'exploitation':
-                    this.totalsII2 = this.total(["619" , "6196"]);
-                    return this.totalsII2; 
-                case 'Dotations financières':
-                    this.totalsII3 = this.total(["639" , "6396" , "6393"]);
-                    return this.totalsII3; 
-                case 'Dotations non courantes':
-                    this.totalsII4 = this.total(["659" , "65963"]);
-                    return this.totalsII4;
-                case 'Reprises d\'exploitation':
-                    this.totalsII5 = this.total(["719" , "7196" , "7197" , "7198"]);
-                    return this.totalsII5;
-                case 'Reprises financières':
-                    this.totalsII6 = this.total(["739" , "7396" , "7397" , "7393"]);
-                    return this.totalsII6;
-                case 'Reprises non courantes':
-                    this.totalsII7 = this.total(["759" , "75963" , "7597" , "7598" , "7595"]);
-                    return this.totalsII7; 
-                case 'CAPACITE D\'AUTOFINANCEMENT  ( C.A.F )':
-                    var total1 = this.totalsII2[0] + this.totalsII3[0] + this.totalsII4[0] + this.totalsII5[0] + this.totalsII6[0] + this.totalsII7[0] + this.query["751"]['act'] + this.query["651"]['act'] ;
-                    var total1 = this.totalsII2[1] + this.totalsII3[1] + this.totalsII4[1] + this.totalsII5[1] + this.totalsII6[1] + this.totalsII7[1] + this.query["751"]['pre'] + this.query["651"]['pre'] ;    
-                    this.totalsII_I = [total1 , total2];
-                    return this.totalsII_I; 
-                case 'AUTOFINANCEMENT':
-                    this.totalsII_II = this.totalsII_I;
-                    return this.totalsII_II; 
-                default:
-                    console.log("no option for sum");
-                    break;
-            }
-        },
-
         total(array) { 
             var t1 = 0;
             var t2 = 0;
@@ -436,54 +366,15 @@ export default {
             }
             return false;
         },
-        parseDate(date) {
-            if (!date) return null
-            if (!(/^\d{2}\/\d{2}\/\d{4}$/.test(date)) && date !== null) {
-                this.showToast('Invalide date (jj/mm/aaaa)')
-                return null
-            }
-            if (!(/(^0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(\d{4}$)/.test(date))) {
-                this.showToast('Invalide date')
-                return null
-            }
-            let d = new Date(this.parseDateToISO(date))
-            let du = new Date((this.dateDu))
-            let au = new Date((this.dateAu))
-            console.log(d, du, au)
-            if (d > au || d < du && date !== null) {
-                this.showToast('La date doit être comprise entre ' + this.formatDate(this.dateDu) + ' et ' + this.formatDate(this.dateAu))
-                return null
-            }
-            const [day, month, year] = date.split('/')
-            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-        },
-        parseDateToISO(date) {
-            if (!date) return null
-            const [day, month, year] = date.split('/')
-            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-        },
-        formatDate(date) {
-            if (!date) return null
-
-            const [year, month, day] = date.split('-')
-            return `${day}/${month}/${year}`
-        },
         showToast(message) {
             this.text = message
             this.snackbar = true
-
         },
         formatDate(date) {
             if (!date) return null
 
             const [year, month, day] = date.split('-')
             return `${day}/${month}/${year}`
-        },
-        calcDiff(brut ,amort){
-            if(amort == undefined){
-                amort = 0;
-            }
-            return brut - amort;
         },
         goBack() {
             console.log('here', this.previousMenu !== null)

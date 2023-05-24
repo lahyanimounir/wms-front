@@ -817,38 +817,6 @@ export default {
             });
             return [t1 , t2];
         },
-        isBold(title){
-            if(this.specialTitles.includes(title)){
-                return true;
-            }
-            return false;
-        },
-        parseDate(date) {
-            if (!date) return null
-            if (!(/^\d{2}\/\d{2}\/\d{4}$/.test(date)) && date !== null) {
-                this.showToast('Invalide date (jj/mm/aaaa)')
-                return null
-            }
-            if (!(/(^0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(\d{4}$)/.test(date))) {
-                this.showToast('Invalide date')
-                return null
-            }
-            let d = new Date(this.parseDateToISO(date))
-            let du = new Date((this.dateDu))
-            let au = new Date((this.dateAu))
-            console.log(d, du, au)
-            if (d > au || d < du && date !== null) {
-                this.showToast('La date doit être comprise entre ' + this.formatDate(this.dateDu) + ' et ' + this.formatDate(this.dateAu))
-                return null
-            }
-            const [day, month, year] = date.split('/')
-            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-        },
-        parseDateToISO(date) {
-            if (!date) return null
-            const [day, month, year] = date.split('/')
-            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-        },
         formatDate(date) {
             if (!date) return null
 
@@ -859,12 +827,6 @@ export default {
             this.text = message
             this.snackbar = true
 
-        },
-        formatDate(date) {
-            if (!date) return null
-
-            const [year, month, day] = date.split('-')
-            return `${day}/${month}/${year}`
         },
         calcDiff(brut ,amort){
             if(amort == undefined){

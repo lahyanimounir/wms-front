@@ -6,11 +6,19 @@
                 <v-card-title class="headline">Exporter</v-card-title>
                 <v-card-text>
                     <v-form ref="form" v-model="valid" lazy-validation>
-                        <label>Veuillez cocher le type de fichier :</label>
-                        <v-radio-group v-model="format" row>
-                            <v-radio label="PDF" value="pdf"></v-radio>
-                            <v-radio label="XLS" value="xls"></v-radio>
-                        </v-radio-group>
+                        <label>Veuillez choisir le type de fichier :</label>
+                        <div class="py-5 d-flex">
+                            <download-excel :data="excel"  class="mr-3">
+                            <v-btn>
+                                    <span style="font-size: large;color:black">XLS</span>
+                                    <v-icon >mdi-download</v-icon>
+                                </v-btn>
+                            </download-excel>
+                            <v-btn @click="exportEcritures">
+                                <span style="font-size: large;color:black">PDF</span>
+                                <v-icon >mdi-download</v-icon>
+                            </v-btn>
+                        </div>
                     </v-form>
                 </v-card-text>
                 <v-card-actions>
@@ -28,7 +36,7 @@
                     <v-icon class="mr-2">mdi-arrow-left</v-icon>
                     Retourner
                 </v-btn>
-                <v-btn @click="printEcritures" color="primary" style="color:#FFF" class="ml-auto">
+                <v-btn :disabled="ecritures.length == 0" @click="printEcritures" color="primary" style="color:#FFF" class="ml-auto">
                     <v-icon class="mr-2">mdi-printer</v-icon>
                     Imprimer
                 </v-btn>
@@ -137,10 +145,89 @@
                     </tr>
                 </template>
             </v-data-table>
+            <client-only>
+                <vue-html2pdf
+                
+                :enable-download="true"
+                :filename="`interrogation-compte-${new Date().toJSON().slice(0,10)}`"
+                :pdf-quality="2"
+                pdf-format="a4"
+                pdf-orientation="portrait"
+                ref="html2Pdf"
+                :manual-pagination="true"
+                :paginate-elements-by-height="1400"
+
+                >
+                    <section slot="pdf-content">
+                        <div style="padding:20px">
+                            <div class="print-header">
+                                <div class="title" style="font-size:13px;width:100%">
+                                    <h1 style="text-align: center;">Interrogations compte</h1>
+                                    <span><b>Dossier : </b>{{ dossier && dossier.denomination }}</span><br>
+                                    <span><b>Compte :</b> {{ compte?.numero_compte }} - {{ compte?.intitulee }}</span><br>
+                                    <span><b>Intervalle : </b>{{ dateFormatted }} - {{ dateFormatted2 }}</span><br>
+                                    <span style="float:right">{{ new Date().toLocaleString('fr') }}</span>
+                                </div>
+                            </div>
+                            <div class="print-table">
+
+                                <table style="font-size:12px;  border-collapse: collapse;width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Journal</th>
+                                            <th>N PIECES</th>
+                                            <th>Libelle</th>
+                                            <th>Débit</th>
+                                            <th>Crédit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="ecriture,i in ecritures"  :key="ecriture.id">
+                                            <td>{{ formatDate(ecriture.date) }}</td>
+                                            <td>{{ ecriture.journal.type }} - {{ ecriture.journal.nom }}</td>
+                                            <td>{{ ecriture.num_pieces }}</td>
+                                            <td>{{ ecriture.libelle }}</td>
+                                            <td>{{ ecriture.debit }}</td>
+                                            <td>{{ ecriture.credit }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="4">Total</th>
+                                            <th>{{ someDebit }}</th>
+                                            <th>{{ someCredit }}</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </vue-html2pdf>
+            </client-only>
         </v-card>
     </div>
 </template>
 
+<style>
+.print-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+ div.print-table th, div.print-table td {
+    border: 1px solid black;
+    padding:2px;
+}
+
+.print-table{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+}
+</style>
 <script>
 export default {
     data: (vm) => ({
@@ -185,6 +272,7 @@ export default {
         dialog: false,
         valid: false,
         format:null,
+        excel: [],
 
     }),
     async created() {
@@ -226,6 +314,39 @@ export default {
             }
             const res = await this.$myService.get(url, params)
             this.ecritures = res
+            let someDebit = 0
+            let someCredit = 0
+            this.excel = res.map((e,i) => {
+                if(typeof e.debit === 'string'){
+                    someDebit += parseFloat(e.debit)
+                }else{
+                    someDebit += e.debit
+                }
+                if(typeof e.credit === 'string'){
+                    someCredit += parseFloat(e.credit)
+                }else{
+                    someCredit += e.credit
+                }
+                if(i === this.ecritures.length - 1){
+                    return {
+                        Date: '',
+                        Journal: 'Total',
+                        'N PIECES': '',
+                        Libelle: '',
+                        Débit: someDebit,
+                        Crédit: someCredit,
+                    }
+                }
+                return {
+                    Date: this.formatDate(e.date),
+                    Journal: e.journal.type + ' - ' + e.journal.nom,
+                    'N PIECES': e.num_pieces,
+                    Libelle: e.libelle,
+                    Débit: e.debit,
+                    Crédit: e.credit,
+                }
+            })
+            console.log('excel : ', this.excel)
             this.calculateTotal()
             console.log('res : ', res)
 
@@ -332,6 +453,9 @@ export default {
         },
         getList(item, queryText, itemText) {
             return itemText.toLocaleLowerCase().startsWith(queryText.toLocaleLowerCase())
+        },
+        exportEcritures() {
+            this.$refs.html2Pdf.generatePdf()
         },
     },
 

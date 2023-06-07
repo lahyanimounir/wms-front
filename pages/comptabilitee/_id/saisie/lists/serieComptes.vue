@@ -1,20 +1,23 @@
 <template>
     <div>
-        <v-dialog v-model="dialog" width="800px">
+        <v-dialog v-model="dialog" width="300px">
             <v-card>
-                <!-- add an input with choices pdf,xlx... and download button -->
                 <v-card-title class="headline">Exporter</v-card-title>
                 <v-card-text>
                     <v-form ref="form" v-model="valid" lazy-validation>
-                        <label>Veuillez cocher le type de fichier :</label>
-                        <v-radio-group v-model="format" row>
-                            <v-radio label="PDF" value="pdf"></v-radio>
-                            <v-radio label="XLS" value="xls"></v-radio>
-                            <!-- <download-excel :data="excel">
-                            Download Data
-                            <img src="download_icon.png" />
-                            </download-excel> -->
-                        </v-radio-group>
+                        <label>Veuillez choisir le type de fichier :</label>
+                        <div class="py-5 d-flex">
+                            <download-excel :data="excel" class="mr-3">
+                            <v-btn>
+                                    <span style="font-size: large;color:black">XLS</span>
+                                    <v-icon >mdi-download</v-icon>
+                                </v-btn>
+                            </download-excel>
+                            <v-btn @click="exportEcritures">
+                                <span style="font-size: large;color:black">PDF</span>
+                                <v-icon >mdi-download</v-icon>
+                            </v-btn>
+                        </div>
                     </v-form>
                 </v-card-text>
                 <v-card-actions>
@@ -208,10 +211,6 @@
                             <td colspan="2" class="total">
 
                             </td>
-                            <!-- <td style="font-size:1rem;color:green">{{ ecriture.debit }}</td>
-                            <td style="font-size:1rem;color:red">{{ ecriture.credit }}</td>
-                            <td></td>
-                            <td></td> -->
                         </template>
                     </tr>
                     <tr>
@@ -228,10 +227,101 @@
                     </tr>
                 </tbody>
             </table>
+            <client-only>
+                <vue-html2pdf
+                
+                :enable-download="true"
+                :filename="`interrogation-series-comptes-${new Date().toJSON().slice(0,10)}`"
+                :pdf-quality="2"
+                pdf-format="a4"
+                pdf-orientation="portrait"
+                ref="html2Pdf"
+                :manual-pagination="true"
+                :paginate-elements-by-height="1400"
+
+                >
+                    <section slot="pdf-content">
+                        <div style="padding:20px">
+                            <div class="print-header">
+                                <div class="title" style="font-size:13px">
+                                    <h1 class="text-center">Interrogations series des comptes</h1>
+                                    <span><b>Dossier : </b>{{ dossier && dossier.denomination }}</span><br>
+                                    <span><b>Du Compte :</b> {{ compteDu?.numero_compte }} - {{ compteDu?.intitulee }} <b>Au : </b>{{ compteAu?.numero_compte }} - {{ compteAu?.intitulee }}</span><br>
+                                    <span><b>Intervalle : </b>{{ dateFormatted }} - {{ dateFormatted2 }}</span><br>
+                                    <span style="float:right">{{ new Date().toLocaleString('fr') }}</span>
+                                </div>
+                            </div>
+                            <div class="print-table">
+
+                                <table style="font-size:12px;  border-collapse: collapse;">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Journal</th>
+                                            <th>Compte</th>
+                                            <th>Tiers</th>
+                                            <th>N PIECES</th>
+                                            <th>Libelle</th>
+                                            <th>Débit</th>
+                                            <th>Crédit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="ecriture,i in grouped"  :key="ecriture.id">
+                                            <template v-if="!ecriture.isTotal">
+                                                <td>{{ formatDate(ecriture.date) }}</td>
+                                                <td>{{ ecriture.journal.type }} - {{ ecriture.journal.nom }}</td>
+                                                <td>{{ ecriture.compte.numero_compte }} - {{ ecriture.compte.intitulee }}</td>
+                                                <td>{{ ecriture.tiers && ecriture.tiers.denomination }}</td>
+                                                <td>{{ ecriture.num_pieces }}</td>
+                                                <td>{{ ecriture.libelle }}</td>
+                                                <td v-if="ecriture.debit > 0">{{ ecriture.debit }}</td>
+                                                <td v-else>{{ ecriture.debit }}</td>
+                                                <td v-if="ecriture.credit > 0">{{ ecriture.credit }}</td>
+                                                <td v-else>{{ ecriture.credit }}</td>
+                                            </template>
+                                            <template v-else>
+                                                <td colspan="6" class="text-left" style="font-weight:bold">
+                                                    SOUS TOTAL COMPTE :  {{ ecriture.numero_compte }} - {{ ecriture.intitulee }}
+                                                </td>
+                                                <td style="font-weight:bold">
+                                                    {{ ecriture.totalDebit.toFixed(2) }}
+                                                </td>
+                                                <td style="font-weight:bold">
+                                                    {{ ecriture.totalCredit.toFixed(2) }}
+                                                </td>
+                                            </template>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </vue-html2pdf>
+            </client-only>
         </v-card>
     </div>
 </template>
-<style>
+<style scoped>
+.print-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+ div.print-table th, div.print-table td {
+    border: 1px solid black;
+    padding:2px;
+}
+
+.print-table{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+}
 .styled-table {
     border-collapse: collapse;
     margin: 25px 0;
@@ -458,13 +548,7 @@ export default {
             this.dialog = true
         },
         exportEcritures() {
-            // let url = process.env.Name_api + "/exercice/" + this.id + "/exportEcritures";
-            // let params = {
-            //     dateDebut: this.date1,
-            //     dateFin: this.date2,
-            //     journal: this.journal
-            // }
-            // this.$myService.download(url, params)
+            this.$refs.html2Pdf.generatePdf()
         },
         editEcriture(item) {
             let menu;
